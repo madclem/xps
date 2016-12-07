@@ -17,8 +17,8 @@ class Scene {
 
     this.orbitalControl = mcgl.orbitalControl;
     this.camera = mcgl.camera;
-    this.viewIcosphere = new ViewIcosphere();
     // this.viewSphere = new ViewSphere();
+    this.viewIcosphere = new ViewIcosphere();
     // this.viewCube = new ViewCube();
     this.xAxisPlane = new McglFloor();
 
@@ -56,8 +56,8 @@ class Scene {
     gl.enable(gl.DEPTH_TEST);
 
     this.xAxisPlane.render();
-    // this.viewSphere.render();
     this.viewIcosphere.render();
+    // this.viewSphere.render();
     // this.viewCube.render();
     // this.viewFloor.render();
   }
