@@ -31,24 +31,10 @@ class ViewIcosphere {
       displ.push(centroid)
       displ.push(centroid)
       displ.push(centroid)
-
-
-      // d = 10 * ( 0.5 - Math.random() );
-      //
-      // let index = 9 * i;
-      //
-      // displ[ index + ( 3 * 0 )] = d;
-      // displ[ index + ( 3 * 1 )] = d;
-      // displ[ index + ( 3 * 2 )] = d;
-      // for (var k = 0; k < array.length; k++) {
-      // }
-
-
     }
-    console.log(displ);
+    // console.log(displ);
 
     this.shader.uniform("time", "float", 0);
-
     this.sphere.bufferData(displ, 'a_displacement', 1, false);
 
     this.texture = new mcgl.Texture(ASSET_URL + "images/earth.png");
