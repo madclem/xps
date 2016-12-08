@@ -115,13 +115,13 @@ void main() {
   // position.xyz 	+= v_normal * 10.;
   // position.xyz 	+= d * v_normal * 10.;
   // position.yz 	+= cos(position.y/10.) * 100.;
-  position.xyz 	+= d * 10.0;
+  position.xyz 	+= d  * 10.1;
   // position *=   1.  ;
   // position.y +=   n * 10.  ;
   // position.z +=   n - 2. * 5.  ;
   // position.x +=   n * -2.  ;
 
 
-  gl_Position =  u_worldViewProjection * u_world * vec4(position, 1.0);
+  gl_Position =  u_worldViewProjection * u_world * vec4(position, a_position.w);
 
 }

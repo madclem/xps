@@ -33,9 +33,9 @@ class ViewIcosphere {
       ]
 
       // console.log(centroid);
-      displ.push([Math.random(), Math.random(), Math.random()])
-      displ.push([Math.random(), Math.random(), Math.random()])
-      displ.push([Math.random(), Math.random(), Math.random()])
+      displ.push([Math.random() * 2, Math.random() * 2, Math.random() * 2])
+      displ.push([Math.random() * 2, Math.random() * 2, Math.random() * 2])
+      displ.push([Math.random() * 2, Math.random() * 2, Math.random() * 2])
 
       // displ.push(centroid)
       // displ.push(centroid)
