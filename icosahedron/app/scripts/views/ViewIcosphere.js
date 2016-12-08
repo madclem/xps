@@ -16,10 +16,15 @@ class ViewIcosphere {
     let d;
 
     for (var i = 0; i < this.sphere._vertices.length; i+=3) {
+    // for (var i = 0; i < this.sphere._vertices.length; i+=3) {
       let v = this.sphere._vertices;
       let p1 = v[i];// this.sphere._vertices[i];
       let p2 = v[i+1];// this.sphere._vertices[i];
       let p3 = v[i+2];// this.sphere._vertices[i];
+
+      let randx = Math.random();
+      let randy = Math.random();
+      let randz = Math.random();
 
       let centroid = [
         (p1[0] + p2[0] + p3[0])/3,
@@ -28,13 +33,18 @@ class ViewIcosphere {
       ]
 
       // console.log(centroid);
-      displ.push(centroid)
-      displ.push(centroid)
-      displ.push(centroid)
+      displ.push([Math.random(), Math.random(), Math.random()])
+      displ.push([Math.random(), Math.random(), Math.random()])
+      displ.push([Math.random(), Math.random(), Math.random()])
+
+      // displ.push(centroid)
+      // displ.push(centroid)
+      // displ.push(centroid)
     }
     // console.log(displ);
 
     this.shader.uniform("time", "float", 0);
+
     this.sphere.bufferData(displ, 'a_displacement', 1, false);
 
     this.texture = new mcgl.Texture(ASSET_URL + "images/earth.png");

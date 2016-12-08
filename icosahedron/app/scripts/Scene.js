@@ -35,7 +35,7 @@ class Scene {
 
     this.tick++;
     this.orbitalControl.position[0] = 0;
-    this.orbitalControl.position[1] = 450;
+    this.orbitalControl.position[1] = 150;
     // this.orbitalControl.radius = 800// + Math.cos(this.tick/100) * 100;
     // this.orbitalControl.angleA = Math.PI/2 + Math.cos(this.tick/200) * Math.PI/8;
     // this.orbitalControl.angleA += 0.004;

@@ -105,14 +105,21 @@ float snoise(vec3 v)
 void main() {
 
   vec3 position = a_position.xyz;
-  v_normal = normalize(position.rgb);
+  // vec3 dir = vec3(0.,0.,0.) - position;
+  // vec3 dirN = normalize(dir);
+  v_normal = normalize(position.xyz);
 
   vec3 d = a_displacement;
-  float n = snoise(vec3(a_position.xy, time/10.0)) * 20.0;
-  // n = cos(a_position.x * (time / 20.0) * .5) * .5;
-  // position.xyz 	+= n * 2.;
-  // position.xyz 	+= v_normal * d ;
-  vec3 newPosition = position +  d * v_normal * 10.0;
+  float n = snoise(vec3(a_position.y, 1.0, time/10.0)) * 20.0;
+  // n = cos(a_position.z * (time / 20.0) * .5) * .5;
+  // position.xyz 	+= v_normal * 10.;
+  // position.xyz 	+= d * v_normal * 10.;
+  // position.yz 	+= cos(position.y/10.) * 100.;
+  position.xyz 	+= d * 10.0;
+  // position *=   1.  ;
+  // position.y +=   n * 10.  ;
+  // position.z +=   n - 2. * 5.  ;
+  // position.x +=   n * -2.  ;
 
 
   gl_Position =  u_worldViewProjection * u_world * vec4(position, 1.0);
