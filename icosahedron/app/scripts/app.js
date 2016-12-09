@@ -61,29 +61,29 @@ function _init(){
   update();
 
   // let's put that here for now
-    if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
-      {
-          var args = [
-              '\n %c 🍔 ⚡ mcgl.js %c 🍔  ',
-              // + ' %c ' + ' http://www.pixijs.com/  %c %c ♥%c♥%c♥ \n\n',
-              // 'background: #0000;',
-              // 'background: #ff66a5; padding:5px 0;',
-              // 'color: #ff66a5; background: #030307; padding:5px 0;',
-              'background: #000000; padding:5px 0; color: #ffffff',
-              // 'background: #000000; padding:5px 0;',
-              'background: #000000; padding:5px 0; color: #ffffff;',
-              // 'color: #ff2424; background: #fff; padding:5px 0;',
-              // 'color: #ff2424; background: #fff; padding:5px 0;',
-              // 'color: #ff2424; background: #fff; padding:5px 0;'
-          ];
+  if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
+    {
+        var args = [
+            '\n %c 🍔 ⚡ mcgl.js %c 🍔  ',
+            // + ' %c ' + ' http://www.pixijs.com/  %c %c ♥%c♥%c♥ \n\n',
+            // 'background: #0000;',
+            // 'background: #ff66a5; padding:5px 0;',
+            // 'color: #ff66a5; background: #030307; padding:5px 0;',
+            'background: #000000; padding:5px 0; color: #ffffff',
+            // 'background: #000000; padding:5px 0;',
+            'background: #000000; padding:5px 0; color: #ffffff;',
+            // 'color: #ff2424; background: #fff; padding:5px 0;',
+            // 'color: #ff2424; background: #fff; padding:5px 0;',
+            // 'color: #ff2424; background: #fff; padding:5px 0;'
+        ];
 
-          window.console.log.apply(console, args); //jshint ignore:line
-      }
-      else if (window.console)
-      {
-          window.console.log('mcgl.js '); //jshint ignore:line
-      }
-    // }
+        window.console.log.apply(console, args); //jshint ignore:line
+    }
+    else if (window.console)
+    {
+        window.console.log('mcgl.js '); //jshint ignore:line
+    }
+  // }
 }
 
 
