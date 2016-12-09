@@ -9,7 +9,7 @@ class McglFloor {
   constructor(){
     this.shader = new mcgl.GLShader(vs, fs);
     this.shader.bind();
-    this.plane = new mcgl.geom.PlaneSquare(this.shader.shaderProgram, 3000, 3000, 20, "xz", undefined, mcgl.GL.gl.LINES);
+    this.plane = new mcgl.geom.PlaneSquare(this.shader.shaderProgram, 12000, 12000, 20, "xz", undefined, mcgl.GL.gl.LINES);
     this.plane.position = [0, 0, 0]
 
     this.shader.uniform("alpha", "float", .2);
@@ -18,6 +18,7 @@ class McglFloor {
   render(){
     this.shader.bind(); // just to use propgram
     // this.plane.render();
+    this.shader.uniform("resolutions", "vec2", [window.innerWidth, window.innerHeight]);
 
     mcgl.GL.draw(this.plane);
   }

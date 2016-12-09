@@ -16,6 +16,7 @@ class Scene {
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     this.orbitalControl = mcgl.orbitalControl;
+    this.orbitalControl.radius = 1200;
     this.camera = mcgl.camera;
     // this.viewSphere = new ViewSphere();
     this.viewIcosphere = new ViewIcosphere();
@@ -23,6 +24,17 @@ class Scene {
     this.xAxisPlane = new McglFloor();
 
     window.addEventListener('resize', this.resize.bind(this));
+
+    this.controller = new mcgl.Controller();
+
+    this.controller.onKeyPressed.add(this.onKeyPressed, this);
+    this.controller.onTouchEnd.add(this.viewIcosphere.onPressed, this.viewIcosphere);
+  }
+
+  onKeyPressed(key){
+    if(key === "space"){
+      this.viewIcosphere.onPressed();
+    }
   }
 
   update(){
@@ -35,8 +47,10 @@ class Scene {
 
     this.tick++;
     this.orbitalControl.position[0] = 0;
-    this.orbitalControl.position[1] = 150;
-    // this.orbitalControl.radius = 800// + Math.cos(this.tick/100) * 100;
+    this.orbitalControl.position[1] = 850;
+
+
+        // this.orbitalControl.radius = 800// + Math.cos(this.tick/100) * 100;
     // this.orbitalControl.angleA = Math.PI/2 + Math.cos(this.tick/200) * Math.PI/8;
     // this.orbitalControl.angleA += 0.004;
 
@@ -45,15 +59,15 @@ class Scene {
     this.orbitalControl.update();
     this.camera.position = this.orbitalControl._position;
 
-    this.camera.perspective(60 * Math.PI / 180, GL.aspectRatio, 1, 2000);
-    var target = [0, 0, 0];
+    this.camera.perspective(60 * Math.PI / 180, GL.aspectRatio, 1, 6000);
+    var target = [0, 500, 0];
     var up = [0, 1, 0];
 
     this.camera.lookAt(target, up);
 
-    gl.disable(gl.DEPTH_TEST);
+    // gl.disable(gl.DEPTH_TEST);
     // this.viewBackground.render();
-    gl.enable(gl.DEPTH_TEST);
+    // gl.enable(gl.DEPTH_TEST);
 
     this.xAxisPlane.render();
     this.viewIcosphere.render();
