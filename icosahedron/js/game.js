@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "77499a1caf0f3b06aa22"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "58241ba2ee58c9588934"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -610,7 +610,7 @@
 	  // console.log(GLHelpers);
 
 	  window.Easings = _mcgl2.default.Easings.instance;
-	  console.log(window.Easings);
+	  // console.log(window.Easings);
 	  window.isMobile = false;
 	  (function (a) {
 	    if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) isMobile = true;
@@ -640,7 +640,7 @@
 
 	  _mcgl.GL.reset(gl);
 
-	  window.gui = new _datGui2.default.GUI({ width: 300 });
+	  // window.gui = new dat.GUI({ width:300 });
 
 	  // create the shaders
 
@@ -656,6 +656,23 @@
 	  scene = new _Scene2.default();
 
 	  update();
+
+	  // let's put that here for now
+	  if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+	    var args = ['\n %c 🍔 ⚡ mcgl.js %c 🍔  ',
+	    // + ' %c ' + ' http://www.pixijs.com/  %c %c ♥%c♥%c♥ \n\n',
+	    // 'background: #0000;',
+	    // 'background: #ff66a5; padding:5px 0;',
+	    // 'color: #ff66a5; background: #030307; padding:5px 0;',
+	    'background: #000000; padding:5px 0; color: #ffffff',
+	    // 'background: #000000; padding:5px 0;',
+	    'background: #000000; padding:5px 0; color: #ffffff;'];
+
+	    window.console.log.apply(console, args); //jshint ignore:line
+	  } else if (window.console) {
+	    window.console.log('mcgl.js '); //jshint ignore:line
+	  }
+	  // }
 	}
 
 	function update() {
@@ -11309,16 +11326,12 @@
 	        faces = faces2.slice();
 	      }
 
-	      console.log("vertices.length", vertices.length);
 	      var pos = [];
-
 	      var vertexComplex = [];
 	      var indicesComplex = [];
 
 	      //Process the triangles
 	      var oldVerts = vertices.slice();
-	      //  let triangles = faces.slice();
-
 	      var triangles = [];
 	      var ind = [];
 	      for (var i = 0; i < faces.length; i++) {
@@ -11332,6 +11345,7 @@
 	        triangles[_i] = _i;
 	      }
 
+	      // TODO to clean, shouldnt be here
 	      for (var i = 0; i < newVertices.length; i++) {
 	        var v = newVertices[i];
 	        v[0] *= 400;
@@ -11353,11 +11367,8 @@
 	  }, {
 	    key: 'find',
 	    value: function find(object, key) {
-	      // console.log("key", key);
 	      for (var variable in object) {
-	        // console.log("variable", variable, object[variable]);
 	        if (variable == key) {
-	          // console.log("should be there");
 	          return true;
 	        }
 	      }
@@ -11371,28 +11382,20 @@
 	      var smallerIndex = firstPointIsSmaller ? p1 : p2;
 	      var greaterIndex = firstPointIsSmaller ? p2 : p1;
 	      var key = (smallerIndex << 32) + greaterIndex;
-	      // console.log(key);
-	      // console.log(smallerIndex, smallerIndex<<32);
-
-
-	      // let foundValueIterator = middlePointIndexCache[key];
 	      var isIn = this.find(middlePointIndexCache, key);
-	      // console.log(isIn);
-	      // console.log("if " + key + " in ", middlePointIndexCache);
-	      if (key in middlePointIndexCache) {
-	        // console.log("here");
-	        // console.log(key);
-	        // return middlePointIndexCache[key];
-	      }
+
+	      // if (key in middlePointIndexCache)
+	      // {
+	      // return middlePointIndexCache[key];
+	      // }
 
 	      var point1 = vertices[p1];
 	      var point2 = vertices[p2];
 	      var middle = [(point1[0] + point2[0]) / 2.0, (point1[1] + point2[1]) / 2.0, (point1[2] + point2[2]) / 2.0];
 
 	      var i = this.addVertex(middle);
-
 	      middlePointIndexCache[key] = i;
-	      // this.middlePointIndexCache.insert(std::make_pair(key, i));
+
 	      return i;
 	    }
 	  }, {
@@ -11724,8 +11727,6 @@
 	    this.onTouchEnd = new _signals2.default();
 	    this.keyboard = new _Keyboard2.default();
 
-	    // this.keyboard.onKeyPress('1', this.transformPress.bind(this));
-	    // this.keyboard.onKeyPress('2', this.undrawPress.bind(this));
 	    this.keyboard.onKeyPress('space', function () {
 	      _this.onKeyPressed.dispatch("space");
 	    });
@@ -11738,21 +11739,11 @@
 	    window.addEventListener("touchend", function () {
 	      _this.onTouchEnd.dispatch();
 	    }, false);
-	    //
-	    // this.aPressed = false;
-	    // this.dPressed = false;
-	    // this.spacePressed = false;
-
-	    // window.addEventListener("click", this.onClick.bind(this), false);
 	  }
 
 	  (0, _createClass3.default)(Controller, [{
 	    key: 'update',
-	    value: function update() {
-	      // this.aPressed = this.keyboard.isPressed('a');
-	      // this.dPressed = this.keyboard.isPressed('d');
-	      // this.spacePressed = this.keyboard.isPressed('space');
-	    }
+	    value: function update() {}
 	  }]);
 	  return Controller;
 	}();
@@ -13297,17 +13288,14 @@
 	    this.isActive = false;
 	    this.percentage = 1;
 
-	    // this.spring = new DoubleSpring();
-
 	    var displ = [];
 	    var d = void 0;
 
 	    for (var i = 0; i < this.sphere._vertices.length; i += 3) {
-	      // for (var i = 0; i < this.sphere._vertices.length; i+=3) {
 	      var v = this.sphere._vertices;
-	      var p1 = v[i]; // this.sphere._vertices[i];
-	      var p2 = v[i + 1]; // this.sphere._vertices[i];
-	      var p3 = v[i + 2]; // this.sphere._vertices[i];
+	      var p1 = v[i];
+	      var p2 = v[i + 1];
+	      var p3 = v[i + 2];
 
 	      var randx = Math.random();
 	      var randy = Math.random();
@@ -13315,34 +13303,20 @@
 
 	      var centroid = [(p1[0] + p2[0] + p3[0]) / 3, (p1[1] + p2[1] + p3[1]) / 3, (p1[2] + p2[2] + p3[2]) / 3];
 
-	      // console.log(centroid);
-	      // displ.push([Math.random() * 2, Math.random() * 2, Math.random() * 2])
-	      // displ.push([Math.random() * 2, Math.random() * 2, Math.random() * 2])
-	      // displ.push([Math.random() * 2, Math.random() * 2, Math.random() * 2])
-
 	      displ.push(centroid);
 	      displ.push(centroid);
 	      displ.push(centroid);
 	    }
-	    // console.log(displ);
 
 	    this.shader.uniform("time", "float", 0);
 
 	    this.sphere.bufferData(displ, 'a_displacement', 3, false);
 
-	    this.texture = new _mcgl2.default.Texture(ASSET_URL + "images/earth.png");
+	    // this.texture = new mcgl.Texture(ASSET_URL + "images/earth.png");
 
 	    this.speed = 0;
 	    this.offset = 0;
 	    this.percentage = 1;
-	    this.amplitude = 0;
-
-	    this.color1 = [0, 0, 0];
-	    this.color2 = [255, 255, 255];
-	    gui.addColor(this, "color1");
-	    gui.addColor(this, "color2");
-	    // gui.add(this, "percentage", 0, 1);
-	    gui.add(this, "amplitude", 0, 10);
 	  }
 
 	  (0, _createClass3.default)(ViewIcosphere, [{
@@ -13352,26 +13326,11 @@
 
 	      if (this.animating) return;
 	      this.animating = true;
-	      // this.speedAnimating = true;
-	      // this.spring.dx = 5;
 
 	      this.isActive = !this.isActive;
 	      var val = this.isActive ? 0 : 1;
 
 	      this.speed = .05;
-	      // Easings.to(this, ., {
-	      //   speed: .2,
-	      //   ease: Easings.easeInSine,
-	      //   onComplete: ()=>{
-	      //     // Easings.to(this, .5, {
-	      //     //   speed: 0,
-	      //     //   onComplete: ()=>{
-	      //     //   }
-	      //     //   // ease: Easings.easeOutCirc
-	      //     // })
-	      //     this.speedAnimating = false;
-	      //   }
-	      // })
 
 	      Easings.to(this, 1, {
 	        percentage: val,
@@ -13387,34 +13346,14 @@
 	      this.shader.bind(); // just to use propgram
 	      this.tick++;
 
-	      // this.spring.update();
-	      // console.log(this.spring.x);
-
-	      // this.amplitude = 0//this.spring.x * 10.0
-	      // this.percentage = Math.abs(Math.cos(this.tick/20)) * .6 + .
-
-	      // if(!this.speedAnimating){
 	      this.speed *= .98;
-	      // }
 
 	      this.offset -= this.speed;
-	      // this.color1[0] /= 255;
-	      // this.color1[1] /= 255;
-	      // this.color1[2] /= 255;
-
-	      // this.color2[0] /= 255;
-	      // this.color2[1] /= 255;
-	      // this.color2[2] /= 255;
-
-	      // console.log(this.color1);
 
 	      this.time = Math.cos(this.tick / 200 + Math.PI / 2) * 10;
 	      this.shader.uniform("time", "float", this.time);
 	      this.shader.uniform("percentage", "float", this.percentage);
-	      // this.shader.uniform("amplitude", "float", this.amplitude);
 	      this.shader.uniform("offset", "float", this.offset);
-	      // this.shader.uniform("color1", "vec3", [this.color1[0]/255, this.color1[1]/255, this.color1[2]/255]);
-	      // this.shader.uniform("color2", "vec3", [this.color2[0]/255, this.color2[1]/255, this.color2[2]/255]);
 
 	      GL.draw(this.sphere);
 	    }

@@ -11,7 +11,7 @@ class ViewIcosphere {
     this.tick = 0;
     this.shader = new GLShader(vs, fs);
     this.shader.bind();
-    this.sphere = new mcgl.geom.IcoSphere(this.shader.shaderProgram);
+    this.sphere = new mcgl.geom.IcoSphere(this.shader.shaderProgram, 4, 400);
     this.animating = false;
     this.speedAnimating = false;
     this.isActive = false;
@@ -45,7 +45,7 @@ class ViewIcosphere {
 
     this.sphere.bufferData(displ, 'a_displacement', 3, false);
 
-    this.texture = new mcgl.Texture(ASSET_URL + "images/earth.png");
+    // this.texture = new mcgl.Texture(ASSET_URL + "images/earth.png");
 
     this.speed = 0;
     this.offset = 0;
