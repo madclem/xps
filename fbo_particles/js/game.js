@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "660230cb1619ff489d0a"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "6e6700f42afe4b57c54d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -585,11 +585,11 @@
 
 	var _mcgl2 = _interopRequireDefault(_mcgl);
 
-	var _Scene = __webpack_require__(122);
+	var _Scene = __webpack_require__(130);
 
 	var _Scene2 = _interopRequireDefault(_Scene);
 
-	var _datGui = __webpack_require__(162);
+	var _datGui = __webpack_require__(173);
 
 	var _datGui2 = _interopRequireDefault(_datGui);
 
@@ -746,6 +746,14 @@
 
 	var _FrameBuffer2 = _interopRequireDefault(_FrameBuffer);
 
+	var _Mesh = __webpack_require__(108);
+
+	var _Mesh2 = _interopRequireDefault(_Mesh);
+
+	var _BatchCopy = __webpack_require__(122);
+
+	var _BatchCopy2 = _interopRequireDefault(_BatchCopy);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Mcgl = function Mcgl() {
@@ -757,10 +765,12 @@
 	  this.camera = new _Camera2.default();
 	  this.orbitalControl = new _OrbitalControl2.default();
 	  this.geom = _indexGeom2.default;
+	  this.Mesh = _Mesh2.default;
 	  this.Texture = _Texture2.default;
 	  this.Controller = _Controller2.default;
 	  this.Easings = _Easings2.default;
 	  this.FBO = _FrameBuffer2.default;
+	  this.BatchCopy = _BatchCopy2.default;
 	};
 
 	exports.default = new Mcgl();
@@ -1943,6 +1953,14 @@
 
 	var _FrameBuffer2 = _interopRequireDefault(_FrameBuffer);
 
+	var _Mesh = __webpack_require__(108);
+
+	var _Mesh2 = _interopRequireDefault(_Mesh);
+
+	var _BatchCopy = __webpack_require__(122);
+
+	var _BatchCopy2 = _interopRequireDefault(_BatchCopy);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Mcgl = function Mcgl() {
@@ -1954,10 +1972,12 @@
 	  this.camera = new _Camera2.default();
 	  this.orbitalControl = new _OrbitalControl2.default();
 	  this.geom = _indexGeom2.default;
+	  this.Mesh = _Mesh2.default;
 	  this.Texture = _Texture2.default;
 	  this.Controller = _Controller2.default;
 	  this.Easings = _Easings2.default;
 	  this.FBO = _FrameBuffer2.default;
+	  this.BatchCopy = _BatchCopy2.default;
 	};
 
 	exports.default = new Mcgl();
@@ -1990,39 +2010,47 @@
 	var gl = void 0;
 
 	var Texture = function () {
-	  function Texture(src) {
+	  function Texture(src, isTexture) {
 	    var _this = this;
 
 	    (0, _classCallCheck3.default)(this, Texture);
 
-	    // Create a this.texture.
+	    // Create a texture.
 	    gl = _mcgl2.default.GL.gl;
 
-	    this.texture = gl.createTexture();
-	    gl.bindTexture(gl.TEXTURE_2D, this.texture);
+	    if (isTexture) {
+	      this.texture = src;
+	    } else {
+	      (function () {
+	        _this.texture = gl.createTexture();
+	        gl.bindTexture(gl.TEXTURE_2D, _this.texture);
 
-	    // Fill the this.texture with a 1x1 blue pixel.
-	    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 255, 255]));
+	        // Fill the this.texture with a 1x1 blue pixel.
+	        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 255, 255]));
 
-	    // Asynchronously load an image
-	    var image = new Image();
-	    image.src = src;
+	        // Asynchronously load an image
 
-	    image.addEventListener('load', function () {
-	      // Now that the image has loaded make copy it to the this.texture.
-	      gl.bindTexture(gl.TEXTURE_2D, _this.texture);
-	      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 
-	      if (_this.isPowerOf2(image.width) && _this.isPowerOf2(image.height)) {
-	        gl.generateMipmap(gl.TEXTURE_2D);
-	      } else {
-	        // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
-	        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-	        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-	        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-	        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-	      }
-	    });
+	        var image = new Image();
+	        image.src = src;
+
+	        image.addEventListener('load', function () {
+	          // Now that the image has loaded make copy it to the this.texture.
+	          gl.bindTexture(gl.TEXTURE_2D, _this.texture);
+	          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
+	          if (_this.isPowerOf2(image.width) && _this.isPowerOf2(image.height)) {
+	            gl.generateMipmap(gl.TEXTURE_2D);
+	          } else {
+	            // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
+	            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+	            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+	          }
+	        });
+	      })();
+	    }
 	  }
 
 	  (0, _createClass3.default)(Texture, [{
@@ -13053,22 +13081,35 @@
 
 	    gl = _mcgl2.default.GL.gl;
 
+	    this.textures = [];
 	    this.frameBuffer = gl.createFramebuffer();
 	    gl.bindFramebuffer(gl.FRAMEBUFFER, this.frameBuffer);
 
 	    this.texture = gl.createTexture();
+	    this.gltexture = new _mcgl2.default.Texture(this.texture, true);
+
+	    this.textures.push(this.gltexture);
+
 	    gl.bindTexture(gl.TEXTURE_2D, this.texture);
 
 	    if (this.isPowerOf2(w) && this.isPowerOf2(h)) {
 	      gl.generateMipmap(gl.TEXTURE_2D);
-	    } else {
-	      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-	      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-	      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-	      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 	    }
 
-	    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+	    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+	    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+	    var floatTextures = gl.getExtension('OES_texture_float');
+	    if (!gl.getExtension("OES_texture_float")) {
+	      throw new Error("float textures not supported");
+	    }
+
+	    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.FLOAT, null);
+	    // gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.FLOAT, new Float32Array(w * h));
+	    // gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.FLOAT, null);
+
 
 	    this.renderbuffer = gl.createRenderbuffer();
 	    gl.bindRenderbuffer(gl.RENDERBUFFER, this.renderbuffer);
@@ -13089,9 +13130,9 @@
 	    }
 	  }, {
 	    key: 'bind',
-	    value: function bind(w, h, toCanvas) {
-	      this.w = w;
-	      this.h = h;
+	    value: function bind(w, h) {
+	      this.w = w || this.w;
+	      this.h = h || this.h;
 	      gl.bindFramebuffer(gl.FRAMEBUFFER, this.frameBuffer);
 	      gl.viewport(0, 0, this.w, this.h);
 	    }
@@ -13099,13 +13140,14 @@
 	    key: 'unbind',
 	    value: function unbind() {
 	      gl.bindFramebuffer(gl.FRAMEBUFFER, null); // when set to null, draw to the canvas
-	      gl.viewport(0, 0, this.w, this.h);
+	      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 	    }
 	  }, {
 	    key: 'clear',
 	    value: function clear() {
-	      gl.bindFramebuffer(gl.FRAMEBUFFER, this.frameBuffer);
-	      _mcgl2.default.GL.gl.clear(0, 0, 0, 0);
+	      this.bind();
+	      gl.clear(0, 0, 0, 0);
+	      // this.unbind();
 	    }
 	  }]);
 	  return FrameBuffer;
@@ -13121,14 +13163,251 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
-	var _classCallCheck2 = __webpack_require__(123);
+	var _getPrototypeOf = __webpack_require__(42);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(3);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _createClass2 = __webpack_require__(124);
+	var _createClass2 = __webpack_require__(5);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(53);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(123);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(100);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Mcgl = __webpack_require__(26);
+
+	var _Mcgl2 = _interopRequireDefault(_Mcgl);
+
+	var _GLShader = __webpack_require__(25);
+
+	var _GLShader2 = _interopRequireDefault(_GLShader);
+
+	var _Batch2 = __webpack_require__(127);
+
+	var _Batch3 = _interopRequireDefault(_Batch2);
+
+	var _bigTriangle = __webpack_require__(128);
+
+	var _bigTriangle2 = _interopRequireDefault(_bigTriangle);
+
+	var _copy = __webpack_require__(129);
+
+	var _copy2 = _interopRequireDefault(_copy);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// const fs = require('../shaders/copy.frag');
+
+	// import Geom from '../Geom';
+	var BatchCopy = function (_Batch) {
+		(0, _inherits3.default)(BatchCopy, _Batch);
+
+		function BatchCopy() {
+			(0, _classCallCheck3.default)(this, BatchCopy);
+
+			var shader = new _GLShader2.default(_bigTriangle2.default, _copy2.default);
+			var mesh = new _Mcgl2.default.geom.BigTriangle(shader.shaderProgram);
+
+			var _this = (0, _possibleConstructorReturn3.default)(this, (BatchCopy.__proto__ || (0, _getPrototypeOf2.default)(BatchCopy)).call(this, mesh, shader));
+
+			shader.bind();
+			shader.uniform('texture', 'uniform1i', 0);
+			return _this;
+		}
+
+		(0, _createClass3.default)(BatchCopy, [{
+			key: 'draw',
+			value: function draw(texture) {
+				this.shader.bind();
+				// texture.bind(0);
+				// gl.activeTexture(gl.TEXTURE0);
+				texture.bind();
+				(0, _get3.default)(BatchCopy.prototype.__proto__ || (0, _getPrototypeOf2.default)(BatchCopy.prototype), 'draw', this).call(this);
+			}
+		}]);
+		return BatchCopy;
+	}(_Batch3.default); // BatchCopy.js
+
+
+	exports.default = BatchCopy;
+	module.exports = exports['default'];
+
+/***/ },
+/* 123 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	var _getPrototypeOf = __webpack_require__(42);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _getOwnPropertyDescriptor = __webpack_require__(124);
+
+	var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function get(object, property, receiver) {
+	  if (object === null) object = Function.prototype;
+	  var desc = (0, _getOwnPropertyDescriptor2.default)(object, property);
+
+	  if (desc === undefined) {
+	    var parent = (0, _getPrototypeOf2.default)(object);
+
+	    if (parent === null) {
+	      return undefined;
+	    } else {
+	      return get(parent, property, receiver);
+	    }
+	  } else if ("value" in desc) {
+	    return desc.value;
+	  } else {
+	    var getter = desc.get;
+
+	    if (getter === undefined) {
+	      return undefined;
+	    }
+
+	    return getter.call(receiver);
+	  }
+	};
+
+/***/ },
+/* 124 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(125), __esModule: true };
+
+/***/ },
+/* 125 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(126);
+	var $Object = __webpack_require__(11).Object;
+	module.exports = function getOwnPropertyDescriptor(it, key){
+	  return $Object.getOwnPropertyDescriptor(it, key);
+	};
+
+/***/ },
+/* 126 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+	var toIObject                 = __webpack_require__(69)
+	  , $getOwnPropertyDescriptor = __webpack_require__(96).f;
+
+	__webpack_require__(52)('getOwnPropertyDescriptor', function(){
+	  return function getOwnPropertyDescriptor(it, key){
+	    return $getOwnPropertyDescriptor(toIObject(it), key);
+	  };
+	});
+
+/***/ },
+/* 127 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(3);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(5);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _GLTool = __webpack_require__(4);
+
+	var _GLTool2 = _interopRequireDefault(_GLTool);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Batch = function () {
+		function Batch(mMesh, mShader) {
+			(0, _classCallCheck3.default)(this, Batch);
+
+			this._mesh = mMesh;
+			this._shader = mShader;
+		}
+
+		//	PUBLIC METHODS
+
+		(0, _createClass3.default)(Batch, [{
+			key: 'draw',
+			value: function draw() {
+				this._shader.bind();
+				_GLTool2.default.draw(this.mesh);
+			}
+
+			//	GETTER AND SETTER
+
+		}, {
+			key: 'mesh',
+			get: function get() {
+				return this._mesh;
+			}
+		}, {
+			key: 'shader',
+			get: function get() {
+				return this._shader;
+			}
+		}]);
+		return Batch;
+	}(); // Batch.js
+
+	exports.default = Batch;
+	module.exports = exports['default'];
+
+/***/ },
+/* 128 */
+/***/ function(module, exports) {
+
+	module.exports = "// bigTriangle.vert\n\n#define SHADER_NAME BIG_TRIANGLE_VERTEX\n\nprecision mediump float;\n#define GLSLIFY 1\nattribute vec2 a_position;\nvarying vec2 vTextureCoord;\n\nvoid main(void) {\n    gl_Position = vec4(a_position, 0.0, 1.0);\n    vTextureCoord = a_position * .5 + .5;\n}\n"
+
+/***/ },
+/* 129 */
+/***/ function(module, exports) {
+
+	module.exports = "// copy.frag\n\n#define SHADER_NAME COPY_FRAGMENT\n\nprecision mediump float;\n#define GLSLIFY 1\n\nvarying vec2 vTextureCoord;\nuniform sampler2D texture;\n\nvoid main(void) {\n    gl_FragColor = texture2D(texture, vTextureCoord);\n    // gl_FragColor = vec4(vTextureCoord, 0.0, 1.0);\n}\n"
+
+/***/ },
+/* 130 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(131);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(132);
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -13136,26 +13415,31 @@
 
 	var _mcgl2 = _interopRequireDefault(_mcgl);
 
-	var _ViewCube = __webpack_require__(143);
+	var _ViewSim = __webpack_require__(151);
 
-	var _ViewCube2 = _interopRequireDefault(_ViewCube);
+	var _ViewSim2 = _interopRequireDefault(_ViewSim);
 
-	var _ViewFBO = __webpack_require__(156);
+	var _ViewSave = __webpack_require__(164);
 
-	var _ViewFBO2 = _interopRequireDefault(_ViewFBO);
+	var _ViewSave2 = _interopRequireDefault(_ViewSave);
 
-	var _McglFloor = __webpack_require__(159);
+	var _ViewRenderer = __webpack_require__(167);
+
+	var _ViewRenderer2 = _interopRequireDefault(_ViewRenderer);
+
+	var _McglFloor = __webpack_require__(170);
 
 	var _McglFloor2 = _interopRequireDefault(_McglFloor);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// import ViewFBO from './views/ViewFBO';
 	// import vs from '../shaders/default.vert'
 	// import fs from '../shaders/fbo.frag'
 
-	var gl = void 0;
 	// import ViewSphere from './views/ViewSphere';
 	// import ViewIcosphere from './views/ViewIcosphere';
+	var gl = void 0;
 
 	var Scene = function () {
 	  function Scene() {
@@ -13165,41 +13449,71 @@
 	    this.tick = 0;
 
 	    gl.enable(gl.DEPTH_TEST);
-	    gl.enable(gl.CULL_FACE);
 	    gl.enable(gl.BLEND);
 	    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
 	    this.orbitalControl = _mcgl2.default.orbitalControl;
-	    this.orbitalControl.radius = 1800;
-	    this.orbitalControl.setRy(-Math.PI / 6);
+	    this.orbitalControl.radius = 2;
+	    // this.orbitalControl.setRy(-Math.PI/6);
 	    this.camera = _mcgl2.default.camera;
-	    this.viewCube = new _ViewCube2.default();
 
-	    this.xAxisPlane = new _McglFloor2.default();
+	    this._bCopy = new _mcgl2.default.BatchCopy();
+	    this._bCopy_move = new _mcgl2.default.BatchCopy();
 
 	    window.addEventListener('resize', this.resize.bind(this));
 
 	    this.controller = new _mcgl2.default.Controller();
 
-	    this.fbo = new _mcgl2.default.FBO(1024, 1024);
-	    this.viewFBO = new _ViewFBO2.default(this.fbo.texture);
+	    // this._fbo = new mcgl.FBO(256, 256);
+	    this.xAxisPlane = new _McglFloor2.default();
+	    //
+	    this._fboCurrent = new _mcgl2.default.FBO(256, 256);
+	    this._fboTarget = new _mcgl2.default.FBO(256, 256);
+	    // create the view for the simulation w/ a very simple geometry
+	    this.viewSave = new _ViewSave2.default(256, 256);
+	    this.viewSim = new _ViewSim2.default(256, 256);
+	    // create the particles
+
+
+	    // create the view for the rendering, draw with POINTS
+	    this.viewRender = new _ViewRenderer2.default(256, 256);
+
+	    this._fboCurrent.bind(256, 256);
+	    _mcgl2.default.GL.gl.clear(0, 0, 0, 0);
+	    this.viewSave.render();
+	    this._fboCurrent.unbind();
+
+	    this._fboTarget.bind(256, 256);
+	    _mcgl2.default.GL.gl.clear(0, 0, 0, 0);
+	    this.viewSave.render();
+	    this._fboTarget.unbind();
+
+	    this._fboCurrent.clear();
+	    this._fboTarget.clear();
+	    // this._fboCurrent.bind(256, 256);
+	    // this.viewSim.render(this._fboCurrent.textures[0]);
+	    // this._fboCurrent.unbind();
+
 	  }
 
 	  (0, _createClass3.default)(Scene, [{
-	    key: 'isPowerOf2',
-	    value: function isPowerOf2(value) {
-	      return (value & value - 1) == 0;
-	    }
-	  }, {
-	    key: 'onKeyPressed',
-	    value: function onKeyPressed(key) {
-	      if (key === "space") {
-	        // this.viewIcosphere.onPressed();
-	      }
+	    key: 'updateFBO',
+	    value: function updateFBO() {
+	      var t = this._fboCurrent.textures[0];
+
+	      this._fboTarget.bind(256, 256);
+	      _mcgl2.default.GL.gl.clear(0, 0, 0, 0);
+	      this.viewSim.render(t);
+	      this._fboTarget.unbind();
+
+	      var tmp = this._fboCurrent;
+	      this._fboCurrent = this._fboTarget;
+	      this._fboTarget = tmp;
 	    }
 	  }, {
 	    key: 'update',
 	    value: function update() {
+	      this.updateFBO();
 	      this.render();
 	    }
 	  }, {
@@ -13209,24 +13523,42 @@
 
 	      this.tick++;
 	      this.orbitalControl.position[0] = 0;
-	      this.orbitalControl.position[1] = 450;
+	      this.orbitalControl.position[1] = 2;
+	      // this.orbitalControl.position[2] = -10;
 
 	      this.orbitalControl.update();
 	      this.camera.position = this.orbitalControl._position;
 
 	      this.camera.perspective(60 * Math.PI / 180, _mcgl.GL.aspectRatio, 1, 6000);
-	      var target = [0, 500, 0];
+	      var target = [0, 0, 0];
 	      var up = [0, 1, 0];
 
 	      this.camera.lookAt(target, up);
+	      var t = this._fboCurrent.textures[0];
+	      var t2 = this._fboTarget.textures[0];
 
-	      this.fbo.bind(window.innerWidth, window.innerHeight);
-	      this.viewCube.render(this.fbo.texture);
-	      this.fbo.unbind();
+	      // this._fboCurrent.unbind();
+	      this.xAxisPlane.render();
 
-	      this.xAxisPlane.render(); // 1 I dont know why this is in this order
-	      this.viewFBO.render(); // 2 I dont know why this is in this order
-	      this.fbo.clear(); // 3 I dont know why this is in this order
+	      // this.viewSim.render(t);
+	      this.viewRender.render(t2); // 2 I dont know why this is in this order
+
+	      // this.viewSave.render();
+	      _mcgl.GL.gl.viewport(0, 0, 256, 256);
+	      _mcgl.GL.gl.disable(_mcgl.GL.gl.DEPTH_TEST);
+	      this._bCopy.draw(t);
+	      _mcgl.GL.gl.enable(_mcgl.GL.gl.DEPTH_TEST);
+	      _mcgl.GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+
+	      _mcgl.GL.gl.viewport(256 + 10, 0, 256, 256);
+	      _mcgl.GL.gl.disable(_mcgl.GL.gl.DEPTH_TEST);
+	      this._bCopy_move.draw(t2);
+	      _mcgl.GL.gl.enable(_mcgl.GL.gl.DEPTH_TEST);
+	      _mcgl.GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+
+	      this._fboTarget.clear();
+
+	      // 3 I dont know why this is in this order
 	    }
 	  }, {
 	    key: 'resize',
@@ -13242,7 +13574,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 123 */
+/* 131 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -13256,14 +13588,14 @@
 	};
 
 /***/ },
-/* 124 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _defineProperty = __webpack_require__(125);
+	var _defineProperty = __webpack_require__(133);
 
 	var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
@@ -13288,37 +13620,37 @@
 	}();
 
 /***/ },
-/* 125 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(126), __esModule: true };
+	module.exports = { "default": __webpack_require__(134), __esModule: true };
 
 /***/ },
-/* 126 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(127);
-	var $Object = __webpack_require__(130).Object;
+	__webpack_require__(135);
+	var $Object = __webpack_require__(138).Object;
 	module.exports = function defineProperty(it, key, desc){
 	  return $Object.defineProperty(it, key, desc);
 	};
 
 /***/ },
-/* 127 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $export = __webpack_require__(128);
+	var $export = __webpack_require__(136);
 	// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-	$export($export.S + $export.F * !__webpack_require__(138), 'Object', {defineProperty: __webpack_require__(134).f});
+	$export($export.S + $export.F * !__webpack_require__(146), 'Object', {defineProperty: __webpack_require__(142).f});
 
 /***/ },
-/* 128 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global    = __webpack_require__(129)
-	  , core      = __webpack_require__(130)
-	  , ctx       = __webpack_require__(131)
-	  , hide      = __webpack_require__(133)
+	var global    = __webpack_require__(137)
+	  , core      = __webpack_require__(138)
+	  , ctx       = __webpack_require__(139)
+	  , hide      = __webpack_require__(141)
 	  , PROTOTYPE = 'prototype';
 
 	var $export = function(type, name, source){
@@ -13378,7 +13710,7 @@
 	module.exports = $export;
 
 /***/ },
-/* 129 */
+/* 137 */
 /***/ function(module, exports) {
 
 	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -13387,18 +13719,18 @@
 	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ },
-/* 130 */
+/* 138 */
 /***/ function(module, exports) {
 
 	var core = module.exports = {version: '2.4.0'};
 	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ },
-/* 131 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// optional / simple context binding
-	var aFunction = __webpack_require__(132);
+	var aFunction = __webpack_require__(140);
 	module.exports = function(fn, that, length){
 	  aFunction(fn);
 	  if(that === undefined)return fn;
@@ -13419,7 +13751,7 @@
 	};
 
 /***/ },
-/* 132 */
+/* 140 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -13428,12 +13760,12 @@
 	};
 
 /***/ },
-/* 133 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var dP         = __webpack_require__(134)
-	  , createDesc = __webpack_require__(142);
-	module.exports = __webpack_require__(138) ? function(object, key, value){
+	var dP         = __webpack_require__(142)
+	  , createDesc = __webpack_require__(150);
+	module.exports = __webpack_require__(146) ? function(object, key, value){
 	  return dP.f(object, key, createDesc(1, value));
 	} : function(object, key, value){
 	  object[key] = value;
@@ -13441,15 +13773,15 @@
 	};
 
 /***/ },
-/* 134 */
+/* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var anObject       = __webpack_require__(135)
-	  , IE8_DOM_DEFINE = __webpack_require__(137)
-	  , toPrimitive    = __webpack_require__(141)
+	var anObject       = __webpack_require__(143)
+	  , IE8_DOM_DEFINE = __webpack_require__(145)
+	  , toPrimitive    = __webpack_require__(149)
 	  , dP             = Object.defineProperty;
 
-	exports.f = __webpack_require__(138) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+	exports.f = __webpack_require__(146) ? Object.defineProperty : function defineProperty(O, P, Attributes){
 	  anObject(O);
 	  P = toPrimitive(P, true);
 	  anObject(Attributes);
@@ -13462,17 +13794,17 @@
 	};
 
 /***/ },
-/* 135 */
+/* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(136);
+	var isObject = __webpack_require__(144);
 	module.exports = function(it){
 	  if(!isObject(it))throw TypeError(it + ' is not an object!');
 	  return it;
 	};
 
 /***/ },
-/* 136 */
+/* 144 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -13480,24 +13812,24 @@
 	};
 
 /***/ },
-/* 137 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = !__webpack_require__(138) && !__webpack_require__(139)(function(){
-	  return Object.defineProperty(__webpack_require__(140)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+	module.exports = !__webpack_require__(146) && !__webpack_require__(147)(function(){
+	  return Object.defineProperty(__webpack_require__(148)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ },
-/* 138 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Thank's IE8 for his funny defineProperty
-	module.exports = !__webpack_require__(139)(function(){
+	module.exports = !__webpack_require__(147)(function(){
 	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ },
-/* 139 */
+/* 147 */
 /***/ function(module, exports) {
 
 	module.exports = function(exec){
@@ -13509,11 +13841,11 @@
 	};
 
 /***/ },
-/* 140 */
+/* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(136)
-	  , document = __webpack_require__(129).document
+	var isObject = __webpack_require__(144)
+	  , document = __webpack_require__(137).document
 	  // in old IE typeof document.createElement is 'object'
 	  , is = isObject(document) && isObject(document.createElement);
 	module.exports = function(it){
@@ -13521,11 +13853,11 @@
 	};
 
 /***/ },
-/* 141 */
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.1 ToPrimitive(input [, PreferredType])
-	var isObject = __webpack_require__(136);
+	var isObject = __webpack_require__(144);
 	// instead of the ES6 spec version, we didn't implement @@toPrimitive case
 	// and the second argument - flag - preferred type is a string
 	module.exports = function(it, S){
@@ -13538,7 +13870,7 @@
 	};
 
 /***/ },
-/* 142 */
+/* 150 */
 /***/ function(module, exports) {
 
 	module.exports = function(bitmap, value){
@@ -13551,7 +13883,7 @@
 	};
 
 /***/ },
-/* 143 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13560,11 +13892,11 @@
 	  value: true
 	});
 
-	var _classCallCheck2 = __webpack_require__(123);
+	var _classCallCheck2 = __webpack_require__(131);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _createClass2 = __webpack_require__(124);
+	var _createClass2 = __webpack_require__(132);
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -13572,106 +13904,58 @@
 
 	var _mcgl2 = _interopRequireDefault(_mcgl);
 
-	var _glMatrix = __webpack_require__(144);
+	var _glMatrix = __webpack_require__(152);
 
 	var _glMatrix2 = _interopRequireDefault(_glMatrix);
 
-	var _cube = __webpack_require__(154);
+	var _sim = __webpack_require__(162);
 
-	var _cube2 = _interopRequireDefault(_cube);
+	var _sim2 = _interopRequireDefault(_sim);
 
-	var _cube3 = __webpack_require__(155);
+	var _sim3 = __webpack_require__(163);
 
-	var _cube4 = _interopRequireDefault(_cube3);
+	var _sim4 = _interopRequireDefault(_sim3);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// import vs from '../../shaders/cdv_2_cube.vert'
-	// import fs from '../../shaders/cdv_2_cube.frag'
+	var ViewSim = function () {
+	  function ViewSim(width, height) {
+	    (0, _classCallCheck3.default)(this, ViewSim);
 
-	var ViewCube = function () {
-	  function ViewCube() {
-	    var _this = this;
-
-	    (0, _classCallCheck3.default)(this, ViewCube);
-
-	    this.tick = 0;
-	    this.shader = new _mcgl.GLShader(_cube2.default, _cube4.default);
+	    this.time = 0;
+	    this.shader = new _mcgl.GLShader(_sim2.default, _sim4.default);
 	    this.shader.bind();
-	    this.shader.uniform("u_position", 'vec3', [0, 500, 0]);
 
-	    this.cube = new _mcgl2.default.geom.Cube(this.shader.shaderProgram, 1000, 1000, 500, true, 0, 2);
-
-	    var gl = _mcgl2.default.GL.gl;
-
-	    // this.texture = new mcgl.Texture(ASSET_URL + "images/cube.png");
-	    this.dirLight = null;
-	    this.pointLight = null;
-	    this.subdivision = 0;
-
-	    this.indexD = 1;
-	    this.drawModes = [0, 2, 4];
-	    this.drawMode = 2;
-	    var controller = gui.add(this, "subdivision").min(0).max(4).step(1);
-	    controller.onFinishChange(function (value) {
-	      _this.redraw(_this.subdivision, _this.drawMode);
-	    });
-
-	    var controllerDrawMode = gui.add(this, "drawType");
-	    controllerDrawMode.onFinishChange(function (value) {
-	      _this.redraw(_this.subdivision, _this.drawMode);
-	    });
-
-	    this.angle = 0;
+	    this.mesh = new _mcgl2.default.geom.BigTriangle(this.shader.shaderProgram, GL.gl.POINTS);
 	  }
 
-	  (0, _createClass3.default)(ViewCube, [{
-	    key: 'attachLights',
-	    value: function attachLights(directionalLight, pointLight) {
-	      this.dirLight = directionalLight;
-	      this.pointLight = pointLight;
-	    }
-	  }, {
-	    key: 'drawType',
-	    value: function drawType() {
-	      this.indexD++;
-	      this.drawModes = [0, 2, 4];
-	      this.drawMode = this.drawModes[this.indexD % this.drawModes.length];
-
-	      this.redraw(this.subdivision, this.drawMode);
-	    }
-	  }, {
-	    key: 'redraw',
-	    value: function redraw(sub, drawType) {
-	      // console.log(drawType);
-	      this.cube.render(sub, drawType);
-	    }
-	  }, {
+	  (0, _createClass3.default)(ViewSim, [{
 	    key: 'render',
 	    value: function render(t) {
+	      this.time += .01;
+	      this.shader.bind();
+	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
 
-	      this.shader.bind(); // just to use propgram
-	      // this.texture.bind(0);
+	      t.bind();
+	      // GL.gl.activeTexture(GL.gl.TEXTURE0);
+	      this.shader.uniform("time", "float", this.time);
 
-	      this.angle += 0.02;
-	      this.tick++;
+	      GL.draw(this.mesh);
 
-	      this.time = Math.cos(this.tick / 200 + Math.PI / 2) * 10;
-	      GL.draw(this.cube);
-
-	      _mcgl2.default.GL.gl.bindTexture(_mcgl2.default.GL.gl.TEXTURE_2D, t);
-	      _mcgl2.default.GL.gl.generateMipmap(_mcgl2.default.GL.gl.TEXTURE_2D);
-	      _mcgl2.default.GL.gl.bindTexture(_mcgl2.default.GL.gl.TEXTURE_2D, null);
+	      // //
+	      // //
+	      // mcgl.GL.gl.generateMipmap(mcgl.GL.gl.TEXTURE_2D);
+	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, null);
 	    }
 	  }]);
-	  return ViewCube;
+	  return ViewSim;
 	}();
 
-	exports.default = ViewCube;
+	exports.default = ViewSim;
 	module.exports = exports['default'];
 
 /***/ },
-/* 144 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13702,18 +13986,18 @@
 	THE SOFTWARE. */
 	// END HEADER
 
-	exports.glMatrix = __webpack_require__(145);
-	exports.mat2 = __webpack_require__(146);
-	exports.mat2d = __webpack_require__(147);
-	exports.mat3 = __webpack_require__(148);
-	exports.mat4 = __webpack_require__(149);
-	exports.quat = __webpack_require__(150);
-	exports.vec2 = __webpack_require__(153);
-	exports.vec3 = __webpack_require__(151);
-	exports.vec4 = __webpack_require__(152);
+	exports.glMatrix = __webpack_require__(153);
+	exports.mat2 = __webpack_require__(154);
+	exports.mat2d = __webpack_require__(155);
+	exports.mat3 = __webpack_require__(156);
+	exports.mat4 = __webpack_require__(157);
+	exports.quat = __webpack_require__(158);
+	exports.vec2 = __webpack_require__(161);
+	exports.vec3 = __webpack_require__(159);
+	exports.vec4 = __webpack_require__(160);
 
 /***/ },
-/* 145 */
+/* 153 */
 /***/ function(module, exports) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -13789,7 +14073,7 @@
 
 
 /***/ },
-/* 146 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -13812,7 +14096,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(145);
+	var glMatrix = __webpack_require__(153);
 
 	/**
 	 * @class 2x2 Matrix
@@ -14231,7 +14515,7 @@
 
 
 /***/ },
-/* 147 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -14254,7 +14538,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(145);
+	var glMatrix = __webpack_require__(153);
 
 	/**
 	 * @class 2x3 Matrix
@@ -14706,7 +14990,7 @@
 
 
 /***/ },
-/* 148 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -14729,7 +15013,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(145);
+	var glMatrix = __webpack_require__(153);
 
 	/**
 	 * @class 3x3 Matrix
@@ -15458,7 +15742,7 @@
 
 
 /***/ },
-/* 149 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -15481,7 +15765,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(145);
+	var glMatrix = __webpack_require__(153);
 
 	/**
 	 * @class 4x4 Matrix
@@ -17600,7 +17884,7 @@
 
 
 /***/ },
-/* 150 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -17623,10 +17907,10 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(145);
-	var mat3 = __webpack_require__(148);
-	var vec3 = __webpack_require__(151);
-	var vec4 = __webpack_require__(152);
+	var glMatrix = __webpack_require__(153);
+	var mat3 = __webpack_require__(156);
+	var vec3 = __webpack_require__(159);
+	var vec4 = __webpack_require__(160);
 
 	/**
 	 * @class Quaternion
@@ -18206,7 +18490,7 @@
 
 
 /***/ },
-/* 151 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -18229,7 +18513,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(145);
+	var glMatrix = __webpack_require__(153);
 
 	/**
 	 * @class 3 Dimensional Vector
@@ -18989,7 +19273,7 @@
 
 
 /***/ },
-/* 152 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -19012,7 +19296,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(145);
+	var glMatrix = __webpack_require__(153);
 
 	/**
 	 * @class 4 Dimensional Vector
@@ -19604,7 +19888,7 @@
 
 
 /***/ },
-/* 153 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -19627,7 +19911,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(145);
+	var glMatrix = __webpack_require__(153);
 
 	/**
 	 * @class 2 Dimensional Vector
@@ -20197,32 +20481,32 @@
 
 
 /***/ },
-/* 154 */
+/* 162 */
 /***/ function(module, exports) {
 
-	module.exports = "#define GLSLIFY 1\nattribute vec4 a_position;\nattribute vec2 a_textureCoord;\nattribute vec4 a_normal;\n\nuniform mat4 u_world;\nuniform mat4 u_worldViewProjection;\nuniform vec3 u_position;\n// uniform mat4 u_worldInverseTranspose;\n\nvarying vec3 v_normal;\nvarying vec2 v_texcoord;\n\nvoid main() {\n\n  vec3 position = a_position.xyz + u_position;\n  v_normal = normalize(a_normal.rgb);\n\n  v_texcoord = a_textureCoord;\n  gl_Position =  u_worldViewProjection * u_world * vec4(position, a_position.w);\n  gl_PointSize = 1.2;\n\n}\n"
+	module.exports = "precision highp float;\n#define GLSLIFY 1\n\nattribute vec2 a_position;\nvarying vec2 vTextureCoord;\n\nvoid main(void) {\n    gl_Position = vec4(a_position, 0.0, 1.0);\n    vTextureCoord = a_position * .5 + .5;\n}\n"
 
 /***/ },
-/* 155 */
+/* 163 */
 /***/ function(module, exports) {
 
-	module.exports = "precision mediump float;\n#define GLSLIFY 1\n\nuniform sampler2D u_texture;\n\nvarying vec3 v_normal;\nvarying vec2 v_texcoord;\n\nvoid main() {\n  // gl_FragColor = texture2D(u_texture, v_texcoord);\n  gl_FragColor = vec4(.2, .2, .2, 1.0);\n}\n"
+	module.exports = "precision highp float;\n#define GLSLIFY 1\n\nuniform sampler2D texturePos;\nuniform float time;\nvarying vec2 vTextureCoord;\n\nvec3 mod289(vec3 x) {\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 mod289(vec4 x) {\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 permute(vec4 x) {\n     return mod289(((x*34.0)+1.0)*x);\n}\n\nvec4 taylorInvSqrt(vec4 r)\n{\n  return 1.79284291400159 - 0.85373472095314 * r;\n}\n\nfloat snoise(vec3 v)\n  {\n  const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;\n  const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);\n\n// First corner\n  vec3 i  = floor(v + dot(v, C.yyy) );\n  vec3 x0 =   v - i + dot(i, C.xxx) ;\n\n// Other corners\n  vec3 g = step(x0.yzx, x0.xyz);\n  vec3 l = 1.0 - g;\n  vec3 i1 = min( g.xyz, l.zxy );\n  vec3 i2 = max( g.xyz, l.zxy );\n\n  //   x0 = x0 - 0.0 + 0.0 * C.xxx;\n  //   x1 = x0 - i1  + 1.0 * C.xxx;\n  //   x2 = x0 - i2  + 2.0 * C.xxx;\n  //   x3 = x0 - 1.0 + 3.0 * C.xxx;\n  vec3 x1 = x0 - i1 + C.xxx;\n  vec3 x2 = x0 - i2 + C.yyy; // 2.0*C.x = 1/3 = C.y\n  vec3 x3 = x0 - D.yyy;      // -1.0+3.0*C.x = -0.5 = -D.y\n\n// Permutations\n  i = mod289(i);\n  vec4 p = permute( permute( permute(\n             i.z + vec4(0.0, i1.z, i2.z, 1.0 ))\n           + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))\n           + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));\n\n// Gradients: 7x7 points over a square, mapped onto an octahedron.\n// The ring size 17*17 = 289 is close to a multiple of 49 (49*6 = 294)\n  float n_ = 0.142857142857; // 1.0/7.0\n  vec3  ns = n_ * D.wyz - D.xzx;\n\n  vec4 j = p - 49.0 * floor(p * ns.z * ns.z);  //  mod(p,7*7)\n\n  vec4 x_ = floor(j * ns.z);\n  vec4 y_ = floor(j - 7.0 * x_ );    // mod(j,N)\n\n  vec4 x = x_ *ns.x + ns.yyyy;\n  vec4 y = y_ *ns.x + ns.yyyy;\n  vec4 h = 1.0 - abs(x) - abs(y);\n\n  vec4 b0 = vec4( x.xy, y.xy );\n  vec4 b1 = vec4( x.zw, y.zw );\n\n  //vec4 s0 = vec4(lessThan(b0,0.0))*2.0 - 1.0;\n  //vec4 s1 = vec4(lessThan(b1,0.0))*2.0 - 1.0;\n  vec4 s0 = floor(b0)*2.0 + 1.0;\n  vec4 s1 = floor(b1)*2.0 + 1.0;\n  vec4 sh = -step(h, vec4(0.0));\n\n  vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;\n  vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;\n\n  vec3 p0 = vec3(a0.xy,h.x);\n  vec3 p1 = vec3(a0.zw,h.y);\n  vec3 p2 = vec3(a1.xy,h.z);\n  vec3 p3 = vec3(a1.zw,h.w);\n\n//Normalise gradients\n  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));\n  p0 *= norm.x;\n  p1 *= norm.y;\n  p2 *= norm.z;\n  p3 *= norm.w;\n\n// Mix final noise value\n  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);\n  m = m * m;\n  return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),\n                                dot(p2,x2), dot(p3,x3) ) );\n\n}\nvec3 snoiseVec3( vec3 x ){\n\n  float s  = snoise(vec3( x ));\n  float s1 = snoise(vec3( x.y - 19.1 , x.z + 33.4 , x.x + 47.2 ));\n  float s2 = snoise(vec3( x.z + 74.2 , x.x - 124.5 , x.y + 99.4 ));\n  vec3 c = vec3( s , s1 , s2 );\n  return c;\n\n}\n\n\nvec3 curlNoise( vec3 p ){\n\n  const float e = .1;\n  vec3 dx = vec3( e   , 0.0 , 0.0 );\n  vec3 dy = vec3( 0.0 , e   , 0.0 );\n  vec3 dz = vec3( 0.0 , 0.0 , e   );\n\n  vec3 p_x0 = snoiseVec3( p - dx );\n  vec3 p_x1 = snoiseVec3( p + dx );\n  vec3 p_y0 = snoiseVec3( p - dy );\n  vec3 p_y1 = snoiseVec3( p + dy );\n  vec3 p_z0 = snoiseVec3( p - dz );\n  vec3 p_z1 = snoiseVec3( p + dz );\n\n  float x = p_y1.z - p_y0.z - p_z1.y + p_z0.y;\n  float y = p_z1.x - p_z0.x - p_x1.z + p_x0.z;\n  float z = p_x1.y - p_x0.y - p_y1.x + p_y0.x;\n\n  const float divisor = 1.0 / ( 2.0 * e );\n  return normalize( vec3( x , y , z ) * divisor );\n\n}\n\nvoid main() {\n\n    //basic simulation: displays the particles in place.\n    vec3 pos = texture2D(texturePos, vTextureCoord).rgb;\n    // pos.x += .1;//time;\n\n    vec3 n = curlNoise(vec3(pos.x, pos.y, pos.z * time/20.));\n\n    gl_FragColor = vec4(n, 1.0);\n}\n"
 
 /***/ },
-/* 156 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+			value: true
 	});
 
-	var _classCallCheck2 = __webpack_require__(123);
+	var _classCallCheck2 = __webpack_require__(131);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _createClass2 = __webpack_require__(124);
+	var _createClass2 = __webpack_require__(132);
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -20230,71 +20514,114 @@
 
 	var _mcgl2 = _interopRequireDefault(_mcgl);
 
-	var _glMatrix = __webpack_require__(144);
+	var _glMatrix = __webpack_require__(152);
 
 	var _glMatrix2 = _interopRequireDefault(_glMatrix);
 
-	var _fbo = __webpack_require__(157);
+	var _save = __webpack_require__(165);
 
-	var _fbo2 = _interopRequireDefault(_fbo);
+	var _save2 = _interopRequireDefault(_save);
 
-	var _fbo3 = __webpack_require__(158);
+	var _save3 = __webpack_require__(166);
 
-	var _fbo4 = _interopRequireDefault(_fbo3);
+	var _save4 = _interopRequireDefault(_save3);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ViewFBO = function () {
-	  function ViewFBO(texture) {
-	    (0, _classCallCheck3.default)(this, ViewFBO);
+	var ViewSave = function () {
+			function ViewSave(width, height) {
+					(0, _classCallCheck3.default)(this, ViewSave);
 
-	    this.tick = 0;
-	    this.shader = new _mcgl.GLShader(_fbo2.default, _fbo4.default);
-	    this.shader.bind();
-	    this.texture = texture;
+					this.tick = 0;
+					this.shader = new _mcgl.GLShader(_save2.default, _save4.default);
+					// this.shader.bind();
 
-	    this.bigTriangle = new _mcgl2.default.geom.BigTriangle(this.shader.shaderProgram);
-	  }
+					var positions = [];
+					var coords = [];
+					var indices = [];
+					var extras = [];
+					var count = 0;
 
-	  (0, _createClass3.default)(ViewFBO, [{
-	    key: 'render',
-	    value: function render(t) {
+					var numParticles = 200;
+					var totalParticles = numParticles * numParticles;
+					console.debug('Total Particles : ', totalParticles);
+					var ux = void 0,
+					    uy = void 0;
+					var range = 3000;
 
-	      this.shader.bind(); // just to use propgram
-	      // this.texture.bind(0);
+					for (var j = 0; j < width; j++) {
+							for (var i = 0; i < height; i++) {
+									positions.push([Math.random() * range - range / 2, Math.random() * range - range / 2, Math.random() * range - range / 2]);
 
-	      // mcgl.GL.gl.activeTexture(mcgl.GL.gl.TEXTURE0 + 0);
+									ux = i / width * 2.0 - 1.0 + 0.5 / width;
+									uy = j / height * 2.0 - 1.0 + 0.5 / height;
 
-	      _mcgl2.default.GL.gl.activeTexture(_mcgl2.default.GL.gl.TEXTURE0);
-	      _mcgl2.default.GL.gl.bindTexture(_mcgl2.default.GL.gl.TEXTURE_2D, this.texture);
-	      this.shader.uniform("uSampler", "int", 0);
+									// if(i == 0)  {
+									//   console.log(ux, uy);
+									// }
 
-	      this.tick++;
+									extras.push([Math.random(), Math.random(), Math.random()]);
+									coords.push([ux, uy]);
+									indices.push(count);
+									count++;
+							}
+					}
 
-	      // this.time = Math.cos(this.tick / 200 + Math.PI / 2) * 10
-	      GL.draw(this.bigTriangle);
-	    }
-	  }]);
-	  return ViewFBO;
+					// console.log("here", GL);
+					this.mesh = new _mcgl2.default.Mesh(this.shader.shaderProgram, GL.gl.POINTS);
+					this.mesh.bufferVertex(positions);
+					this.mesh.bufferTexCoord(coords);
+					this.mesh.bufferIndex(indices);
+
+					// this.meshExtra = new alfrid.Mesh(GL.POINTS);
+					// this.meshExtra.bufferVertex(extras);
+					// this.meshExtra.bufferTexCoord(coords);
+					// this.meshExtra.bufferIndex(indices);
+
+			}
+
+			(0, _createClass3.default)(ViewSave, [{
+					key: 'getRandomData',
+					value: function getRandomData(width, height, size) {}
+			}, {
+					key: 'render',
+					value: function render(t) {
+
+							this.shader.bind();
+							// GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
+
+							GL.draw(this.mesh);
+
+							// this.shader.uniform("positions", "int", 1)
+							// //
+							// //
+							// mcgl.GL.gl.generateMipmap(mcgl.GL.gl.TEXTURE_2D);
+							// mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, null);
+
+							// mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, this.texture);
+							// GL.draw(this.mesh);
+					}
+			}]);
+			return ViewSave;
 	}();
 
-	exports.default = ViewFBO;
+	exports.default = ViewSave;
 	module.exports = exports['default'];
 
 /***/ },
-/* 157 */
+/* 165 */
 /***/ function(module, exports) {
 
-	module.exports = "#define GLSLIFY 1\nattribute vec2 a_position;\n\nuniform mat4 u_world;\nuniform mat4 u_worldViewProjection;\n// uniform mat4 u_worldInverseTranspose;\n\nvarying vec2 v_position;\n// varying vec3 v_normal;\nvoid main() {\n\n  vec2 position = a_position.xy;\n  // v_normal = normalize(position.rg);\n  v_position = a_position;\n\n  gl_Position =  u_worldViewProjection * u_world * vec4(position, 1.0, 1.0);\n\n}\n"
+	module.exports = "precision highp float;\n#define GLSLIFY 1\nattribute vec3 a_position;\nattribute vec2 a_textureCoord;\n\n\nuniform mat4 u_world;\nuniform mat4 u_worldViewProjection;\n\nvarying vec2 vTextureCoord;\nvarying vec3 vColor;\n\nvoid main(void) {\n\tvColor      = a_position;\n\tvec3 pos    = vec3(a_textureCoord, 0.0);\n\tgl_Position = vec4(pos, 1.0);\n  gl_PointSize = 1.0;\n}\n"
 
 /***/ },
-/* 158 */
+/* 166 */
 /***/ function(module, exports) {
 
-	module.exports = "precision mediump float;\n#define GLSLIFY 1\n\nuniform sampler2D uSampler;\n\nvarying vec2 v_position;\n// varying vec3 v_normal;\n\nvoid main() {\n  vec4 textureColor = texture2D(uSampler, vec2(gl_FragCoord.x/1024., gl_FragCoord.y/1024.));\n  // vec3 color = vec3(v_normal);\n  gl_FragColor = textureColor;//vec4(color, 1.0);\n}\n"
+	module.exports = "precision highp float;\n#define GLSLIFY 1\n\nvarying vec3 vColor;\n\nvoid main(void) {\n    gl_FragColor = vec4(vColor, 1.0);\n}\n"
 
 /***/ },
-/* 159 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20303,11 +20630,11 @@
 	  value: true
 	});
 
-	var _classCallCheck2 = __webpack_require__(123);
+	var _classCallCheck2 = __webpack_require__(131);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _createClass2 = __webpack_require__(124);
+	var _createClass2 = __webpack_require__(132);
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -20315,11 +20642,115 @@
 
 	var _mcgl2 = _interopRequireDefault(_mcgl);
 
-	var _plane = __webpack_require__(160);
+	var _glMatrix = __webpack_require__(152);
+
+	var _glMatrix2 = _interopRequireDefault(_glMatrix);
+
+	var _render = __webpack_require__(168);
+
+	var _render2 = _interopRequireDefault(_render);
+
+	var _render3 = __webpack_require__(169);
+
+	var _render4 = _interopRequireDefault(_render3);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ViewRenderer = function () {
+	  function ViewRenderer(width, height) {
+	    (0, _classCallCheck3.default)(this, ViewRenderer);
+
+	    this.tick = 0;
+	    this.shader = new _mcgl.GLShader(_render2.default, _render4.default);
+	    this.shader.bind();
+
+	    var positions = [];
+	    var indices = [];
+	    var count = 0;
+	    // let totalParticles = numParticles * numParticles;
+	    var ux = void 0,
+	        uy = void 0;
+
+	    for (var j = 0; j < width; j++) {
+	      for (var i = 0; i < height; i++) {
+	        ux = i / width * 1;
+	        uy = j / height * 1;
+	        indices.push(count);
+	        count++;
+
+	        positions.push([ux, uy, 0]);
+	      }
+	    }
+
+	    this.mesh = new _mcgl2.default.Mesh(this.shader.shaderProgram, GL.gl.POINTS);
+	    this.mesh.bufferVertex(positions);
+	    this.mesh.bufferIndex(indices);
+	  }
+
+	  (0, _createClass3.default)(ViewRenderer, [{
+	    key: 'render',
+	    value: function render(t) {
+
+	      this.shader.bind();
+
+	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
+	      t.bind();
+	      // mcgl.GL.gl.activeTexture(mcgl.GL.gl.TEXTURE0);
+	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
+	      this.shader.uniform("positions", "int", 0);
+
+	      GL.draw(this.mesh);
+
+	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
+	      // mcgl.GL.gl.generateMipmap(mcgl.GL.gl.TEXTURE_2D);
+	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, null);
+	    }
+	  }]);
+	  return ViewRenderer;
+	}();
+
+	exports.default = ViewRenderer;
+	module.exports = exports['default'];
+
+/***/ },
+/* 168 */
+/***/ function(module, exports) {
+
+	module.exports = "//vertex shader\nprecision highp float;\n#define GLSLIFY 1\n\nattribute vec3 a_position;\n\n\nuniform mat4 u_world;\nuniform mat4 u_worldViewProjection;\n\nuniform sampler2D positions;//RenderTarget containing the transformed positions\n// uniform float pointSize;//size\nvoid main() {\n\n    vec3 a_pos = a_position; // for nothing this line\n\n    //the mesh is a nomrliazed square so the uvs = the xy positions of the vertices\n    vec3 pos = texture2D( positions, a_position.xy ).xyz * 1.;\n    //pos now contains a 3D position in space, we can use it as a regular vertex\n\n    //regular projection of our position\n    gl_Position = u_worldViewProjection * u_world * vec4( pos, 1.0 );\n\n    //sets the point size\n    gl_PointSize = 1.0;// pointSize;\n}\n"
+
+/***/ },
+/* 169 */
+/***/ function(module, exports) {
+
+	module.exports = "precision highp float;\n#define GLSLIFY 1\n\nvoid main()\n{\n    gl_FragColor = vec4( vec3( .2 ), 1. );\n}\n"
+
+/***/ },
+/* 170 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(131);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(132);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _mcgl = __webpack_require__(2);
+
+	var _mcgl2 = _interopRequireDefault(_mcgl);
+
+	var _plane = __webpack_require__(171);
 
 	var _plane2 = _interopRequireDefault(_plane);
 
-	var _plane3 = __webpack_require__(161);
+	var _plane3 = __webpack_require__(172);
 
 	var _plane4 = _interopRequireDefault(_plane3);
 
@@ -20333,7 +20764,7 @@
 
 	    this.shader = new _mcgl2.default.GLShader(_plane2.default, _plane4.default);
 	    this.shader.bind();
-	    this.plane = new _mcgl2.default.geom.PlaneSquare(this.shader.shaderProgram, 12000, 12000, 20, "xz", undefined, _mcgl2.default.GL.gl.LINES);
+	    this.plane = new _mcgl2.default.geom.PlaneSquare(this.shader.shaderProgram, 1000, 1000, 20, "xz", undefined, _mcgl2.default.GL.gl.LINES);
 	    this.plane.position = [0, 0, 0];
 
 	    this.shader.uniform("alpha", "float", .2);
@@ -20356,26 +20787,26 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 160 */
+/* 171 */
 /***/ function(module, exports) {
 
 	module.exports = "#define GLSLIFY 1\nattribute vec4 a_position;\n\nuniform mat4 u_world;\nuniform mat4 u_worldViewProjection;\n// uniform mat4 u_worldInverseTranspose;\n\n\nvoid main() {\n  // Multiply the position by the matrix.\n\n  vec3 surfaceWorldPosition = (u_world * a_position).xyz;\n\n\n  vec3 position = a_position.xyz;\n\n  // position.yz = rotate(position.yz, sin(time * 0.1));\n  // position.xz = rotate(position.xz, time * 2.1);\n\n  gl_Position = u_worldViewProjection * u_world * vec4(position, a_position.w);\n\n}\n"
 
 /***/ },
-/* 161 */
+/* 172 */
 /***/ function(module, exports) {
 
-	module.exports = "precision mediump float;\n#define GLSLIFY 1\n\n\nuniform float alpha;\nuniform vec2 resolutions;\n\nvoid main() {\n  vec3 color = vec3(.92,.92,.92);\n\n  float y = gl_FragCoord.y/resolutions.y;\n  gl_FragColor = vec4(color, 1.0);\n  gl_FragColor *= 1.0 - y;\n}\n"
+	module.exports = "precision mediump float;\n#define GLSLIFY 1\n\n\nuniform float alpha;\nuniform vec2 resolutions;\n\nvoid main() {\n  vec3 color = vec3(.92,.92,.92);\n\n  float y = gl_FragCoord.y/resolutions.y;\n  gl_FragColor = vec4(color, 1.0);\n  // gl_FragColor *= 1.0 - y;\n}\n"
 
 /***/ },
-/* 162 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(163)
-	module.exports.color = __webpack_require__(164)
+	module.exports = __webpack_require__(174)
+	module.exports.color = __webpack_require__(175)
 
 /***/ },
-/* 163 */
+/* 174 */
 /***/ function(module, exports) {
 
 	/**
@@ -24040,7 +24471,7 @@
 	dat.utils.common);
 
 /***/ },
-/* 164 */
+/* 175 */
 /***/ function(module, exports) {
 
 	/**

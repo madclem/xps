@@ -9,35 +9,41 @@ class ViewRenderer {
     this.shader = new GLShader(vs, fs);
     this.shader.bind();
 
-    // create the particles
-    let l = (width * height );
-    let vertices = new Float32Array( l * 3 );
-    let count = 0;
-    let indices = [];
 
-    for ( var i = 0; i < l; i++ ) {
+    let positions = [];
+		let indices = [];
+		let count = 0;
+		// let totalParticles = numParticles * numParticles;
+		let ux, uy;
 
-        var i3 = i * 3;
-        vertices[ i3 ] = ( i % width ) / width ;
-        vertices[ i3 + 1 ] = ( i / width ) / height;
+		for(let j = 0; j < width; j++) {
+			for(let i = 0; i < height; i++) {
+				ux = (i / width) * 1;
+				uy = (j / height) * 1;
+				indices.push(count);
+				count ++;
 
-        indices.push(count);
-        count ++;
-    }
+        positions.push([ux, uy, 0]);
 
-    this.mesh = new mcgl.Mesh(this.shader.shaderProgram, mcgl.GL.gl.POINTS);
-    this.mesh.bufferVertex(vertices);
-    // this.mesh.bufferData("positions", vertices, 3);
-    this.mesh.bufferIndex(indices);
+			}
+		}
 
 
+		this.mesh = new mcgl.Mesh(this.shader.shaderProgram, GL.gl.POINTS);
+		this.mesh.bufferVertex(positions);
+		this.mesh.bufferIndex(indices);
   }
 
   render(t){
 
     this.shader.bind();
 
-    mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
+    // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
+    t.bind();
+    // mcgl.GL.gl.activeTexture(mcgl.GL.gl.TEXTURE0);
+    // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
+    this.shader.uniform("positions", "int", 0);
+
     GL.draw(this.mesh);
 
     // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);

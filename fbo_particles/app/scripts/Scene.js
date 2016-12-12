@@ -22,10 +22,12 @@ class Scene {
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     this.orbitalControl = mcgl.orbitalControl;
-    this.orbitalControl.radius = 100;
+    this.orbitalControl.radius = 2;
     // this.orbitalControl.setRy(-Math.PI/6);
     this.camera = mcgl.camera;
 
+    this._bCopy = new mcgl.BatchCopy();
+    this._bCopy_move = new mcgl.BatchCopy();
 
     window.addEventListener('resize', this.resize.bind(this));
 
@@ -34,18 +36,57 @@ class Scene {
     // this._fbo = new mcgl.FBO(256, 256);
     this.xAxisPlane = new McglFloor();
     //
-    this.rtt = new mcgl.FBO(256, 256);
+    this._fboCurrent = new mcgl.FBO(256, 256);
+    this._fboTarget = new mcgl.FBO(256, 256);
     // create the view for the simulation w/ a very simple geometry
-    // this.viewSim = new ViewSim(1024, 1024);
-    this.viewSave = new ViewSave();
+    this.viewSave = new ViewSave(256, 256);
+    this.viewSim = new ViewSim(256, 256);
     // create the particles
 
 
     // create the view for the rendering, draw with POINTS
-    // this.viewRenderer = new ViewRenderer(256,256);
+    this.viewRender = new ViewRenderer(256,256);
+
+    this._fboCurrent.bind(256, 256);
+    mcgl.GL.gl.clear(0,0,0,0)
+    this.viewSave.render();
+    this._fboCurrent.unbind();
+
+    this._fboTarget.bind(256, 256);
+    mcgl.GL.gl.clear(0,0,0,0)
+    this.viewSave.render();
+    this._fboTarget.unbind();
+
+
+    this._fboCurrent.clear();
+    this._fboTarget.clear();
+    // this._fboCurrent.bind(256, 256);
+    // this.viewSim.render(this._fboCurrent.textures[0]);
+    // this._fboCurrent.unbind();
+
+
+
+
+
+
+  }
+
+  updateFBO(){
+    let t = this._fboCurrent.textures[0];
+
+    this._fboTarget.bind(256, 256);
+    mcgl.GL.gl.clear(0,0,0,0)
+    this.viewSim.render(t);
+    this._fboTarget.unbind();
+
+    let tmp          = this._fboCurrent;
+		this._fboCurrent = this._fboTarget;
+		this._fboTarget  = tmp;
+
   }
 
   update(){
+    this.updateFBO();
     this.render();
   }
 
@@ -54,8 +95,8 @@ class Scene {
 
     this.tick++;
     this.orbitalControl.position[0] = 0;
-    this.orbitalControl.position[1] = 10;
-    this.orbitalControl.position[2] = -10;
+    this.orbitalControl.position[1] = 2;
+    // this.orbitalControl.position[2] = -10;
 
     this.orbitalControl.update();
     this.camera.position = this.orbitalControl._position;
@@ -65,15 +106,33 @@ class Scene {
     var up = [0, 1, 0];
 
     this.camera.lookAt(target, up);
-    let t = this.rtt.texture;
+    let t = this._fboCurrent.textures[0];
+    let t2 = this._fboTarget.textures[0];
+
+
+
+    // this._fboCurrent.unbind();
     this.xAxisPlane.render();
-    // this.rtt.bind(window.innerWidth, window.innerHeight);
-    this.viewSave.render(t);
-    // this.rtt.unbind();
 
+    // this.viewSim.render(t);
+    this.viewRender.render(t2); // 2 I dont know why this is in this order
 
-    // this.viewRenderer.render(t); // 2 I dont know why this is in this order
-    // this.rtt.clear(); // 3 I dont know why this is in this order
+    // this.viewSave.render();
+    GL.gl.viewport(0, 0, 256, 256);
+    GL.gl.disable(GL.gl.DEPTH_TEST);
+    this._bCopy.draw(t);
+    GL.gl.enable(GL.gl.DEPTH_TEST);
+    GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+
+    GL.gl.viewport(256 + 10, 0, 256, 256);
+    GL.gl.disable(GL.gl.DEPTH_TEST);
+    this._bCopy_move.draw(t2);
+    GL.gl.enable(GL.gl.DEPTH_TEST);
+    GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+
+    this._fboTarget.clear();
+
+     // 3 I dont know why this is in this order
   }
 
   resize(){

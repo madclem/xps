@@ -19,14 +19,18 @@ class ViewSave {
 		let totalParticles = numParticles * numParticles;
 		console.debug('Total Particles : ', totalParticles);
 		let ux, uy;
-		let range = 3;
+		let range = 3000;
 
-		for(let j = 0; j < numParticles; j++) {
-			for(let i = 0; i < numParticles; i++) {
+		for(let j = 0; j < width; j++) {
+			for(let i = 0; i < height; i++) {
 				positions.push([Math.random() * range  -range/2, Math.random() * range  -range/2, Math.random() * range  -range/2]);
 
-				ux = (i / numParticles * 2.0 - 1.0 + .5 / numParticles) * 100;
-				uy = (j / numParticles * 2.0 - 1.0 + .5 / numParticles) * 100;
+				ux = (i / width * 2.0 - 1.0) + 0.5 / width;
+				uy = (j / height * 2.0 - 1.0) + 0.5 / height;
+
+        // if(i == 0)  {
+        //   console.log(ux, uy);
+        // }
 
 				extras.push([Math.random(), Math.random(), Math.random()]);
 				coords.push([ux, uy]);
@@ -59,8 +63,18 @@ class ViewSave {
   render(t){
 
     this.shader.bind();
-    // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, this.texture);
+    // GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
+
     GL.draw(this.mesh);
+
+    // this.shader.uniform("positions", "int", 1)
+    // //
+    // //
+    // mcgl.GL.gl.generateMipmap(mcgl.GL.gl.TEXTURE_2D);
+    // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, null);
+
+    // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, this.texture);
+    // GL.draw(this.mesh);
   }
 }
 

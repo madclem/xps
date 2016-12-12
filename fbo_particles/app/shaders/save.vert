@@ -12,6 +12,6 @@ varying vec3 vColor;
 void main(void) {
 	vColor      = a_position;
 	vec3 pos    = vec3(a_textureCoord, 0.0);
-	gl_Position = u_worldViewProjection * u_world * vec4(pos, 1.0);
+	gl_Position = vec4(pos, 1.0);
   gl_PointSize = 1.0;
 }
