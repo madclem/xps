@@ -112,23 +112,23 @@ class Scene {
 
 
     // this._fboCurrent.unbind();
-    this.xAxisPlane.render();
+    // this.xAxisPlane.render();
 
     // this.viewSim.render(t);
     this.viewRender.render(t2); // 2 I dont know why this is in this order
 
     // this.viewSave.render();
-    GL.gl.viewport(0, 0, 256, 256);
-    GL.gl.disable(GL.gl.DEPTH_TEST);
-    this._bCopy.draw(t);
-    GL.gl.enable(GL.gl.DEPTH_TEST);
-    GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
-
-    GL.gl.viewport(256 + 10, 0, 256, 256);
-    GL.gl.disable(GL.gl.DEPTH_TEST);
-    this._bCopy_move.draw(t2);
-    GL.gl.enable(GL.gl.DEPTH_TEST);
-    GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+    // GL.gl.viewport(0, 0, 256, 256);
+    // GL.gl.disable(GL.gl.DEPTH_TEST);
+    // this._bCopy.draw(t);
+    // GL.gl.enable(GL.gl.DEPTH_TEST);
+    // GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+    //
+    // GL.gl.viewport(256 + 10, 0, 256, 256);
+    // GL.gl.disable(GL.gl.DEPTH_TEST);
+    // this._bCopy_move.draw(t2);
+    // GL.gl.enable(GL.gl.DEPTH_TEST);
+    // GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
 
     this._fboTarget.clear();
 

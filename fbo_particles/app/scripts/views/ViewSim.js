@@ -20,6 +20,7 @@ class ViewSim {
     t.bind();
     // GL.gl.activeTexture(GL.gl.TEXTURE0);
     this.shader.uniform("time", "float", this.time)
+    this.shader.uniform("viewport", "vec2", [GL.gl.viewport.width, GL.gl.viewport.height])
 
     GL.draw(this.mesh);
 

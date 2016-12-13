@@ -133,10 +133,15 @@ vec3 curlNoise( vec3 p ){
 void main() {
 
     //basic simulation: displays the particles in place.
+
+    // if(distance(gl_PointCoord, vec2(.5)) > .5) discard;
+
     vec3 pos = texture2D(texturePos, vTextureCoord).rgb;
     // pos.x += .1;//time;
 
-    vec3 n = curlNoise(vec3(pos.x, pos.y, pos.z * time/10.));
+    // vec3 n = curlNoise(vec3(pos.x, pos.y, pos.z * time/6.));
+    vec3 n = curlNoise(pos + time * 100. * 1.0 );
+    pos += n;
 
-    gl_FragColor = vec4(n, 1.0);
+    gl_FragColor = vec4(pos, 1.0);
 }
