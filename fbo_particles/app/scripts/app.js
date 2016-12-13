@@ -1,14 +1,46 @@
 import mcgl, {GL} from 'mcgl';
+import Loader from './utils/loader/Loader';
 import Scene from './Scene';
 import dat from 'dat-gui'
 
-window.addEventListener('DOMContentLoaded', _init);
+
+window.addEventListener('DOMContentLoaded', _domLoaded);
 window.GL = GL;
 window.ASSET_URL = "../../assets/";
 
 var scene, gl, mouseX, mouseY, globalTime = Math.random() * 10000, canvas;
 
+let loader = new Loader();
+loader.onComplete.addOnce(_assetsLoaded);
+loader.addAssets([
+  ASSET_URL + "images/noise.jpg"
+])
+
+let domLoaded = false;
+let assetsLoaded = false;
+
+loader.load();
+
+function _assetsLoaded(){
+  assetsLoaded = true;
+
+  if(domLoaded) {
+    _init();
+  }
+}
+
+function _domLoaded(){
+  domLoaded = true;
+  if(assetsLoaded) {
+    _init();
+  }
+}
+
+var scene, gl, mouseX, mouseY, globalTime = Math.random() * 10000, canvas;
+
 function _init(){
+
+  console.log(mcgl.loadedResources);
   // console.log(GLHelpers);
 
   window.Easings = mcgl.Easings.instance;

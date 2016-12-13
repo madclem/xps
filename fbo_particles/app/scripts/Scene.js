@@ -112,7 +112,7 @@ class Scene {
 
 
     // this._fboCurrent.unbind();
-    // this.xAxisPlane.render();
+    this.xAxisPlane.render();
 
     // this.viewSim.render(t);
     this.viewRender.render(t2); // 2 I dont know why this is in this order

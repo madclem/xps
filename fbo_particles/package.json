@@ -71,11 +71,13 @@
     "tcp-port-used": "^0.1.2",
     "webpack": "1.12.14",
     "webpack-dev-server": "1.14.1",
-    "xmlhttprequest": "^1.6.0"
+    "xmlhttprequest": "^1.6.0",
+    "resource-loader": "^1.8.0"
   },
   "dependencies": {
     "@jordandelcros/stats-js": "git+https://github.com/JordanDelcros/stats-js.git",
     "signals": "^1.0.0",
+    "path": "^0.12.7",
     "sono": "^0.1.8"
   }
 }
