@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'just-another-hand';
+    src: url('../fonts/just-another-hand.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PatrickHand-Regular';
+    src: url('../fonts/patrick-hand-regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}

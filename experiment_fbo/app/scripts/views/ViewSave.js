@@ -9,6 +9,8 @@ class ViewSave {
     this.shader = new GLShader(vs, fs);
     // this.shader.bind();
 
+    this.tick = 0;
+
     let positions = [];
 		let coords = [];
 		let indices = [];
@@ -23,7 +25,7 @@ class ViewSave {
 
 		for(let j = 0; j < width; j++) {
 			for(let i = 0; i < height; i++) {
-				// positions.push([Math.random() * range  -range/2, Math.random() * range  -range/2, Math.random() * range  -range/2]);
+				positions.push([Math.random() * range  -range/2, Math.random() * range  -range/2, Math.random() * range  -range/2]);
 
 				ux = (i / width * 2.0 - 1.0) + 0.5 / width;
 				uy = (j / height * 2.0 - 1.0) + 0.5 / height;
@@ -47,15 +49,15 @@ class ViewSave {
     // console.log(positions);
 
     let icosphere = new mcgl.geom.IcoSphere(null);
-    let data = this.parseMesh(icosphere);
+    // let data = this.parseMesh(icosphere);
 
-    console.log(icosphere);
+    // console.log(icosphere);
 
     // console.log("here", GL);
 		this.mesh = new mcgl.Mesh(this.shader.shaderProgram, GL.gl.POINTS);
-		this.mesh.bufferVertex(data.positions);
-		this.mesh.bufferTexCoord(data.coords);
-		this.mesh.bufferIndex(data.indices);
+		this.mesh.bufferVertex(positions);
+		this.mesh.bufferTexCoord(coords);
+		this.mesh.bufferIndex(indices);
 
 		// this.meshExtra = new alfrid.Mesh(GL.POINTS);
 		// this.meshExtra.bufferVertex(extras);
@@ -197,7 +199,9 @@ class ViewSave {
 
     this.shader.bind();
     // GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
-
+    this.tick+=.01;
+    this.shader.uniform("u_time", "float", this.tick)
+    // this.shader.uniform("time", "float", this.tick)
     GL.draw(this.mesh);
 
     // this.shader.uniform("positions", "int", 1)

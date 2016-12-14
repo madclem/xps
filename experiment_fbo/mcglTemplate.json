@@ -1,0 +1,20 @@
+{
+    "meta":{
+        "title":"",
+        "description":"",
+        "id":"game"
+    },
+
+    "dev": {
+        "server": "local",
+        "server_url": ".",
+        "require": "js/Boot.js"
+    },
+
+    "bin": {
+        "server": "local",
+        "server_url": ".",
+        "require": "game.js"
+    }
+
+}
