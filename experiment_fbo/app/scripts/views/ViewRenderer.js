@@ -8,7 +8,7 @@ class ViewRenderer {
     this.tick = 0;
     this.shader = new GLShader(vs, fs);
     this.shader.bind();
-
+    this.position = [0,0,0];
 
     let positions = [];
 		let indices = [];
@@ -50,6 +50,7 @@ class ViewRenderer {
     // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
     this.shader.uniform("positions", "int", 0);
     this.shader.uniform("u_transform", "mat4", this.rot);
+    this.shader.uniform("u_position", "vec3", this.position)
 
     GL.draw(this.mesh);
 
