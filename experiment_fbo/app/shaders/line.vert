@@ -13,6 +13,7 @@ attribute float aCounters;
 uniform mat4 u_viewMatrix;
 uniform mat4 u_projectionMatrix;
 uniform mat4 u_modelMatrix;
+uniform mat4 u_inverseViewMatrix;
 uniform sampler2D heightmap;//RenderTarget containing the transformed positions
 
 // uniform mat4 uModelMatrix;
@@ -31,7 +32,7 @@ varying float vCounters;
 
 void main() {
 
-  float thickness = 10.;
+  float thickness = .1;
   // float thickness = 1. * width;
   int miter = 0;
 
@@ -39,10 +40,11 @@ void main() {
 
 
   vec2 aspectVec = vec2(aspect, 1.0);
+  // uProjectionMatrix * uViewMatrix * uModelMatrix
   mat4 projViewModel = u_projectionMatrix * u_viewMatrix * u_modelMatrix;//projection * view * model;
 
   vec4 previousProjected = projViewModel * vec4(aPrevious.x, aPrevious.y, aPrevious.z, 1.0);
-  vec4 currentProjected = projViewModel * vec4(pos.x, pos.y, pos.z, 1.0);
+  vec4 currentProjected = projViewModel * vec4(a_position.x, a_position.y, a_position.z, 1.0);
   vec4 nextProjected = projViewModel * vec4(aNext.x, aNext.y, aNext.z, 1.0);
 
   // vec4 previousProjected = projViewModel * vec4(aPrevious, 1.0);
@@ -105,7 +107,7 @@ void main() {
   // currentProjected.y += 20.0;
 
   vec4 posF = currentProjected + offset;
-  posF.y = texture2D( heightmap, a_position.xz ).x * 20.;
+  posF.y -= texture2D( heightmap, a_position.xz ).x * .2 - .1;
   // pos.y -= texture2D( heightmap, a_position.xz ).x * 20.;
 
 
@@ -115,5 +117,5 @@ void main() {
 
 
   gl_Position = posF;//currentProjected + offset;
-  gl_PointSize = 100.0;
+  gl_PointSize = 1.0;
 }

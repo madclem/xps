@@ -9,8 +9,8 @@ class McglFloor {
   constructor(){
     this.shader = new mcgl.GLShader(vs, fs);
     this.shader.bind();
-    this.plane = new mcgl.geom.PlaneSquare(this.shader.shaderProgram, 1000, 1000, 20, "xz", undefined, mcgl.GL.gl.LINES);
-    this.plane.position = [0, 0, 0]
+    this.plane = new mcgl.geom.PlaneSquare(this.shader.shaderProgram, 20, 20, 20, "xz", undefined, mcgl.GL.gl.LINES);
+    this.plane.position = [100, 0, 0]
 
     this.shader.uniform("alpha", "float", .2);
   }
