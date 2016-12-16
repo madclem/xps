@@ -7,6 +7,7 @@ attribute vec3 a_position;
 uniform mat4 u_viewMatrix;
 uniform mat4 u_projectionMatrix;
 uniform mat4 u_transform;
+uniform float u_height;
 
 uniform vec3 u_position;
 
@@ -19,7 +20,7 @@ void main() {
     //the mesh is a nomrliazed square so the uvs = the xy positions of the vertices
     vec3 pos = a_position * 1.;//texture2D( positions, a_position.xy ).xyz * 1.;
     // vec3 pos = texture2D( positions, a_position.xy ).xyz * 1.;
-    pos.z = texture2D( positions, a_position.xy ).x * .2;
+    pos.z = texture2D( positions, a_position.xy ).x * u_height;
 
     pos += u_position;
     //pos now contains a 3D position in space, we can use it as a regular vertex

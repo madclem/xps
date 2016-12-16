@@ -52,12 +52,16 @@ class Scene {
     this._fboNoise.unbind();
     this.targetPoint = [0,0,0];
 
+    this.height = {
+      noise: .2,
+      lines: .2
+    }
+
     this._fboNoise.clear();
 
     window.addEventListener("mousemove", (e)=>{
       this.onMouseMove(e);
     }, false);
-
   }
 
   onMouseMove(e){
@@ -80,6 +84,9 @@ class Scene {
   render(){
 
     this.tick++;
+
+    this.height.noise = this.height.lines = Math.cos(this.tick/100) * .05 + .1;
+
     this.orbitalControl.position[0] = .5 + Math.cos(this.tick / 40) * .025;
     this.orbitalControl.position[1] = .4 + Math.sin(this.tick / 40) * .025;
 
@@ -96,10 +103,10 @@ class Scene {
     this.xAxisPlane.render();
 
     for (var i = 0; i < this.lines.length; i++) {
-      this.lines[i].render(t);
+      this.lines[i].render(t, this.height.lines);
     }
     // this.viewLine.render(t);
-    this.viewRender.render(t); // 2 I dont know why this is in this order
+    this.viewRender.render(t, this.height.noise); // 2 I dont know why this is in this order
 
     // GL.gl.viewport(0, 0, 256, 256);
     // GL.gl.disable(GL.gl.DEPTH_TEST);

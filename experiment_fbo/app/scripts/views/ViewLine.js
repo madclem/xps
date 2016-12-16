@@ -25,6 +25,7 @@ class ViewLine {
     this.spline = new Spline([]);
 		this.points = []
 		this.sub = 3//GL.isMobile ? 3 : 5;
+    this.height = .2;
 
     this.width = this.isMainLine ? .5 : Math.random() * .4 + .1;
     let index = 0;
@@ -121,14 +122,14 @@ class ViewLine {
 
   }
 
-  render(t){
+  render(t, height){
     this.delay--;
 
     if(this.delay < 0){
       this.delay = Math.random() * 120 + 120;
       this.changeMotion();
     }
-    
+
     this.options.time += this.options.speed;
     this.shader.bind();
 
@@ -140,6 +141,7 @@ class ViewLine {
     this.line.render(pts, false);
     this.shader.uniform("alpha", "float", this.alpha);
     this.shader.uniform("uTime", "float", 0);
+    this.shader.uniform("u_height", "float", height);
 		this.shader.uniform("aspect", "float", window.innerWidth / window.innerHeight);
 		this.shader.uniform("resolutions", "vec2", [window.innerWidth, window.innerHeight]);
 

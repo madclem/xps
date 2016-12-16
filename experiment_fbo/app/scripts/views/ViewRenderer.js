@@ -10,6 +10,8 @@ class ViewRenderer {
     this.shader.bind();
     this.position = [0,0,0];
 
+    this.height = .2;
+
     let positions = [];
 		let indices = [];
 		let count = 0;
@@ -40,7 +42,7 @@ class ViewRenderer {
     console.log(this.rot);
   }
 
-  render(t){
+  render(t, height){
 
     this.shader.bind();
 
@@ -49,6 +51,7 @@ class ViewRenderer {
     // mcgl.GL.gl.activeTexture(mcgl.GL.gl.TEXTURE0);
     // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
     this.shader.uniform("positions", "int", 0);
+    this.shader.uniform("u_height", "float", height);
     this.shader.uniform("u_transform", "mat4", this.rot);
     this.shader.uniform("u_position", "vec3", this.position)
 
