@@ -15,7 +15,7 @@ loader.onComplete.addOnce(_assetsLoaded);
 loader.addCSS(ASSET_URL + 'styles/fonts.css')
 loader.addFonts(['just-another-hand', 'PatrickHand-Regular']);
 loader.addAssets([
-  ASSET_URL + "images/noise.jpg"
+  ASSET_URL + "images/stroke.png"
 ])
 
 let domLoaded = false;

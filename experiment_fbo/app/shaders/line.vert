@@ -108,7 +108,7 @@ void main() {
   // currentProjected.y += 20.0;
 
   vec4 posF = currentProjected + offset;
-  posF.y -= texture2D( heightmap, a_position.xz ).x * u_height - .1;
+  posF.y -= texture2D( heightmap, a_position.xz ).x * u_height - .15;
   // pos.y -= texture2D( heightmap, a_position.xz ).x * 20.;
 
 

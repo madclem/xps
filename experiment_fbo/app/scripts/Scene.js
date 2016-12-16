@@ -87,8 +87,8 @@ class Scene {
 
     this.height.noise = this.height.lines = Math.cos(this.tick/100) * .05 + .1;
 
-    this.orbitalControl.position[0] = .5 + Math.cos(this.tick / 40) * .025;
-    this.orbitalControl.position[1] = .4 + Math.sin(this.tick / 40) * .025;
+    this.orbitalControl.position[0] = .5 + Math.cos(this.tick / 40) * .035;
+    this.orbitalControl.position[1] = .4 + Math.sin(this.tick / 40) * .035;
 
     this.orbitalControl.update();
     this.camera.position = this.orbitalControl._position;
@@ -100,7 +100,7 @@ class Scene {
     this.camera.lookAt(target);
     GL.setMatrices(this.camera);
     let t = this._fboNoise.textures[0];
-    this.xAxisPlane.render();
+    // this.xAxisPlane.render();
 
     for (var i = 0; i < this.lines.length; i++) {
       this.lines[i].render(t, this.height.lines);

@@ -39,6 +39,8 @@ class ViewLine {
 		this.line = new mcgl.geom.Line(this.shader.shaderProgram, this.getPoints(this.points));
 		this.line.points = this.line.vert;
 
+    this.texture = new mcgl.Texture(ASSET_URL + "images/stroke.png");
+
 
     if(this.isMainLine){
       this.alpha = 1;
@@ -134,6 +136,9 @@ class ViewLine {
     this.shader.bind();
 
     t.bind();
+
+    this.texture.bind(1)
+    this.shader.uniform("texture", "uniform1i", 1);
 
     this.animateTargetPoint();
     let pts = this.newPoints(this.line);
