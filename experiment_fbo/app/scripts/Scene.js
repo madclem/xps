@@ -80,8 +80,8 @@ class Scene {
   render(){
 
     this.tick++;
-    this.orbitalControl.position[0] = .5;
-    this.orbitalControl.position[1] = .4;
+    this.orbitalControl.position[0] = .5 + Math.cos(this.tick / 40) * .025;
+    this.orbitalControl.position[1] = .4 + Math.sin(this.tick / 40) * .025;
 
     this.orbitalControl.update();
     this.camera.position = this.orbitalControl._position;
