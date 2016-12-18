@@ -20,7 +20,7 @@ class ViewNoise {
 
 		let numParticles = 200;
 		let totalParticles = numParticles * numParticles;
-		console.debug('Total Particles : ', totalParticles);
+		// console.debug('Total Particles : ', totalParticles);
 		let ux, uy;
 		let range = 30;
 

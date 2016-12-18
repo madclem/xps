@@ -8,6 +8,7 @@ uniform mat4 u_viewMatrix;
 uniform mat4 u_projectionMatrix;
 uniform mat4 u_transform;
 uniform float u_height;
+uniform float u_time;
 
 uniform vec3 u_position;
 
@@ -17,16 +18,20 @@ void main() {
 
     vec3 a_pos = a_position; // for nothing this line
 
+    // if( == 0){
+    //   discard;
+    // }
     //the mesh is a nomrliazed square so the uvs = the xy positions of the vertices
     vec3 pos = a_position * 1.;//texture2D( positions, a_position.xy ).xyz * 1.;
     // vec3 pos = texture2D( positions, a_position.xy ).xyz * 1.;
-    pos.z = texture2D( positions, a_position.xy ).x * u_height * pow(a_position.y, 1.2);
+    pos.z = texture2D( positions, a_position.xy ).x * u_height * pow(a_position.y, .5);
+    // pos.z = texture2D( positions, a_position.xy ).x * u_height * pow(a_position.y, 1.2 + cos(u_time/10.) * .6);
 
     pos += u_position;
     //pos now contains a 3D position in space, we can use it as a regular vertex
 
     //regular projection of our position
-    gl_Position = u_projectionMatrix * u_viewMatrix * u_transform * vec4( pos, 1.0 );
+    gl_Position = u_projectionMatrix * u_viewMatrix * u_transform * vec4( pos, a_position.x );
 
     //sets the point size
     gl_PointSize = 1.0;// pointSize;

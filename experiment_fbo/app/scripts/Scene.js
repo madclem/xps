@@ -76,7 +76,7 @@ class Scene {
     //   z: 0
     // }
 
-    this.x = .77
+    this.x = .53//.77
     this.y = .0
     this.z = .2
 
@@ -84,7 +84,7 @@ class Scene {
     gui.add(this, "y", -2, 2);
     gui.add(this, "z", -2, 2);
 
-    this.z = -.32
+    this.z = -.07//-.32
 
   }
 
@@ -121,7 +121,7 @@ class Scene {
     // this.camera.lookAt(target);
     let t = this._fboNoise.textures[0];
 
-    this.xAxisPlane.render();
+    // this.xAxisPlane.render();
 
     // for (var i = 0; i < this.lines.length; i++) {
       // this.lines[i].render(t, this.height.lines);

@@ -43,7 +43,7 @@ class ViewRenderer {
   }
 
   render(t, height){
-
+    this.tick++;
     this.shader.bind();
 
     // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
@@ -52,6 +52,7 @@ class ViewRenderer {
     // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
     this.shader.uniform("positions", "int", 0);
     this.shader.uniform("u_height", "float", height);
+    this.shader.uniform("u_time", "float", this.tick);
     this.shader.uniform("u_transform", "mat4", this.rot);
     this.shader.uniform("u_position", "vec3", this.position)
 
