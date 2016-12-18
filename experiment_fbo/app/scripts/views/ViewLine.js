@@ -15,6 +15,7 @@ const STATES = {
 class ViewLine {
   constructor(isMainLine){
 
+    this.position = [0,0,0];
 
     this.state = STATES.wandering;
     this.isMainLine = isMainLine
@@ -146,6 +147,7 @@ class ViewLine {
     this.line.render(pts, false);
     this.shader.uniform("alpha", "float", this.alpha);
     this.shader.uniform("uTime", "float", 0);
+    this.shader.uniform("u_position", "vec3", this.position);
     this.shader.uniform("u_height", "float", height);
 		this.shader.uniform("aspect", "float", window.innerWidth / window.innerHeight);
 		this.shader.uniform("resolutions", "vec2", [window.innerWidth, window.innerHeight]);
