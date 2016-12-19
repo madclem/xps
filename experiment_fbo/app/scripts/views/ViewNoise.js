@@ -8,9 +8,11 @@ class ViewNoise {
     this.tick = 0;
     this.shader = new GLShader(vs, fs);
     // this.shader.bind();
-
+    this.height = 1;
     this.tick = 0;
     this.position = [0, 0];
+    this.amplitude = 0;
+    this.a = 0;
 
     let positions = [];
 		let coords = [];
@@ -49,7 +51,7 @@ class ViewNoise {
     // positions = this.getImage(ASSET_URL + "images/noise.jpg", width, height, 10);
     // console.log(positions);
 
-    let icosphere = new mcgl.geom.IcoSphere(null);
+    // let icosphere = new mcgl.geom.IcoSphere(null);
     // let data = this.parseMesh(icosphere);
 
     // console.log(icosphere);
@@ -59,6 +61,9 @@ class ViewNoise {
 		this.mesh.bufferVertex(positions);
 		this.mesh.bufferTexCoord(coords);
 		this.mesh.bufferIndex(indices);
+
+    this.speed = 0.01
+    // gui.add(this, "speed", 0, .5).step(.001);
 
 		// this.meshExtra = new alfrid.Mesh(GL.POINTS);
 		// this.meshExtra.bufferVertex(extras);
@@ -166,41 +171,34 @@ class ViewNoise {
         count++;
     }
 
+
+
     return {positions:data, indices:indices, coords: coords};
-    // for(let j = 0; j < width; j++) {
-		// 	for(let i = 0; i < height; i++) {
-    //     var i4 = i * 4;
-    //     let a      = ( ( j % width ) / width  -.5 ) * width;
-    //     let b  =  ( iData[i4] / 0xFF * 0.299 +iData[i4+1]/0xFF * 0.587 + iData[i4+2] / 0xFF * 0.114 ) * elevation;
-    //     let c  = ( ( i / height ) / height -.5 ) * height;
-    //     data.push([a, b, c]);
-    //     indices.push(count);
-    //     count++;
-    //
-    //     ux = (i / width * 2.0 - 1.0) + 0.5 / width;
-		// 		uy = (j / height * 2.0 - 1.0) + 0.5 / height;
-    //
-    //     coords.push([ux, uy]);
-    //   }
-    // }
-
-    //     var i3 = i * 3;
-    //     let a      = ( ( i % width ) / width  -.5 ) * width;
-    //     let b  = ( iData[i4] / 0xFF * 0.299 +iData[i4+1]/0xFF * 0.587 + iData[i4+2] / 0xFF * 0.114 ) * elevation;
-    //     let c  = ( ( i / width ) / height -.5 ) * height;
-    //     indices.push(count)
-    //     count++;
-    // }
-
-    // return {positions:data, indices:indices, coords: coords};
-    // return {position: data, ;
   }
 
   render(t){
 
     this.shader.bind();
     // GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
-    this.tick  -= .01;
+    this.tick  -= this.speed;
+
+    this.a -= this.amplitude;
+    this.amplitude *= .9;
+
+
+
+    this.height += (this.amplitude - this.height) * .01;
+    // this.height *= .98;;
+
+    // console.log(this.height);
+    // this.a *= .99;
+
+    // this.a += (this.amplitude - this.a) * .01;
+
+    // if(this.a < 2) this.a = 2;
+    // console.log(this.amplitude);
+    this.shader.uniform("u_height", "float", this.height)
+    this.shader.uniform("u_amplitude", "float", this.a)
     this.shader.uniform("u_time", "float", this.tick)
     // this.shader.uniform("time", "float", this.tick)
     GL.draw(this.mesh);

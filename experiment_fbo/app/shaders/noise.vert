@@ -6,6 +6,8 @@ attribute vec2 a_textureCoord;
 uniform mat4 u_world;
 uniform mat4 u_worldViewProjection;
 uniform float u_time;
+uniform float u_amplitude;
+uniform float u_height;
 uniform vec2 u_viewport;
 
 varying vec2 vTextureCoord;
@@ -141,7 +143,8 @@ void main(void) {
 	vColor      = a_position;
 	vec3 pos    = vec3(a_textureCoord, 0.0);
 
-	float n = snoise( vec3(pos.x, pos.y + u_time, pos.z)  * 2.);
+	float n = snoise( vec3(pos.x, pos.y + u_amplitude/50. + u_time, pos.z)  * (1.)  );
+	// float n = snoise( vec3(pos.x, pos.y + u_amplitude/50., pos.z)  * (1.) + pow(u_height, .2));
 	vColor = vec3(n);
 
 	gl_Position = vec4(pos, 1.0);
@@ -149,5 +152,5 @@ void main(void) {
   // const float radius = 0.01;
   // float distOffset = u_viewport.y * u_worldViewProjection[1][1] * radius / gl_Position.w;
   // gl_PointSize = distOffset * 2.0;
-  gl_PointSize = .1;
+  gl_PointSize = 1.0;
 }

@@ -254,7 +254,7 @@ gulp.task('build', function(cb){
 
 
 gulp.task('deploy', function(cb){
-    runSequence('webpack', 'clean_bin', 'templates-bin', 'copy_assets', 'uglify','increment-build-number', 'tinypng', 'minifyJson', cb);
+    runSequence('webpack', 'clean_bin', 'templates-bin', 'copy_assets', 'uglify','increment-build-number', 'minifyJson', cb);
 });
 
 

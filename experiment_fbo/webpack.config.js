@@ -54,6 +54,7 @@ module.exports = {
     fallback: path.join(__dirname, "node_modules"),
     alias: {
       'mcgl': 'mcgl',
+      'sono': 'sono',
       'gl-matrix': 'gl-matrix'
     }
   },

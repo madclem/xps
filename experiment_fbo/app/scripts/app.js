@@ -6,14 +6,14 @@ import dat from 'dat-gui'
 
 window.addEventListener('DOMContentLoaded', _domLoaded);
 window.GL = GL;
-window.ASSET_URL = "../../assets/";
+window.ASSET_URL = "assets/";
 
 var scene, gl, mouseX, mouseY, globalTime = Math.random() * 10000, canvas;
 
 let loader = new Loader();
 loader.onComplete.addOnce(_assetsLoaded);
 loader.addCSS(ASSET_URL + 'styles/fonts.css')
-loader.addFonts(['just-another-hand', 'PatrickHand-Regular']);
+loader.addFonts(['Quicksand']);
 loader.addAssets([
   ASSET_URL + "images/stroke.png"
 ])
@@ -42,7 +42,7 @@ var scene, gl, mouseX, mouseY, globalTime = Math.random() * 10000, canvas;
 
 function _init(){
 
-  console.log(mcgl.loadedResources);
+  // console.log(mcgl.loadedResources);
   // console.log(GLHelpers);
 
   window.Easings = mcgl.Easings.instance;
@@ -62,9 +62,19 @@ function _init(){
 
   let p = document.createElement("p");
   p.setAttribute("id", "info")
-  p.innerHTML = isMobile? "TOUCH SCREEN" : "PRESS [SPACE]";
+  p.innerHTML = isMobile? "TOUCH SCREEN TO START" : "";
+
+  let p2 = document.createElement("p");
+  p2.setAttribute("id", "sound")
+  p2.innerHTML = "TOGGLE SOUND";
+
+  let p3 = document.createElement("p");
+  p3.setAttribute("id", "info2")
+  p3.innerHTML = "Music: Yeah Yeah Yeah, Kognitif";
 
   document.body.appendChild(p);
+  document.body.appendChild(p2);
+  document.body.appendChild(p3);
 
   gl = canvas.getContext("webgl");
   if (!gl) {
@@ -74,7 +84,7 @@ function _init(){
 
   GL.reset(gl);
 
-  window.gui = new dat.GUI({ width:300 });
+  // window.gui = new dat.GUI({ width:300 });
 
   // create the shaders
 
@@ -90,6 +100,8 @@ function _init(){
   resize();
 
   scene = new Scene();
+  p2.addEventListener("click", scene.toggleSound.bind(scene));
+  p2.addEventListener("tap", scene.toggleSound.bind(scene));
 
 
   update();

@@ -5,8 +5,35 @@
   width: 100%;
   text-align: center;
   top: 20px;
+  font-size: 10px;
   opacity: .5;
-  font-family: 'just-another-hand', sans-serif;
+  font-family: 'Quicksand', sans-serif;
+}
+
+#info2{
+  color: #47686d;
+  position:absolute;
+  /*left: 50%;*/
+  /*width: 100%;*/
+  text-align: right;
+  bottom: 20px;
+  right: 30px;
+  font-size: 10px;
+  opacity: .8;
+  font-family: 'Quicksand', sans-serif;
+}
+
+#sound{
+  color: #47686d;
+  position:absolute;
+  /*left: 50%;*/
+  /*width: 100%;*/
+  left: 20px;
+  bottom: 20px;
+  font-size: 15px;
+  opacity: .9;
+  cursor:pointer;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .browserupgrade {
@@ -18,6 +45,7 @@
 
 /* Space out content a bit */
 body, html {
+  background-color: #f4ebeb;
   overflow: hidden;
   padding-top: 20px;
   padding-bottom: 20px;

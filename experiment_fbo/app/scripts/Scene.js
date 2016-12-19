@@ -6,6 +6,7 @@ import ViewSim from './views/ViewSim';
 import ViewNoise from './views/ViewNoise';
 import ViewRenderer from './views/ViewRenderer';
 import McglFloor from './views/McglFloor';
+import Sono from 'sono';
 
 // import ViewFBO from './views/ViewFBO';
 // import vs from '../shaders/default.vert'
@@ -17,6 +18,8 @@ class Scene {
   constructor(){
     gl = GL.gl;
     this.tick = 0;
+    this.currentNoise = 1;
+    this.isPaused = false;
 
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.BLEND);
@@ -29,10 +32,13 @@ class Scene {
     window.addEventListener('resize', this.resize.bind(this));
 
     this.controller = new mcgl.Controller();
+    this.controller.onKeyPressed.add(this.onKeyPressed, this);
     this.xAxisPlane = new McglFloor();
 
     this.cameraControl = new mcgl.CameraControl();
-    this.cameraControl.setRy(Math.PI/2)
+    // this.cameraControl.setRy(Math.PI/2)
+    this.rx = 0;
+    this.ry = Math.PI/2;
 
     this.camera = new mcgl.camera.CameraPOV();
 
@@ -76,16 +82,49 @@ class Scene {
     //   z: 0
     // }
 
-    this.x = .53//.77
+    this.x = .35//.53//.77
     this.y = .0
     this.z = .2
 
-    gui.add(this, "x", -2, 2);
-    gui.add(this, "y", -2, 2);
-    gui.add(this, "z", -2, 2);
+    // gui.add(this, "x", -2, 2);
+    // gui.add(this, "y", -2, 2);
+    // gui.add(this, "z", -2, 2);
 
-    this.z = -.07//-.32
+    this.z = -.1//-.32
 
+
+
+    this.sound = Sono.createSound({
+      // url: [ASSET_URL + 'sounds/blonde_redhead.mp3'],
+      url: [ASSET_URL + 'sounds/kognitif.mp3'],
+      loop: true,
+      volume: 1
+    });
+
+    this.sound.play();
+
+    this.analyser = Sono.effect.analyser({
+        fftSize: 512,
+        smoothingTimeConstant: 0.7
+    });
+
+  }
+
+  onKeyPressed(key){
+    if(key === "space"){
+      this.pause();
+    }
+  }
+
+  pause(){
+    if(this.isPaused){
+      this.sound.fade(0, 1)
+    }
+    else {
+      this.sound.fade(1, 1)
+    }
+
+    this.isPaused = !this.isPaused;
   }
 
   onMouseMove(e){
@@ -98,6 +137,28 @@ class Scene {
     mcgl.GL.gl.clear(0,0,0,0)
     this.viewNoise.render();
     this._fboNoise.unbind();
+  }
+
+  getM(a){
+    let sum = 0;
+    let count = 0
+    for (var i = 0; i < a.length; i++) {
+      if(a[i]>10){
+        sum += a[i]
+        count++
+      }
+    }
+
+    return sum / count;
+
+    let min = Math.min.apply(null, a);
+    let max = Math.max.apply(null, a);
+
+    return((max+min)/2)
+  }
+
+  toggleSound(){
+    this.pause();
   }
 
   update(){
@@ -113,21 +174,69 @@ class Scene {
     var target = [0,0,0];
     var up = [0, 1, 0];
 
+    let f = this.analyser.getWaveform();
+    // console.log(f);
+
+    // console.log(Math.max.apply(null, f));
+
+    this.x = .35 + Math.cos(this.tick / 120.) * .4;
+    // this.x = .53 + Math.cos(this.tick / 120.) * .2;
+    // this.z = -.07 + Math.cos(this.tick / 120.) * .2;
     this.camera.perspective(60 * Math.PI/180, GL.aspectRatio, .1, 60);
     this.camera.setPosition(this.x, this.y, this.z);
-    this.camera.rotateX(this.cameraControl.rx);
-    this.camera.rotateY(this.cameraControl.ry);
+
+    this.ry = Math.PI/4 * 2.45 + Math.cos(this.tick/100.) * .1;
+    this.rx = Math.sin(this.tick/100.) * .08 + this.cameraControl.rx * 0.1;
+    this.rz = Math.sin(this.tick/30.) * .09 + this.cameraControl.ry * 0.1;
+    this.camera.rotateX(this.rx);
+    this.camera.rotateY(this.ry);
+    this.camera.rotateZ(this.rz);
 
     // this.camera.lookAt(target);
     let t = this._fboNoise.textures[0];
+
 
     // this.xAxisPlane.render();
 
     // for (var i = 0; i < this.lines.length; i++) {
       // this.lines[i].render(t, this.height.lines);
     // }
+    // let m = this.getM(f)/ 256;
+    // console.log(f[10]);
+    let m = Math.max.apply(null, f) / 256;
+    m-=.5;
+    m*=2;
+    console.log(m);
+    // let m = this.getM(f)/255;
 
-    this.viewRender.render(t, this.height.noise); // 2 I dont know why this is in this order
+    // m -= .6;
+    // if(m < 0) m = 0;
+    // m is from 0 and .4
+    m = this.easeInExpo(m, 0, 1, 1) * 10;
+    // console.log(m);
+    // this.tickSpace, 0, 1, 800
+    // console.log(m);
+
+    // else {
+    //   m = m - .5;
+    // }
+
+    // console.log(m, Easings.easeInCubic(m, m, 1 - m, 1));
+
+    // o.obj[e.var] = o.ease(o.currentIteration, e.value, e.toValue - e.value, o.duration);
+  // ));
+    this.currentNoise += (m - this.currentNoise) * 0.01;
+
+    // console.log(this.currentNoise);
+    // if(this.currentNoise > this.viewNoise.amplitude + .2){
+      // console.log(this.currentNoise);
+      this.viewNoise.amplitude = this.currentNoise;
+    // }
+    // this.viewNoise.amplitude = Math.max.apply(null, f);
+    // this.viewNoise.render();
+
+
+    this.viewRender.render(t, m); // 2 I dont know why this is in this order
 
     // GL.gl.viewport(0, 0, 256, 256);
     // GL.gl.disable(GL.gl.DEPTH_TEST);
@@ -137,6 +246,16 @@ class Scene {
 
     this._fboNoise.clear();
   }
+
+  easeOutCubic(t, b, c, d) {
+		t /= d;
+		t--;
+		return c*(t*t*t + 1) + b;
+	}
+
+  easeInExpo(t, b, c, d) {
+	   return c * Math.pow( 2, 10 * (t/d - 1) ) + b;
+  };
 
   resize(){
     GL.resize(window.innerWidth, window.innerHeight);
