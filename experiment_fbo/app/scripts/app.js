@@ -84,7 +84,7 @@ function _init(){
 
   GL.reset(gl);
 
-  // window.gui = new dat.GUI({ width:300 });
+  window.gui = new dat.GUI({ width:300 });
 
   // create the shaders
 
