@@ -103,7 +103,7 @@ class Scene {
       // url: [ASSET_URL + 'sounds/blonde_redhead.mp3'],
       url: [ASSET_URL + 'sounds/kognitif.mp3'],
       loop: true,
-      volume: 1
+      volume: 0.001
     });
 
     this.sound.play();
