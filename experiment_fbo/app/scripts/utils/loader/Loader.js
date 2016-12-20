@@ -193,7 +193,7 @@ class Loader {
             return;
         }
 
-        console.log("here", this.assetsToLoad);
+        // console.log("here", this.assetsToLoad);
         //this.assetLoader = new PIXI.loaders.Loader();
         this.assetLoader = new ResourceLoader();
         this.assetLoader.add(this.assetsToLoad);

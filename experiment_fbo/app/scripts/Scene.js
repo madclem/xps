@@ -1,6 +1,7 @@
 import mcgl, {GL} from 'mcgl';
 // import ViewSphere from './views/ViewSphere';
 // import ViewIcosphere from './views/ViewIcosphere';
+import ViewBackground from './views/ViewBackground';
 import ViewLine from './views/ViewLine';
 import ViewSim from './views/ViewSim';
 import ViewNoise from './views/ViewNoise';
@@ -18,7 +19,10 @@ class Scene {
   constructor(){
     gl = GL.gl;
     this.tick = 0;
+
+    this.delay = 120;
     this.currentNoise = 1;
+    this.lastMax = 1;
     this.isPaused = false;
 
     gl.enable(gl.DEPTH_TEST);
@@ -48,12 +52,13 @@ class Scene {
 
     this.lines = [];
 
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 1; i++) {
       let l = new ViewLine(i === 0);
       // l.position[0] = -1.;
       this.lines.push(l);
     }
 
+    this.viewBackground = new ViewBackground(256,256);
     this.viewRender = new ViewRenderer(256,256);
     // this.viewRender.position[1] = -.5;
     // this.viewRender.position = [-206, -120, 0];
@@ -161,9 +166,34 @@ class Scene {
     this.pause();
   }
 
+  flash(){
+    Easings.killTweensOf(this.viewRender);
+    Easings.killTweensOf(this.viewBackground);
+    this.viewRender.percentage = 1;
+    this.viewBackground.percentage = 1;
+    Easings.to(this.viewRender, 1, {
+      percentage: 0,
+      // delay: Math.random() * 4,
+      ease: Easings.easeOutCubic
+    })
+
+    Easings.to(this.viewBackground, 1, {
+      percentage: 0,
+      // delay: Math.random() * 4,
+      ease: Easings.easeOutCubic
+    })
+  }
+
   update(){
     this.updateFBO();
     this.render();
+
+    // this.delay--;
+
+    // if(this.delay < 0){
+    //   this.flash();
+    //   this.delay = Math.random() * 4 * 60 + 240;
+    // }
   }
 
   render(){
@@ -198,21 +228,34 @@ class Scene {
 
     // this.xAxisPlane.render();
 
-    // for (var i = 0; i < this.lines.length; i++) {
-      // this.lines[i].render(t, this.height.lines);
-    // }
+
     // let m = this.getM(f)/ 256;
     // console.log(f[10]);
     let m = Math.max.apply(null, f) / 256;
     m-=.5;
     m*=2;
-    console.log(m);
+    // console.log(m);
     // let m = this.getM(f)/255;
 
     // m -= .6;
     // if(m < 0) m = 0;
     // m is from 0 and .4
     m = this.easeInExpo(m, 0, 1, 1) * 10;
+
+    // console.log(m, this.lastMax);
+
+    if(m > 7){
+      this.flash();
+    }
+    // if(m > this.lastMax + 4 && this.lastMax){
+    //   this.lastMax = m;
+    //   this.flash();
+    // }
+
+    this.lastMax *= .98;
+
+
+
     // console.log(m);
     // this.tickSpace, 0, 1, 800
     // console.log(m);
@@ -236,7 +279,14 @@ class Scene {
     // this.viewNoise.render();
 
 
+    GL.gl.disable(GL.gl.DEPTH_TEST);
+    this.viewBackground.render(); // 2 I dont know why this is in this order
+    GL.gl.enable(GL.gl.DEPTH_TEST);
+
     this.viewRender.render(t, m); // 2 I dont know why this is in this order
+    // for (var i = 0; i < this.lines.length; i++) {
+      // this.lines[i].render(t, m);
+    // }
 
     // GL.gl.viewport(0, 0, 256, 256);
     // GL.gl.disable(GL.gl.DEPTH_TEST);

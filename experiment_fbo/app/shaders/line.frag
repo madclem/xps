@@ -12,9 +12,9 @@ varying vec2 vUV;
 
 void main() {
 
-  vec4 color = vec4(.0, .0, .0, alpha);
+  // vec4 color = vec4(1., 1., .0, 1.);;
   // vec4 color = vec4(1.0);
-  vec4 colorEnd = color * texture2D( texture, vUV );
+  // vec4 colorEnd = color * texture2D( texture, vUV );
 
   // if(colorEnd.a < .01){
   //   discard;
@@ -29,7 +29,7 @@ void main() {
   // vec3 color = vec3(0.0, .0, .0);
   //
   // color.a = colorEnd.a;
-  gl_FragColor = color;
+  gl_FragColor = vec4(vec3(1., 0.,0.), 1.);
 
   // gl_FragColor.rgb *= alpha;
 

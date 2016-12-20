@@ -13,6 +13,8 @@ class ViewRenderer {
     this.shader.bind();
     this.position = [0,0,0];
 
+    this.percentage = 0;
+
     this.height = .2;
 
     let positions = [];
@@ -46,13 +48,14 @@ class ViewRenderer {
 
     // gui.add(this, "speed", 0, 4).step(.1);
 
-    console.log(this.rot);
+    // console.log(this.rot);
   }
 
   render(t, height){
     this.tick++//=this.speed;
     this.shader.bind();
 
+    this.shader.uniform("u_percentage", "float", this.percentage);
     // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
     t.bind();
 
