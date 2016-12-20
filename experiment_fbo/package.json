@@ -41,7 +41,6 @@
     "glslify": "^5.0.2",
     "glslify-loader": "^1.0.2",
     "gulp": "^3.8.10",
-    "dat-gui": "^0.5.0",
     "gulp-clean": "^0.3.1",
     "gulp-compile-handlebars": "^0.4.3",
     "gulp-debug": "^1.0.1",
@@ -77,8 +76,10 @@
   "dependencies": {
     "@jordandelcros/stats-js": "git+https://github.com/JordanDelcros/stats-js.git",
     "fontfaceobserver": "2.0.7",
-    "signals": "^1.0.0",
+    "glslify-loader": "^1.0.2",
     "path": "^0.12.7",
+    "raw-loader": "^0.5.1",
+    "signals": "^1.0.0",
     "sono": "^0.1.8"
   }
 }

@@ -1,4 +1,6 @@
 import mcgl, {GL} from 'mcgl';
+// import  glslify from 'glslify'
+// var source = require('glslify!raw!../shaders/test.glsl')
 // import ViewSphere from './views/ViewSphere';
 // import ViewIcosphere from './views/ViewIcosphere';
 import ViewBackground from './views/ViewBackground';
@@ -6,6 +8,7 @@ import ViewLine from './views/ViewLine';
 import ViewSim from './views/ViewSim';
 import ViewNoise from './views/ViewNoise';
 import ViewRenderer from './views/ViewRenderer';
+import ViewFXAA from './views/ViewFXAA';
 import McglFloor from './views/McglFloor';
 import Sono from 'sono';
 
@@ -33,6 +36,7 @@ class Scene {
     // this.orbitalControl.radius = .1;
 
     this._bCopy = new mcgl.BatchCopy();
+    this._bCopyRender = new mcgl.BatchCopy();
     window.addEventListener('resize', this.resize.bind(this));
 
     this.controller = new mcgl.Controller();
@@ -48,7 +52,7 @@ class Scene {
 
 
     this._fboNoise = new mcgl.FBO(256, 256);
-    this.viewNoise = new ViewNoise(256, 256);
+    this._fboFXAA = new mcgl.FBO(window.innerWidth, window.innerHeight);
 
     this.lines = [];
 
@@ -58,8 +62,11 @@ class Scene {
       this.lines.push(l);
     }
 
+
     this.viewBackground = new ViewBackground(256,256);
+    this.viewNoise = new ViewNoise(256, 256);
     this.viewRender = new ViewRenderer(256,256);
+    this.viewFXAA = new ViewFXAA();
     // this.viewRender.position[1] = -.5;
     // this.viewRender.position = [-206, -120, 0];
 
@@ -76,6 +83,7 @@ class Scene {
     }
 
     this._fboNoise.clear();
+    this._fboFXAA.clear();
 
     window.addEventListener("mousemove", (e)=>{
       this.onMouseMove(e);
@@ -103,7 +111,7 @@ class Scene {
       // url: [ASSET_URL + 'sounds/blonde_redhead.mp3'],
       url: [ASSET_URL + 'sounds/kognitif.mp3'],
       loop: true,
-      volume: 0.001
+      volume: .0001
     });
 
     this.sound.play();
@@ -223,78 +231,70 @@ class Scene {
     this.camera.rotateZ(this.rz);
 
     // this.camera.lookAt(target);
-    let t = this._fboNoise.textures[0];
 
 
     // this.xAxisPlane.render();
 
 
     // let m = this.getM(f)/ 256;
-    // console.log(f[10]);
-    let m = Math.max.apply(null, f) / 256;
+
+
+    let m =  Math.max.apply(null, f) / 256;
     m-=.5;
     m*=2;
-    // console.log(m);
-    // let m = this.getM(f)/255;
 
-    // m -= .6;
-    // if(m < 0) m = 0;
-    // m is from 0 and .4
+
     m = this.easeInExpo(m, 0, 1, 1) * 10;
-
-    // console.log(m, this.lastMax);
-
+    m = 1//this.easeInExpo(m, 0, 1, 1) * 10;
     if(m > 7){
       this.flash();
     }
-    // if(m > this.lastMax + 4 && this.lastMax){
-    //   this.lastMax = m;
-    //   this.flash();
-    // }
-
-    this.lastMax *= .98;
-
-
-
-    // console.log(m);
-    // this.tickSpace, 0, 1, 800
-    // console.log(m);
-
-    // else {
-    //   m = m - .5;
-    // }
-
-    // console.log(m, Easings.easeInCubic(m, m, 1 - m, 1));
-
-    // o.obj[e.var] = o.ease(o.currentIteration, e.value, e.toValue - e.value, o.duration);
-  // ));
     this.currentNoise += (m - this.currentNoise) * 0.01;
-
-    // console.log(this.currentNoise);
-    // if(this.currentNoise > this.viewNoise.amplitude + .2){
-      // console.log(this.currentNoise);
-      this.viewNoise.amplitude = this.currentNoise;
-    // }
-    // this.viewNoise.amplitude = Math.max.apply(null, f);
-    // this.viewNoise.render();
+    this.viewNoise.amplitude = this.currentNoise;
 
 
+
+    let t = this._fboNoise.textures[0];
+
+
+    // render into the second Framebuffer
+    this._fboFXAA.bind(window.innerWidth, window.innerHeight);
+    mcgl.GL.gl.clear(0,0,0,0)
     GL.gl.disable(GL.gl.DEPTH_TEST);
     this.viewBackground.render(); // 2 I dont know why this is in this order
     GL.gl.enable(GL.gl.DEPTH_TEST);
-
     this.viewRender.render(t, m); // 2 I dont know why this is in this order
-    // for (var i = 0; i < this.lines.length; i++) {
-      // this.lines[i].render(t, m);
-    // }
+    this._fboFXAA.unbind();
 
-    // GL.gl.viewport(0, 0, 256, 256);
+    // this.viewRender.render(t, m); // 2 I dont know why this is in this order
+    // just render the fxaa on convas
+    let t2 = this._fboFXAA.textures[0];
     // GL.gl.disable(GL.gl.DEPTH_TEST);
-    // this._bCopy.draw(t);
+    GL.gl.disable(GL.gl.DEPTH_TEST);
+    this.viewFXAA.render(t2);
+    GL.gl.enable(GL.gl.DEPTH_TEST);
     // GL.gl.enable(GL.gl.DEPTH_TEST);
-    // GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+
+
+
+
+    // render into the batches
+    GL.gl.viewport(0, 0, 256, 256);
+    GL.gl.disable(GL.gl.DEPTH_TEST);
+    this._bCopy.draw(t);
+    GL.gl.enable(GL.gl.DEPTH_TEST);
+    GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+
+
+    GL.gl.viewport(256, 0, 256, 256);
+    GL.gl.disable(GL.gl.DEPTH_TEST);
+    this._bCopyRender.draw(t2);
+    GL.gl.enable(GL.gl.DEPTH_TEST);
+    GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+
 
     this._fboNoise.clear();
+    this._fboFXAA.clear();
   }
 
   easeOutCubic(t, b, c, d) {
