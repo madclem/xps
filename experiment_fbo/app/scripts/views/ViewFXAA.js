@@ -15,9 +15,10 @@ class ViewFXAA {
   render(t){
 
     this.shader.bind();
-    this.shader.uniform("u_dimension", "vec2", [window.innerWidth, window.innerHeight])
+    this.shader.uniform("u_width", "float", window.innerWidth)
+    this.shader.uniform("u_height", "float", window.innerHeight)
     t.bind();
-    
+
     GL.draw(this.mesh);
   }
 }

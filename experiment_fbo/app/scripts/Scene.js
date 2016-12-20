@@ -267,6 +267,7 @@ class Scene {
     this._fboFXAA.unbind();
 
     // this.viewRender.render(t, m); // 2 I dont know why this is in this order
+    // this.viewRender.render(t, m); // 2 I dont know why this is in this order
     // just render the fxaa on convas
     let t2 = this._fboFXAA.textures[0];
     // GL.gl.disable(GL.gl.DEPTH_TEST);
@@ -274,6 +275,7 @@ class Scene {
     this.viewFXAA.render(t2);
     GL.gl.enable(GL.gl.DEPTH_TEST);
     // GL.gl.enable(GL.gl.DEPTH_TEST);
+    // this.viewRender.render(t, m); // 2 I dont know why this is in this order
 
 
 
