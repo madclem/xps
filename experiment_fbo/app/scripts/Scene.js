@@ -9,6 +9,7 @@ import ViewSim from './views/ViewSim';
 import ViewNoise from './views/ViewNoise';
 import ViewRenderer from './views/ViewRenderer';
 import ViewFXAA from './views/ViewFXAA';
+import ViewCompositing from './views/ViewCompositing';
 import McglFloor from './views/McglFloor';
 import Sono from 'sono';
 
@@ -23,6 +24,7 @@ class Scene {
     gl = GL.gl;
     this.tick = 0;
 
+    this.debug = false;
     this.delay = 120;
     this.currentNoise = 1;
     this.lastMax = 1;
@@ -37,6 +39,7 @@ class Scene {
 
     this._bCopy = new mcgl.BatchCopy();
     this._bCopyRender = new mcgl.BatchCopy();
+    this._bCopyFXAA = new mcgl.BatchCopy();
     window.addEventListener('resize', this.resize.bind(this));
 
     this.controller = new mcgl.Controller();
@@ -53,6 +56,7 @@ class Scene {
 
     this._fboNoise = new mcgl.FBO(256, 256);
     this._fboFXAA = new mcgl.FBO(window.innerWidth, window.innerHeight);
+    this._fboCompositing = new mcgl.FBO(window.innerWidth, window.innerHeight);
 
     this.lines = [];
 
@@ -67,6 +71,7 @@ class Scene {
     this.viewNoise = new ViewNoise(256, 256);
     this.viewRender = new ViewRenderer(256,256);
     this.viewFXAA = new ViewFXAA();
+    this.viewCompositing = new ViewCompositing();
     // this.viewRender.position[1] = -.5;
     // this.viewRender.position = [-206, -120, 0];
 
@@ -266,37 +271,56 @@ class Scene {
     this.viewRender.render(t, m); // 2 I dont know why this is in this order
     this._fboFXAA.unbind();
 
+
+    let t2 = this._fboFXAA.textures[0];
+    // render the fxaa into a compositing framebuffer
+    this._fboCompositing.bind(window.innerWidth, window.innerHeight);
+    mcgl.GL.gl.clear(0,0,0,0)
+    this.viewFXAA.render(t2);
+    this._fboCompositing.unbind();
+
+    let t3 = this._fboCompositing.textures[0];
     // this.viewRender.render(t, m); // 2 I dont know why this is in this order
     // this.viewRender.render(t, m); // 2 I dont know why this is in this order
     // just render the fxaa on convas
-    let t2 = this._fboFXAA.textures[0];
     // GL.gl.disable(GL.gl.DEPTH_TEST);
-    GL.gl.disable(GL.gl.DEPTH_TEST);
-    this.viewFXAA.render(t2);
-    GL.gl.enable(GL.gl.DEPTH_TEST);
+    // this.viewFXAA.render(t2);
     // GL.gl.enable(GL.gl.DEPTH_TEST);
     // this.viewRender.render(t, m); // 2 I dont know why this is in this order
 
-
-
-
-    // render into the batches
-    GL.gl.viewport(0, 0, 256, 256);
     GL.gl.disable(GL.gl.DEPTH_TEST);
-    this._bCopy.draw(t);
+    // this.viewFXAA.render(t2);
+    this.viewCompositing.render(t3)
+    // this.viewCompositing.render(t3)
     GL.gl.enable(GL.gl.DEPTH_TEST);
-    GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
 
 
-    GL.gl.viewport(256, 0, 256, 256);
-    GL.gl.disable(GL.gl.DEPTH_TEST);
-    this._bCopyRender.draw(t2);
-    GL.gl.enable(GL.gl.DEPTH_TEST);
-    GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+    if(this.debug){
+      // render into the batches
+      GL.gl.viewport(0, 0, 256, 256);
+      GL.gl.disable(GL.gl.DEPTH_TEST);
+      this._bCopy.draw(t);
+      GL.gl.enable(GL.gl.DEPTH_TEST);
+      GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+
+
+      GL.gl.viewport(256, 0, 256, 256);
+      GL.gl.disable(GL.gl.DEPTH_TEST);
+      this._bCopyRender.draw(t2);
+      GL.gl.enable(GL.gl.DEPTH_TEST);
+      GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+
+      GL.gl.viewport(512, 0, 256, 256);
+      GL.gl.disable(GL.gl.DEPTH_TEST);
+      this._bCopyFXAA.draw(t3);
+      GL.gl.enable(GL.gl.DEPTH_TEST);
+      GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+    }
 
 
     this._fboNoise.clear();
     this._fboFXAA.clear();
+    this._fboCompositing.clear();
   }
 
   easeOutCubic(t, b, c, d) {
