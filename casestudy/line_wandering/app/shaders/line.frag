@@ -29,7 +29,7 @@ void main() {
   // vec3 color = vec3(0.0, .0, .0);
   //
   // color.a = colorEnd.a;
-  gl_FragColor = vec4(vec3(.1), 1.);
+  gl_FragColor = vec4(vec3(.2), alpha);
 
   // gl_FragColor.rgb *= alpha;
 

@@ -42,7 +42,7 @@ class Scene {
     this.orbitalControl = mcgl.orbitalControl;
     this.orbitalControl.radius = 1800;
     this.orbitalControl.setRy(-Math.PI/6);
-    this.orbitalControl.radius = 1;
+    this.orbitalControl.radius = 2;
 
 
     this.camera = new mcgl.camera.Camera();
@@ -51,15 +51,12 @@ class Scene {
 
     this.lines = [];
 
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 4; i++) {
       let l = new ViewLine(i === 0);
-      // l.position[0] = -1.;
       this.lines.push(l);
     }
 
-
     this.viewBackground = new ViewBackground();
-
   }
 
   onKeyPressed(key){
@@ -71,16 +68,7 @@ class Scene {
   }
 
   pause(){
-    if(this.isPaused){
-      this.sound.fade(0, 1)
-    }
-    else {
-      this.sound.fade(1, 1)
-    }
-
-    this.isPaused = !this.isPaused;
   }
-
 
   update(){
     this.render();
@@ -88,12 +76,6 @@ class Scene {
     for (var i = 0; i < this.lines.length; i++) {
       this.lines[i].render()
     }
-    // this.delay--;
-
-    // if(this.delay < 0){
-    //   this.flash();
-    //   this.delay = Math.random() * 4 * 60 + 240;
-    // }
   }
 
   render(){
@@ -103,14 +85,6 @@ class Scene {
     this.orbitalControl.position[0] = 0;
     this.orbitalControl.position[1] = 1;
 
-
-
-        // this.orbitalControl.radius = 800// + Math.cos(this.tick/100) * 100;
-    // this.orbitalControl.angleA = Math.PI/2 + Math.cos(this.tick/200) * Math.PI/8;
-    // this.orbitalControl.angleA += 0.004;
-
-    // console.log(this.orbitalControl.radius);
-    // this.orbitalControl.angleA = Math.PI /2;
     this.orbitalControl.update();
     this.camera.position = this.orbitalControl._position;
 
@@ -119,20 +93,11 @@ class Scene {
     var up = [0, 1, 0];
 
     this.camera.lookAt(target, up);
-
-
-
-
-    // this.viewBackground.render(); // 2 I dont know why this is in this order
-    this.xAxisPlane.render(); // 2 I dont know why this is in this order
+    this.xAxisPlane.render();
 
     for (var i = 0; i < this.lines.length; i++) {
       this.lines[i].render()
     }
-
-
-
-
   }
 
 

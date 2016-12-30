@@ -62,7 +62,7 @@ function _init(){
 
   let p = document.createElement("p");
   p.setAttribute("id", "info")
-  p.innerHTML = isMobile? "TOUCH SCREEN TO START" : "";
+  p.innerHTML = isMobile? "" : "PRESS SPACE TO CHANGE MOTION";
 
   // let p2 = document.createElement("p");
   // p2.setAttribute("id", "sound")

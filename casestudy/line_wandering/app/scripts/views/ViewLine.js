@@ -20,11 +20,10 @@ class ViewLine {
 
     this.position = [0,0,0];
 
-    this.state = STATES.wandering;
     this.shader = new GLShader(vs, fs);
     this.shader.bind();
 
-		this.indexMotion = -1;
+		this.indexMotion = Math.floor(Math.random() * 4);
     this.delay = Math.random() * 240;
     this.spline = new Spline([]);
 		this.points = []
@@ -41,7 +40,7 @@ class ViewLine {
 		this.line.points = this.line.vert;
 
     this.texture = new mcgl.Texture(ASSET_URL + "images/stroke.png");
-    this.alpha = 1;
+    this.alpha = .5 + Math.random() * .5;
 
 
 		this.motionOptions = {
@@ -55,16 +54,14 @@ class ViewLine {
 			yoff:  Math.random() * 100
 		}
 
-		this.motions = {
-			0: [Motions.basic.bind(Motions), Motions.snake.bind(Motions), Motions.circle.bind(Motions)]
-		}
+		this.motions = [Motions.basic.bind(Motions), Motions.snake.bind(Motions), Motions.circle.bind(Motions)]
 
     this.changeMotion();
   }
 
   changeMotion(e){
 		this.indexMotion++;
-    this.motion = this.motions[this.state][this.indexMotion % this.motions[this.state].length];
+    this.motion = this.motions[this.indexMotion % this.motions.length];
   }
 
   getPoints(pts){
@@ -96,11 +93,7 @@ class ViewLine {
     pt0[2] += (this.targetPoint[2] - pt0[2]) * 0.4 * .25 * .1;
     pt0[1] += (this.targetPoint[1] - pt0[1]) * 0.2 * .25 * .1;
 
-		let speed;
-
-		if(this.state === STATES.wandering){
-			speed = .3;
-		}
+		let speed = .3;
 
 		for (var i = 1; i < line.points.length; i++) {
 			line.points[i][0] += (line.points[i-1][0] - line.points[i][0]) * speed * .6;
@@ -120,7 +113,7 @@ class ViewLine {
     let pts = this.newPoints(this.line);
 
     this.line.render(pts, false);
-    this.shader.uniform("alpha", "float", .6);
+    this.shader.uniform("alpha", "float", this.alpha);
     this.shader.uniform("uTime", "float", 0);
     this.shader.uniform("u_position", "vec3", this.position);
 		this.shader.uniform("aspect", "float", window.innerWidth / window.innerHeight);
