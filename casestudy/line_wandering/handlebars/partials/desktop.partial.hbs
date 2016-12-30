@@ -1,0 +1,117 @@
+
+<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" type="text/css" href="{{server_url}}/assets/css/reset.css">
+<link rel="stylesheet" type="text/css" href="{{server_url}}/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="{{server_url}}/assets/css/cleanup.css">
+
+<div id="container" style="width:100%; height:100%; overflow:hidden;"></div>
+
+<div id="fb-root"></div>
+
+<div id="nosupport" style="display:none;">
+    <div id="fallbackBg"></div>
+    <div id="fallbackMessageStock"></div>
+</div>
+
+<noscript>
+    <div id="fallbackBg"></div>
+    <div id="fallbackMessageNoJS"></div>
+</noscript>
+
+<!--[if lte IE 8]>
+    <script>
+        window.location = 'fallback.html';
+    </script>
+<![endif]-->
+
+
+<!--[if !lte IE 8]-->
+<script src="{{server_url}}/js/require.js"></script>
+
+<script>
+    var ENV = window.ENV = {};
+    window.ENV = {{{json .}}};
+
+    var nua = navigator.userAgent;
+    var is_android = ((nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1) && !(nua.indexOf('Chrome') > -1));
+
+    if( is_android )
+        document.getElementById( 'nosupport').style.display = 'block';
+    else
+        require( [ '{{server_url}}/{{require}}' ], function(){});
+
+</script>
+<!--[endif]-->
+
+
+
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0&appId=314245522067358";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25024961-6']);
+    _gaq.push(['_addIgnoredRef', 'mcdonalds.co.uk']);
+    _gaq.push(['_trackPageview']);
+    (function () {
+
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+
+        s.parentNode.insertBefore(ga, s);
+
+    })();
+</script>
+
+<!--
+Start of DoubleClick Floodlight Tag: Please do not remove
+Activity name of this tag: 40th Anniversary Site
+URL of the webpage where the tag is expected to be placed: http://tbc.com
+This tag must be placed between the <body> and </body> tags, as close as possible to the opening tag.
+Creation Date: 07/31/2014
+-->
+<script type="text/javascript">
+
+    window.callFloodlightTracking = function( isMobile )
+    {
+        var axel = Math.random() + "";
+        var a = axel * 10000000000000;
+
+        var tracking;
+        if (isMobile) {
+            tracking = document.createElement( 'img' );
+            tracking.src="http://ad.doubleclick.net/activity;src=913803;type=40thA0;cat=40thA00;ord=" + a + "?";
+            tracking.width= 1;
+            tracking.height= 1;
+            tracking.alt="";
+
+            // original mobile tracking
+            //document.write('<img src="http://ad.doubleclick.net/activity;src=913803;type=40thA0;cat=40thA00;ord=' + a + '?" width="1" height="1" alt=""/>');
+        } else {
+            tracking = document.createElement( 'iframe' );
+            tracking.src = "http://913803.fls.doubleclick.net/activityi;src=913803;type=40thA0;cat=40thA0;ord=" + a + "?";
+            tracking.width = 1;
+            tracking.height = 1;
+            tracking.frameborder = 0;
+            tracking.style.display = 'none';
+
+            // original desktop tracking..
+            // document.write('<iframe src="http://913803.fls.doubleclick.net/activityi;src=913803;type=40thA0;cat=40thA0;ord=' + a + '?" width="1" height="1" frameborder="0" style="display:none"></iframe>');
+        }
+
+        document.body.appendChild( tracking );
+    }.bind(this);
+</script>
+<!-- End of DoubleClick Floodlight Tag: Please do not remove -->

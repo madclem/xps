@@ -24,7 +24,7 @@ class Scene {
     gl = GL.gl;
     this.tick = 0;
 
-    this.debug = false;
+    this.debug = true;
     this.delay = 120;
     this.currentNoise = 1;
     this.lastMax = 1;
@@ -116,7 +116,7 @@ class Scene {
       // url: [ASSET_URL + 'sounds/blonde_redhead.mp3'],
       url: [ASSET_URL + 'sounds/kognitif.mp3'],
       loop: true,
-      volume: .0001
+      volume: 1
     });
 
     this.sound.play();
@@ -250,7 +250,7 @@ class Scene {
 
 
     m = this.easeInExpo(m, 0, 1, 1) * 10;
-    m = 1//this.easeInExpo(m, 0, 1, 1) * 10;
+    // m = 1//this.easeInExpo(m, 0, 1, 1) * 10;
     if(m > 7){
       this.flash();
     }
