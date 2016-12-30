@@ -1,21 +1,8 @@
 import mcgl, {GL} from 'mcgl';
-// import  glslify from 'glslify'
-// var source = require('glslify!raw!../shaders/test.glsl')
-// import ViewSphere from './views/ViewSphere';
-// import ViewIcosphere from './views/ViewIcosphere';
 import ViewBackground from './views/ViewBackground';
 import ViewLine from './views/ViewLine';
-import ViewSim from './views/ViewSim';
-import ViewNoise from './views/ViewNoise';
-import ViewRenderer from './views/ViewRenderer';
-import ViewFXAA from './views/ViewFXAA';
-import ViewCompositing from './views/ViewCompositing';
 import McglFloor from './views/McglFloor';
-import Sono from 'sono';
 
-// import ViewFBO from './views/ViewFBO';
-// import vs from '../shaders/default.vert'
-// import fs from '../shaders/fbo.frag'
 
 let gl;
 
