@@ -356,7 +356,7 @@ class ViewLine {
 
 
 
-    this.shader.uniform("alpha", "float", this.alpha);
+    this.shader.uniform("alpha", "float", 1);
     this.shader.uniform("uTime", "float", 0);
     this.shader.uniform("u_position", "vec3", this.position);
 		this.shader.uniform("aspect", "float", window.innerWidth / window.innerHeight);
