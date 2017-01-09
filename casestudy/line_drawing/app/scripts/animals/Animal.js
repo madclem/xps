@@ -6,6 +6,8 @@ class Animal {
     this.vertices = vertices || []
 
     this.position = pos || [0, 0, 0];
+
+    // the matrices
     this.m = glmatrix.mat4.create();
     this.mRY = glmatrix.mat4.create();
     this.mT = glmatrix.mat4.create();
@@ -15,12 +17,14 @@ class Animal {
   }
 
   remapVertices(){
+
     let minX = 10000;
     let maxX = 0;
 
     let minY = 10000;
     let maxY = 0;
 
+    // get the dimensions of the drawing
     for (var i = 0; i < this.vertices.length; i++) {
       let v = this.vertices[i];
       if(v[0] < minX) minX = v[0]
@@ -30,9 +34,9 @@ class Animal {
       if(v[1] > maxY) maxY = v[1]
     }
 
-    this.wX = maxX - minX;
-    this.wY = maxY - minY;
-    let w = Math.max(this.wX, this.wY)
+    this.wX = maxX - minX; // width x
+    this.wY = maxY - minY; // width width y
+    let w = Math.max(this.wX, this.wY);
 
     this.tick = 0;
 
@@ -49,7 +53,7 @@ class Animal {
 
 			this.vertices[i][0] /= (w/2);
 			this.vertices[i][1] /= -(w/2); // minus because drawing from 2d although y is inversed
-			this.vertices[i][2] = Math.cos(this.tick/10) * .4;
+			this.vertices[i][2] = Math.cos(this.tick/10) * .4; // cos the depth to make it look good
 
 
       if(this.vertices[i][0] < xMin || xMin === null) xMin = this.vertices[i][0];
@@ -73,6 +77,7 @@ class Animal {
       this.position[2]
     ]
 
+    // the pivot point of the animal
     this.translationAnchor = [
       -this.centerX,
       -this.centerY,
@@ -94,6 +99,8 @@ class Animal {
     glmatrix.mat4.fromYRotation(this.mRY, ry);
 	}
 
+  // to get the points correctly translated, rotated (useful in the main experiment, not so much this one)
+  // as the animal position is always the same
   getPoints(){
     let v = this.vertices.slice();
     glmatrix.mat4.identity(this.m);
@@ -104,7 +111,6 @@ class Animal {
 
 
     let verts = [];
-
     for (var i = 0; i < v.length; i++) {
       glmatrix.vec3.transformMat4(v[i], v[i], this.m);
     }
