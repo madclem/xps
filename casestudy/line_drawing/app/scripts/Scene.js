@@ -55,10 +55,10 @@ class Scene {
 
 
     this.shapes = [
+      ViewBear,
 			ViewBoar,
 			ViewBat,
 			ViewFox,
-			ViewBear,
 			ViewDear,
 			ViewWolf,
 			ViewRabbit,
@@ -80,9 +80,12 @@ class Scene {
       else {
         this.isDrawn = true;
         for (var i = 0; i < this.lines.length; i++) {
-          let bear = new ViewBear();
-          bear.reset([0,.9,0]);
-          this.lines[i].transformTo(bear);
+
+          let animal = new this.shapes[this.animalStep % this.shapes.length]();
+          animal.reset([0,.9,0]);
+          this.lines[i].transformTo(animal);
+
+          this.animalStep++;
 
           this.orbitalControl.setRy(-Math.PI/6);
           let obj = {

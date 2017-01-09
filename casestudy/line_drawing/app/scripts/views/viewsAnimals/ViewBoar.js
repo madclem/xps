@@ -1,15 +1,12 @@
-// ViewRabbit.js
+// ViewBoar.js
 
 import ViewAnimal from './ViewAnimal'
 import Boar from '../../animals/Boar'
 
-import vs from '../../../shaders/line.vert';
-import fs from '../../../shaders/line.frag';
-
-class ViewRabbit extends ViewAnimal {
+class ViewBoar extends ViewAnimal {
 
 	constructor(pos) {
-		super(vs, fs, pos);
+		super(pos);
 	}
 
 	reset(pos, rx, ry){
@@ -21,4 +18,4 @@ class ViewRabbit extends ViewAnimal {
 	// }
 }
 
-export default ViewRabbit;
+export default ViewBoar;

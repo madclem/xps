@@ -1,24 +1,18 @@
-// ViewRabbit.js
+// ViewDear.js
 
 import ViewAnimal from './ViewAnimal'
 import Weasel from '../../animals/Weasel'
 
-import vs from '../../../shaders/line.vert';
-import fs from '../../../shaders/line.frag';
-
-class ViewRabbit extends ViewAnimal {
+class ViewDear extends ViewAnimal {
 
 	constructor(pos) {
-		super(vs, fs, pos);
+		super(pos);
 	}
 
 	reset(pos, rx, ry){
 		this.shape = new Weasel(pos);
 		super.reset(pos, rx, ry);
 	}
-	// _init(){
-	//
-	// }
 }
 
-export default ViewRabbit;
+export default ViewDear;

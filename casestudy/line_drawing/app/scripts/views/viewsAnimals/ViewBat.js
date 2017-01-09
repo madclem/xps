@@ -3,13 +3,13 @@
 import ViewAnimal from './ViewAnimal'
 import Bat from '../../animals/Bat'
 
-import vs from '../../../shaders/line.vert';
-import fs from '../../../shaders/line.frag';
+// import vs from '../../../shaders/line.vert';
+// import fs from '../../../shaders/line.frag';
 
 class ViewBat extends ViewAnimal {
 
 	constructor(pos) {
-		super(vs, fs, pos);
+		super(pos);
 	}
 
 	reset(pos, rx, ry){

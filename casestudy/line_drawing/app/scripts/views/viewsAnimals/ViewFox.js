@@ -1,24 +1,18 @@
-// ViewFox.js
+// ViewDear.js
 
 import ViewAnimal from './ViewAnimal'
 import Fox from '../../animals/Fox'
 
-import vs from '../../../shaders/line.vert';
-import fs from '../../../shaders/line.frag';
-
-class ViewFox extends ViewAnimal {
+class ViewDear extends ViewAnimal {
 
 	constructor(pos) {
-		super(vs, fs, pos);
+		super(pos);
 	}
 
 	reset(pos, rx, ry){
 		this.shape = new Fox(pos);
 		super.reset(pos, rx, ry);
 	}
-	// _init(){
-	//
-	// }
 }
 
-export default ViewFox;
+export default ViewDear;
