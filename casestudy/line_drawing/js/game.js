@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ec1c45bc1646b042a40b"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ee63585d32fd5980449a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -593,7 +593,7 @@
 
 	var _Scene2 = _interopRequireDefault(_Scene);
 
-	var _datGui = __webpack_require__(250);
+	var _datGui = __webpack_require__(298);
 
 	var _datGui2 = _interopRequireDefault(_datGui);
 
@@ -613,7 +613,7 @@
 	var loader = new _Loader2.default();
 	loader.onComplete.addOnce(_assetsLoaded);
 	loader.addCSS(ASSET_URL + 'styles/fonts.css');
-	loader.addFonts(['Quicksand']);
+	// loader.addFonts(['Quicksand']);
 	loader.addAssets([ASSET_URL + "images/stroke.png"]);
 
 	var domLoaded = false;
@@ -658,7 +658,7 @@
 
 	  if (!isMobile) {
 
-	    isMobile = iPad;
+	    window.isMobile = iPad;
 	  }
 
 	  canvas = document.createElement('canvas');
@@ -667,19 +667,19 @@
 
 	  var p = document.createElement("p");
 	  p.setAttribute("id", "info");
-	  p.innerHTML = isMobile ? "TOUCH SCREEN TO START" : "";
+	  p.innerHTML = isMobile ? "TOUCH THE SCREEN TO DRAW / UNDRAW" : "PRESS SPACE TO DRAW / UNDRAW";
 
-	  var p2 = document.createElement("p");
-	  p2.setAttribute("id", "sound");
-	  p2.innerHTML = "TOGGLE SOUND";
-
-	  var p3 = document.createElement("p");
-	  p3.setAttribute("id", "info2");
-	  p3.innerHTML = "Music: Yeah Yeah Yeah, Kognitif";
+	  // let p2 = document.createElement("p");
+	  // p2.setAttribute("id", "sound")
+	  // p2.innerHTML = "TOGGLE SOUND";
+	  //
+	  // let p3 = document.createElement("p");
+	  // p3.setAttribute("id", "info2")
+	  // p3.innerHTML = "Music: Yeah Yeah Yeah, Kognitif";
 
 	  document.body.appendChild(p);
-	  document.body.appendChild(p2);
-	  document.body.appendChild(p3);
+	  // document.body.appendChild(p2);
+	  // document.body.appendChild(p3);
 
 	  gl = canvas.getContext("webgl");
 	  if (!gl) {
@@ -689,7 +689,7 @@
 
 	  _mcgl.GL.reset(gl);
 
-	  // window.gui = new dat.GUI({ width:300 });
+	  window.gui = new _datGui2.default.GUI({ width: 300 });
 
 	  // create the shaders
 
@@ -703,8 +703,6 @@
 	  resize();
 
 	  scene = new _Scene2.default();
-	  p2.addEventListener("click", scene.toggleSound.bind(scene));
-	  p2.addEventListener("tap", scene.toggleSound.bind(scene));
 
 	  update();
 
@@ -12031,16 +12029,12 @@
 	    _this.compareV3 = function (a, b) {
 	      var aa = a * 6;
 	      var ab = b * 6;
-	      // console.log(this.positions[ aa ] === this.positions[ ab ] ) && ( this.positions[ aa + 1 ] === this.positions[ ab + 1 ] ) && ( this.positions[ aa + 2 ] === this.positions[ ab + 2 ] );
 	      return this.positions[aa] === this.positions[ab] && this.positions[aa + 1] === this.positions[ab + 1] && this.positions[aa + 2] === this.positions[ab + 2];
 	    };
 
 	    _this.copyV3 = function (a, out) {
-
 	      if (!out) out = tempArray1;
-
 	      var aa = a * 6;
-	      // console.log(this.positions[ aa ], this.positions[ aa + 1 ], this.positions[ aa + 2 ]);
 	      out[0] = this.positions[aa];
 	      out[1] = this.positions[aa + 1];
 	      out[2] = this.positions[aa + 2];
@@ -12094,7 +12088,6 @@
 	          this.counters[indexC++] = [c];
 	        }
 
-	        // console.log(this.positions.length);
 	        this.positions[index++] = v[i][0];
 	        this.positions[index++] = v[i][1];
 	        this.positions[index++] = v[i][2];
@@ -12109,15 +12102,11 @@
 	  }, {
 	    key: 'process',
 	    value: function process(needsUpdate) {
-
-	      // console.log("here");
 	      var l = this.positions.length / 6;
 
 	      var v,
 	          index = 0,
 	          indexN = 0;
-
-	      // this.next = [];
 
 	      if (this.compareV3(0, l - 1)) {
 	        this.copyV3(l - 2);
@@ -12195,11 +12184,6 @@
 
 	          this.width[index++] = w;
 	          this.width[index++] = w;
-	          // this.uvs[index++] = j / ( l - 1 );
-	          // this.uvs[index++] = 0;
-	          //
-	          // this.uvs[index++] = j / ( l - 1 );
-	          // this.uvs[index++] = 1;
 
 	          this.uvs.push([j / (l - 1), 0]);
 	          this.uvs.push([j / (l - 1), 1]);
@@ -12316,8 +12300,8 @@
 	  (0, _createClass3.default)(BigTriangle, [{
 	    key: 'bigTriangle',
 	    value: function bigTriangle() {
-	      var indices = [2, 1, 0];
-	      var positions = [[-1 * 1000, -1 * 1000], [-1 * 1000, 4 * 1000], [4 * 1000, -1 * 1000]];
+	      var indices = [0, 1, 2];
+	      var positions = [[-1 * 10000, -1 * 10000], [-1 * 10000, 4 * 10000], [4 * 10000, -1 * 10000]];
 
 	      this.bufferData(positions, 'a_position', 2);
 	      this.bufferIndex(indices);
@@ -13183,6 +13167,90 @@
 	    }
 	  };
 
+	  Easings.prototype.returnVariable = function (obj, duration, vars, test) {
+	    var tween = {
+	      delete: false,
+	      currentIteration: 0,
+	      isArray: false,
+	      obj: obj,
+	      vars: vars,
+	      delay: vars.delay * 60 || 0,
+	      isDelayed: vars.delay && vars.delay > 0 ? true : false,
+	      duration: duration * 60,
+	      ease: vars.ease || this.easeLinear
+	    };
+
+	    if (obj instanceof Array) {
+
+	      tween.isArray = true;
+
+	      var varToTween = [];
+	      for (var v in vars) {
+	        if (v !== "delay" && v !== "duration" && !this.isFunction(vars[v])) {
+
+	          var object = {
+	            var: v,
+	            toValue: vars[v]
+	          };
+
+	          var values = [];
+	          for (var i = 0; i < obj.length; i++) {
+	            values.push(obj[i]);
+	          }
+	          object.value = values;
+
+	          varToTween.push(object);
+	        }
+	      }
+	    } else {
+	      var varToTween = [];
+
+	      for (var v in vars) {
+	        if (v !== "delay" && v !== "duration" && !this.isFunction(vars[v]) && v !== "forceTween") {
+
+	          for (var i = 0; i < this.tweens.length; i++) {
+	            var t = this.tweens[i];
+
+	            // same object ?
+	            if (t.obj === obj) {
+	              for (var k = 0; k < t.props.length; k++) {
+	                var variableToTween = t.props[k];
+	                if (variableToTween.var === v && (tween.delay === 0 || tween.vars.forceTween)) {
+	                  // tween the same variable ?
+	                  t.delete = true;
+	                  this.tweens.splice(i, 1);
+
+	                  i--;
+	                  // t.props.splice(k, 1);
+	                  // k--;
+	                }
+	              }
+	            }
+	          }
+
+	          varToTween.push({
+	            var: v,
+	            value: obj[v],
+	            toValue: vars[v]
+	          });
+	        }
+	      }
+	    }
+
+	    tween.props = varToTween;
+
+	    // if(!obj.tweens){
+	    //   obj.tweens = [
+	    //     tween
+	    //   ]
+	    // }
+	    // else {
+	    //   obj.tweens.push(tween);
+	    // }
+
+	    return tween;
+	  };
+
 	  Easings.prototype.to = function (obj, duration, vars, test) {
 	    var tween = {
 	      delete: false,
@@ -13511,15 +13579,12 @@
 	    GL.getExtension("OES_texture_float_linear");
 
 	    if (_mcgl2.default.GL.checkExtension('OES_texture_float')) {
-	      console.log(0);
 	      type = gl.FLOAT;
 	    } else if (extHalfFloat) {
-	      console.log(1);
 	      type = extHalfFloat.HALF_FLOAT_OES;
 	    }
 
 	    if (_mcgl2.default.GL.isMobile && type === gl.FLOAT && extHalfFloat) {
-	      console.log(2);
 	      type = extHalfFloat.HALF_FLOAT_OES;
 	    }
 	    // alert(type);
@@ -13890,7 +13955,7 @@
 	                return;
 	            }
 
-	            console.log("here", this.assetsToLoad);
+	            // console.log("here", this.assetsToLoad);
 	            //this.assetLoader = new PIXI.loaders.Loader();
 	            this.assetLoader = new _resourceLoader2.default();
 	            this.assetLoader.add(this.assetsToLoad);
@@ -19806,292 +19871,173 @@
 
 	var _mcgl2 = _interopRequireDefault(_mcgl);
 
-	var _ViewLine = __webpack_require__(222);
+	var _ViewBackground = __webpack_require__(222);
+
+	var _ViewBackground2 = _interopRequireDefault(_ViewBackground);
+
+	var _ViewLine = __webpack_require__(225);
 
 	var _ViewLine2 = _interopRequireDefault(_ViewLine);
 
-	var _ViewSim = __webpack_require__(237);
-
-	var _ViewSim2 = _interopRequireDefault(_ViewSim);
-
-	var _ViewNoise = __webpack_require__(240);
-
-	var _ViewNoise2 = _interopRequireDefault(_ViewNoise);
-
-	var _ViewRenderer = __webpack_require__(243);
-
-	var _ViewRenderer2 = _interopRequireDefault(_ViewRenderer);
-
-	var _McglFloor = __webpack_require__(246);
+	var _McglFloor = __webpack_require__(241);
 
 	var _McglFloor2 = _interopRequireDefault(_McglFloor);
 
-	var _sono = __webpack_require__(249);
+	var _ViewDear = __webpack_require__(244);
 
-	var _sono2 = _interopRequireDefault(_sono);
+	var _ViewDear2 = _interopRequireDefault(_ViewDear);
+
+	var _ViewBoar = __webpack_require__(284);
+
+	var _ViewBoar2 = _interopRequireDefault(_ViewBoar);
+
+	var _ViewFox = __webpack_require__(286);
+
+	var _ViewFox2 = _interopRequireDefault(_ViewFox);
+
+	var _ViewBat = __webpack_require__(288);
+
+	var _ViewBat2 = _interopRequireDefault(_ViewBat);
+
+	var _ViewBear = __webpack_require__(290);
+
+	var _ViewBear2 = _interopRequireDefault(_ViewBear);
+
+	var _ViewWolf = __webpack_require__(292);
+
+	var _ViewWolf2 = _interopRequireDefault(_ViewWolf);
+
+	var _ViewRabbit = __webpack_require__(294);
+
+	var _ViewRabbit2 = _interopRequireDefault(_ViewRabbit);
+
+	var _ViewWeasel = __webpack_require__(296);
+
+	var _ViewWeasel2 = _interopRequireDefault(_ViewWeasel);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// import ViewFBO from './views/ViewFBO';
-	// import vs from '../shaders/default.vert'
-	// import fs from '../shaders/fbo.frag'
-
-	// import ViewSphere from './views/ViewSphere';
-	// import ViewIcosphere from './views/ViewIcosphere';
 	var gl = void 0;
 
 	var Scene = function () {
 	  function Scene() {
-	    var _this = this;
-
 	    (0, _classCallCheck3.default)(this, Scene);
 
 	    gl = _mcgl.GL.gl;
 	    this.tick = 0;
-	    this.currentNoise = 1;
+
+	    this.debug = true;
+	    this.delay = 120;
 	    this.isPaused = false;
 
 	    gl.enable(gl.DEPTH_TEST);
 	    gl.enable(gl.BLEND);
 	    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-	    // this.orbitalControl = mcgl.orbitalControl;
-	    // this.orbitalControl.radius = .1;
-
-	    this._bCopy = new _mcgl2.default.BatchCopy();
 	    window.addEventListener('resize', this.resize.bind(this));
 
 	    this.controller = new _mcgl2.default.Controller();
 	    this.controller.onKeyPressed.add(this.onKeyPressed, this);
+	    this.controller.onTouchEnd.add(this.onKeyPressed, this);
 	    this.xAxisPlane = new _McglFloor2.default();
 
-	    this.cameraControl = new _mcgl2.default.CameraControl();
-	    // this.cameraControl.setRy(Math.PI/2)
-	    this.rx = 0;
-	    this.ry = Math.PI / 2;
+	    this.orbitalControl = _mcgl2.default.orbitalControl;
+	    this.orbitalControl.radius = 1800;
+	    this.orbitalControl.setRy(-Math.PI / 6);
+	    this.orbitalControl.radius = 2;
 
-	    this.camera = new _mcgl2.default.camera.CameraPOV();
-
-	    this._fboNoise = new _mcgl2.default.FBO(256, 256);
-	    this.viewNoise = new _ViewNoise2.default(256, 256);
+	    this.camera = new _mcgl2.default.camera.Camera();
 
 	    this.lines = [];
 
-	    for (var i = 0; i < 4; i++) {
-	      var l = new _ViewLine2.default(i === 0);
-	      // l.position[0] = -1.;
+	    for (var i = 0; i < 1; i++) {
+	      var l = new _ViewLine2.default();
 	      this.lines.push(l);
 	    }
 
-	    this.viewRender = new _ViewRenderer2.default(256, 256);
-	    // this.viewRender.position[1] = -.5;
-	    // this.viewRender.position = [-206, -120, 0];
+	    this.viewBackground = new _ViewBackground2.default();
 
-	    // this.orbitalControl.setRy(Math.PI/2)
-	    this._fboNoise.bind(256, 256);
-	    _mcgl2.default.GL.gl.clear(0, 0, 0, 0);
-	    this.viewNoise.render();
-	    this._fboNoise.unbind();
-	    this.targetPoint = [0, 0, 0];
+	    this.shapes = [_ViewBear2.default, _ViewBoar2.default, _ViewBat2.default, _ViewFox2.default, _ViewDear2.default, _ViewWolf2.default, _ViewRabbit2.default, _ViewWeasel2.default];
 
-	    this.height = {
-	      noise: .2,
-	      lines: .2
-	    };
-
-	    this._fboNoise.clear();
-
-	    window.addEventListener("mousemove", function (e) {
-	      _this.onMouseMove(e);
-	    }, false);
-
-	    // this.positionObj = {
-	    //   x: -.1,
-	    //   y: 0,
-	    //   z: 0
-	    // }
-
-	    this.x = .35; //.53//.77
-	    this.y = .0;
-	    this.z = .2;
-
-	    // gui.add(this, "x", -2, 2);
-	    // gui.add(this, "y", -2, 2);
-	    // gui.add(this, "z", -2, 2);
-
-	    this.z = -.1; //-.32
-
-
-	    this.sound = _sono2.default.createSound({
-	      // url: [ASSET_URL + 'sounds/blonde_redhead.mp3'],
-	      url: [ASSET_URL + 'sounds/kognitif.mp3'],
-	      loop: true,
-	      volume: 1
-	    });
-
-	    this.sound.play();
-
-	    this.analyser = _sono2.default.effect.analyser({
-	      fftSize: 512,
-	      smoothingTimeConstant: 0.7
-	    });
+	    this.animalStep = 0;
 	  }
 
 	  (0, _createClass3.default)(Scene, [{
 	    key: 'onKeyPressed',
 	    value: function onKeyPressed(key) {
-	      if (key === "space") {
-	        this.pause();
+	      var _this = this;
+
+	      if (key === "space" || window.isMobile) {
+
+	        if (this.isDrawn) {
+	          this.isDrawn = false;
+	          for (var i = 0; i < this.lines.length; i++) {
+	            this.lines[i].wander();
+	          }
+	        } else {
+	          this.isDrawn = true;
+
+	          var _loop = function _loop() {
+
+	            var animal = new _this.shapes[_this.animalStep % _this.shapes.length]();
+	            animal.reset([0, .9, 0]);
+	            _this.lines[i].transformTo(animal);
+
+	            _this.animalStep++;
+
+	            _this.orbitalControl.setRy(-Math.PI / 6);
+	            var obj = {
+	              ryT: _this.orbitalControl.ryT
+	            };
+	            Easings.to(obj, .5, {
+	              ryT: 0,
+	              onUpdate: function onUpdate() {
+	                _this.orbitalControl.setRy(obj.ryT);
+	              }
+	            });
+	          };
+
+	          for (var i = 0; i < this.lines.length; i++) {
+	            _loop();
+	          }
+	        }
 	      }
 	    }
 	  }, {
 	    key: 'pause',
-	    value: function pause() {
-	      if (this.isPaused) {
-	        this.sound.fade(0, 1);
-	      } else {
-	        this.sound.fade(1, 1);
-	      }
-
-	      this.isPaused = !this.isPaused;
-	    }
-	  }, {
-	    key: 'onMouseMove',
-	    value: function onMouseMove(e) {
-	      for (var i = 0; i < this.lines.length; i++) {
-	        this.lines[i].onMouseMove(e);
-	      }
-	    }
-	  }, {
-	    key: 'updateFBO',
-	    value: function updateFBO() {
-	      this._fboNoise.bind(256, 256);
-	      _mcgl2.default.GL.gl.clear(0, 0, 0, 0);
-	      this.viewNoise.render();
-	      this._fboNoise.unbind();
-	    }
-	  }, {
-	    key: 'getM',
-	    value: function getM(a) {
-	      var sum = 0;
-	      var count = 0;
-	      for (var i = 0; i < a.length; i++) {
-	        if (a[i] > 10) {
-	          sum += a[i];
-	          count++;
-	        }
-	      }
-
-	      return sum / count;
-
-	      var min = Math.min.apply(null, a);
-	      var max = Math.max.apply(null, a);
-
-	      return (max + min) / 2;
-	    }
-	  }, {
-	    key: 'toggleSound',
-	    value: function toggleSound() {
-	      this.pause();
-	    }
+	    value: function pause() {}
 	  }, {
 	    key: 'update',
 	    value: function update() {
-	      this.updateFBO();
 	      this.render();
+
+	      for (var i = 0; i < this.lines.length; i++) {
+	        this.lines[i].render();
+	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      this.cameraControl.update();
-	      this.tick++;
 	      _mcgl.GL.setMatrices(this.camera);
 
-	      var target = [0, 0, 0];
+	      this.tick++;
+	      this.orbitalControl.position[0] = 0;
+	      this.orbitalControl.position[1] = 1;
+	      this.orbitalControl.position[2] = 2;
+
+	      this.orbitalControl.update();
+	      this.camera.position = this.orbitalControl._position;
+
+	      this.camera.perspective(60 * Math.PI / 180, _mcgl.GL.aspectRatio, 0.1, 60);
+	      var target = [0, .5, 0];
 	      var up = [0, 1, 0];
 
-	      var f = this.analyser.getWaveform();
-	      // console.log(f);
+	      this.camera.lookAt(target, up);
+	      this.xAxisPlane.render();
 
-	      // console.log(Math.max.apply(null, f));
-
-	      this.x = .35 + Math.cos(this.tick / 120.) * .4;
-	      // this.x = .53 + Math.cos(this.tick / 120.) * .2;
-	      // this.z = -.07 + Math.cos(this.tick / 120.) * .2;
-	      this.camera.perspective(60 * Math.PI / 180, _mcgl.GL.aspectRatio, .1, 60);
-	      this.camera.setPosition(this.x, this.y, this.z);
-
-	      this.ry = Math.PI / 4 * 2.45 + Math.cos(this.tick / 100.) * .1;
-	      this.rx = Math.sin(this.tick / 100.) * .08 + this.cameraControl.rx * 0.1;
-	      this.rz = Math.sin(this.tick / 30.) * .09 + this.cameraControl.ry * 0.1;
-	      this.camera.rotateX(this.rx);
-	      this.camera.rotateY(this.ry);
-	      this.camera.rotateZ(this.rz);
-
-	      // this.camera.lookAt(target);
-	      var t = this._fboNoise.textures[0];
-
-	      // this.xAxisPlane.render();
-
-	      // for (var i = 0; i < this.lines.length; i++) {
-	      // this.lines[i].render(t, this.height.lines);
-	      // }
-	      // let m = this.getM(f)/ 256;
-	      // console.log(f[10]);
-	      var m = Math.max.apply(null, f) / 256;
-	      m -= .5;
-	      m *= 2;
-	      console.log(m);
-	      // let m = this.getM(f)/255;
-
-	      // m -= .6;
-	      // if(m < 0) m = 0;
-	      // m is from 0 and .4
-	      m = this.easeInExpo(m, 0, 1, 1) * 10;
-	      // console.log(m);
-	      // this.tickSpace, 0, 1, 800
-	      // console.log(m);
-
-	      // else {
-	      //   m = m - .5;
-	      // }
-
-	      // console.log(m, Easings.easeInCubic(m, m, 1 - m, 1));
-
-	      // o.obj[e.var] = o.ease(o.currentIteration, e.value, e.toValue - e.value, o.duration);
-	      // ));
-	      this.currentNoise += (m - this.currentNoise) * 0.01;
-
-	      // console.log(this.currentNoise);
-	      // if(this.currentNoise > this.viewNoise.amplitude + .2){
-	      // console.log(this.currentNoise);
-	      this.viewNoise.amplitude = this.currentNoise;
-	      // }
-	      // this.viewNoise.amplitude = Math.max.apply(null, f);
-	      // this.viewNoise.render();
-
-
-	      this.viewRender.render(t, m); // 2 I dont know why this is in this order
-
-	      // GL.gl.viewport(0, 0, 256, 256);
-	      // GL.gl.disable(GL.gl.DEPTH_TEST);
-	      // this._bCopy.draw(t);
-	      // GL.gl.enable(GL.gl.DEPTH_TEST);
-	      // GL.gl.viewport(0, 0, window.innerWidth, window.innerHeight);
-
-	      this._fboNoise.clear();
-	    }
-	  }, {
-	    key: 'easeOutCubic',
-	    value: function easeOutCubic(t, b, c, d) {
-	      t /= d;
-	      t--;
-	      return c * (t * t * t + 1) + b;
-	    }
-	  }, {
-	    key: 'easeInExpo',
-	    value: function easeInExpo(t, b, c, d) {
-	      return c * Math.pow(2, 10 * (t / d - 1)) + b;
+	      for (var i = 0; i < this.lines.length; i++) {
+	        this.lines[i].render();
+	      }
 	    }
 	  }, {
 	    key: 'resize',
@@ -20128,23 +20074,104 @@
 
 	var _mcgl2 = _interopRequireDefault(_mcgl);
 
-	var _glMatrix = __webpack_require__(223);
+	var _bg = __webpack_require__(223);
+
+	var _bg2 = _interopRequireDefault(_bg);
+
+	var _bg3 = __webpack_require__(224);
+
+	var _bg4 = _interopRequireDefault(_bg3);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ViewBackground = function () {
+	  function ViewBackground() {
+	    (0, _classCallCheck3.default)(this, ViewBackground);
+
+	    this.shader = new _mcgl.GLShader(_bg2.default, _bg4.default);
+	    this.shader.bind();
+	    this.bg = new _mcgl2.default.geom.BigTriangle(this.shader.shaderProgram);
+
+	    this.percentage = 0;
+	    // this.bg.position = [0, 0, 0]
+	  }
+
+	  (0, _createClass3.default)(ViewBackground, [{
+	    key: 'render',
+	    value: function render() {
+
+	      this.shader.bind(); // just to use propgram
+
+	      this.shader.uniform("u_percentage", "float", this.percentage);
+	      // this.shader.uniform("resolutions", "vec2", [window.innerWidth, window.innerHeight]);
+	      //   12.0/255.0, 98.0/255.0, 137.0/255.0
+	      // 239.0/255.0, 246.0/255.0, 247.0/255.0
+	      // this.shader.uniform("colorTop", "vec3", [239.0/255.0, 246.0/255.0, 247.0/255.0]);
+	      // this.shader.uniform("colorBottom", "vec3", [12.0/255.0, 98.0/255.0, 137.0/255.0]);
+	      GL.draw(this.bg);
+	    }
+	  }]);
+	  return ViewBackground;
+	}();
+
+	exports.default = ViewBackground;
+	module.exports = exports['default'];
+
+/***/ },
+/* 223 */
+/***/ function(module, exports) {
+
+	module.exports = "#define GLSLIFY 1\nattribute vec4 a_position;\n\nuniform mat4 u_world;\nuniform mat4 u_worldViewProjection;\n// uniform mat4 u_worldInverseTranspose;\n\nvarying vec3 v_normal;\nvoid main() {\n\n  vec3 position = a_position.xyz;\n  v_normal = normalize(position.rgb);\n\n  gl_Position =  vec4(position, a_position.w);\n\n}\n"
+
+/***/ },
+/* 224 */
+/***/ function(module, exports) {
+
+	module.exports = "precision highp float;\n#define GLSLIFY 1\nuniform float u_percentage;\n\nvoid main() {\n  vec3 color = vec3(.92,.92,.92);\n  vec3 color2 = vec3(0.,.0,.0);\n\n  vec3 c = mix(color, color2, u_percentage);\n\n  gl_FragColor = vec4(c, 1.0);\n  // gl_FragColor *= 1.0 - y;\n}\n"
+
+/***/ },
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(200);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _mcgl = __webpack_require__(2);
+
+	var _mcgl2 = _interopRequireDefault(_mcgl);
+
+	var _glMatrix = __webpack_require__(226);
 
 	var _glMatrix2 = _interopRequireDefault(_glMatrix);
 
-	var _line = __webpack_require__(233);
+	var _perlin = __webpack_require__(236);
+
+	var _perlin2 = _interopRequireDefault(_perlin);
+
+	var _line = __webpack_require__(237);
 
 	var _line2 = _interopRequireDefault(_line);
 
-	var _line3 = __webpack_require__(234);
+	var _line3 = __webpack_require__(238);
 
 	var _line4 = _interopRequireDefault(_line3);
 
-	var _Spline = __webpack_require__(235);
+	var _Spline = __webpack_require__(239);
 
 	var _Spline2 = _interopRequireDefault(_Spline);
 
-	var _LinesMotions = __webpack_require__(236);
+	var _LinesMotions = __webpack_require__(240);
 
 	var _LinesMotions2 = _interopRequireDefault(_LinesMotions);
 
@@ -20153,166 +20180,365 @@
 	var tempArray = [];
 
 	var STATES = {
-	  wandering: 0
+		wandering: 0,
+		drawing: 1
 	};
 
 	var ViewLine = function () {
-	  function ViewLine(isMainLine) {
-	    (0, _classCallCheck3.default)(this, ViewLine);
+		function ViewLine(isMainLine) {
+			(0, _classCallCheck3.default)(this, ViewLine);
 
 
-	    this.position = [0, 0, 0];
+			this.perlin = new _perlin2.default.Noise(Math.random());
+			this.needsUpdate = false;
+			this.position = [0, 0, 0];
 
-	    this.state = STATES.wandering;
-	    this.isMainLine = isMainLine;
-	    this.shader = new _mcgl.GLShader(_line2.default, _line4.default);
-	    this.shader.bind();
+			this.state = STATES.wandering;
 
-	    this.delay = Math.random() * 240;
-	    this.spline = new _Spline2.default([]);
-	    this.points = [];
-	    this.sub = 3; //GL.isMobile ? 3 : 5;
-	    this.height = .2;
+			this.shader = new _mcgl.GLShader(_line2.default, _line4.default);
+			this.shader.bind();
 
-	    this.width = this.isMainLine ? .5 : Math.random() * .4 + .1;
-	    var index = 0;
-	    for (var i = 0; i < 15; i++) {
-	      this.points[index++] = [.5, 0, this.width / 15 * i];
-	    }
+			this.indexMotion = Math.floor(Math.random() * 4);
+			this.delay = Math.random() * 240;
+			this.spline = new _Spline2.default([]);
+			this.points = [];
+			this.sub = 3;
 
-	    this.targetPoint = [0, 0, 0];
-	    // let division = 4;
-	    // this.line = new mcgl.geom.Line(this.shader.shaderProgram, this.points);
-	    this.line = new _mcgl2.default.geom.Line(this.shader.shaderProgram, this.getPoints(this.points));
-	    this.line.points = this.line.vert;
+			var index = 0;
+			for (var i = 0; i < 15; i++) {
+				this.points[index++] = [.5, 0, .5 / 15 * i];
+			}
 
-	    this.texture = new _mcgl2.default.Texture(ASSET_URL + "images/stroke.png");
+			this.targetPoint = [0, 0, 0];
+			this.position = [0, 0, 0];
+			this.line = new _mcgl2.default.geom.Line(this.shader.shaderProgram, this.getPoints(this.points));
+			this.line.points = this.line.vert;
 
-	    if (this.isMainLine) {
-	      this.alpha = 1;
-	    } else {
-	      this.alpha = Math.random() * .4 + .4;
-	    }
+			this.texture = new _mcgl2.default.Texture(ASSET_URL + "images/stroke.png");
+			this.alpha = .5 + Math.random() * .5;
 
-	    this.options = {
-	      speed: this.isMainLine ? 1 : Math.random() * .8 + .2,
-	      time: Math.random() * 100 - 50,
-	      targetPoint: this.targetPoint
-	    };
+			this.motionOptions = {
+				perlin: this.perlin,
+				time: Math.random() * 0xFF,
+				startAngle: Math.random() * Math.PI * 2,
+				radius: Math.floor(Math.random() * 3) + 2,
+				targetPoint: this.targetPoint,
+				position: this.position,
+				xoff: Math.random() * 100,
+				yoff: Math.random() * 100
+			};
 
-	    this.motions = {
-	      0: [_LinesMotions2.default.move2.bind(_LinesMotions2.default), _LinesMotions2.default.move3.bind(_LinesMotions2.default), _LinesMotions2.default.move4.bind(_LinesMotions2.default)]
-	    };
+			this.motions = [_LinesMotions2.default.basic.bind(_LinesMotions2.default), _LinesMotions2.default.snake.bind(_LinesMotions2.default), _LinesMotions2.default.circle.bind(_LinesMotions2.default)];
 
-	    this.changeMotion();
-	    // this.motion = this.motions[this.state][0];
-	  }
+			this.changeMotion();
+		}
 
-	  (0, _createClass3.default)(ViewLine, [{
-	    key: 'changeMotion',
-	    value: function changeMotion(e) {
-	      this.motion = this.motions[this.state][Math.floor(Math.random() * this.motions[this.state].length)];
-	    }
-	  }, {
-	    key: 'onMouseMove',
-	    value: function onMouseMove(e) {
+		(0, _createClass3.default)(ViewLine, [{
+			key: 'changeMotion',
+			value: function changeMotion(e) {
+				this.indexMotion++;
+				this.motion = this.motions[this.indexMotion % this.motions.length];
+			}
+		}, {
+			key: 'getPoints',
+			value: function getPoints(pts) {
+				this.spline.points = pts;
+				var indexArray = void 0,
+				    n_sub = this.sub;
 
-	      if (!this.isMainLine) return;
+				tempArray = [];
+				var index = 0;
+				for (var i = 0; i < pts.length * n_sub; i++) {
+					indexArray = i / (pts.length * n_sub);
+					this.spline.getPoint(indexArray, tempArray);
+				}
 
-	      var x = e.screenX / window.innerWidth;
-	      var y = e.screenY / window.innerHeight;
-	      this.targetPoint[0] = x;
-	    }
-	  }, {
-	    key: 'getPoints',
-	    value: function getPoints(pts) {
-	      this.spline.points = pts;
-	      var indexArray = void 0,
-	          n_sub = this.sub;
+				return tempArray;
+			}
+		}, {
+			key: 'update',
+			value: function update() {
 
-	      tempArray = [];
-	      var index = 0;
-	      for (var i = 0; i < pts.length * n_sub; i++) {
-	        indexArray = i / (pts.length * n_sub);
-	        this.spline.getPoint(indexArray, tempArray);
-	      }
+				if (this.state === STATES.wandering) {
+					this.motionOptions.time += .8;
+					this.motion(this.motionOptions);
 
-	      return tempArray;
-	    }
-	  }, {
-	    key: 'animateTargetPoint',
-	    value: function animateTargetPoint() {
+					if (this.targetPoint[1] < -.1) this.targetPoint[1] = -.1;
+				} else if (this.state === STATES.drawing) {
+					this.targetPoint[0] = this.animal.shape.vertices[0][0];
+					this.targetPoint[1] = this.animal.shape.vertices[0][1];
+					this.targetPoint[2] = this.animal.shape.vertices[0][2];
+				}
+			}
+		}, {
+			key: 'newPoints',
+			value: function newPoints(line, force) {
 
-	      this.targetPoint[2] = Math.sin(this.options.time / 100) * .25 + .25;
+				// HERE IS THE DRAWING
+				if (this.state === STATES.drawing) {
+					this.objectsToTween = [];
+					var _index = 0;
 
-	      if (this.isMainLine) return;
-	      this.motion(this.options);
-	      // this.targetPoint[2] = Math.sin(Math.pow(8, Math.sin(this.options.time/200))) * .5 +.5;
-	      // this.targetPoint[2] = Math.sin(Math.pow(8, Math.sin(this.options.time/100))) * .5 +.5;
-	    }
-	  }, {
-	    key: 'newPoints',
-	    value: function newPoints(line) {
-	      var pt0 = line.points[0];
+					/* this path is defined in the transformTo() method, it's composed to all the
+	     points the line has to go through to create the shape
+	     */
 
-	      pt0[0] += (this.targetPoint[0] - pt0[0]) * 0.4;
-	      pt0[2] += (this.targetPoint[2] - pt0[2]) * 0.4;
-	      // pt0[1] += (this.targetPoint[1] - pt0[1]) * 0.2 * this.mainSpeed * (vrPresenting ? .25 : 1);
+					for (var i = 0; i < line.vert.length; i++) {
+						var startIndex = line.vert.length - 1 - i;
+						var endIndex = this.path.length - 1 - i;
 
-	      var speed = .6;
+						var obj = { startIndex: startIndex, endIndex: endIndex, currentIndex: startIndex };
+						var o = Easings.returnVariable(obj, 1, { currentIndex: endIndex }); // fake tween, just to get the info we want for the tween
+						o.point = startIndex;
+						this.objectsToTween[_index++] = o;
+					}
+				} else if (this.state === STATES.wandering) {
+					var pt0 = line.points[0];
 
-	      for (var i = 1; i < line.points.length; i++) {
-	        line.points[i][0] += (line.points[i - 1][0] - line.points[i][0]) * speed;
-	        // line.points[i][1] += (line.points[i-1][1] - line.points[i][1]) * speed * this.mainSpeed * (vrPresenting ? .5 : 1);
+					pt0[0] += (this.targetPoint[0] - pt0[0]) * 0.4 * .25 * .1;
+					pt0[2] += (this.targetPoint[2] - pt0[2]) * 0.4 * .25 * .1;
+					pt0[1] += (this.targetPoint[1] - pt0[1]) * 0.2 * .25 * .1;
 
-	        line.points[i][2] = pt0[2] + i * this.width / line.points.length;
-	        // line.points[i][2] += (line.points[i-1][2] - line.points[i][2]) * speed;
-	      }
+					var speed = .3;
 
-	      var pts = line.points;
+					for (var i = 1; i < line.points.length; i++) {
+						line.points[i][0] += (line.points[i - 1][0] - line.points[i][0]) * speed * .6;
+						line.points[i][1] += (line.points[i - 1][1] - line.points[i][1]) * speed * .6;
+						line.points[i][2] += (line.points[i - 1][2] - line.points[i][2]) * speed * .6;
+					}
+				}
 
-	      return pts;
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render(t, height) {
-	      this.delay--;
+				var pts = this.getPoints(line.points);
 
-	      if (this.delay < 0) {
-	        this.delay = Math.random() * 120 + 120;
-	        this.changeMotion();
-	      }
+				return pts;
+			}
+		}, {
+			key: 'wander',
+			value: function wander() {
+				this.objectsToTween = [];
+				for (var i = 0; i < this.line.points.length; i++) {
+					this.points[this.points.length - 1 - i] = this.line.vert[i * this.sub];
+				}
 
-	      this.options.time += this.options.speed;
-	      this.shader.bind();
+				this._cutExtraPoints(20);
+				this.state = STATES.wandering;
+			}
+		}, {
+			key: '_cutExtraPoints',
+			value: function _cutExtraPoints(max) {
 
-	      t.bind();
+				var nbPtsToSlice = this.points.length - max;
+				var offset = Math.ceil(this.points.length / max);
 
-	      this.texture.bind(1);
-	      this.shader.uniform("texture", "uniform1i", 1);
+				var arr = [];
+				var index = 0;
+				for (var i = 0; i < this.points.length; i += offset) {
+					arr[index++] = this.points[i];
+				}
 
-	      this.animateTargetPoint();
-	      var pts = this.newPoints(this.line);
+				this.points = arr;
+				this.line.points = this.points; // set the new points
+				this.needsUpdate = true; // will need to uplad some new buffers
+			}
+		}, {
+			key: 'transformTo',
+			value: function transformTo(animal) {
 
-	      this.line.render(pts, false);
-	      this.shader.uniform("alpha", "float", this.alpha);
-	      this.shader.uniform("uTime", "float", 0);
-	      this.shader.uniform("u_position", "vec3", this.position);
-	      this.shader.uniform("u_height", "float", height);
-	      this.shader.uniform("aspect", "float", window.innerWidth / window.innerHeight);
-	      this.shader.uniform("resolutions", "vec2", [window.innerWidth, window.innerHeight]);
+				this.currentPointToFollowIndex = 0;
+				this.mainSpeed = .3;
+				this.state = STATES.drawing;
+				var index = 0;
 
-	      GL.draw(this.line);
-	    }
-	  }]);
-	  return ViewLine;
+				this.animal = animal;
+
+				var ptsAnimal = this.animal.finalP;
+
+				var nbPointsTarget = ptsAnimal.length / this.sub;
+
+				/*
+	   	get the same number of points
+	   */
+				if (this.line.points.length < nbPointsTarget) {
+
+					var diff = nbPointsTarget - this.line.points.length;
+
+					// get the last two points to have a direction
+					var lastP1 = this.line.points[this.line.points.length - 1];
+					var lastP2 = this.line.points[this.line.points.length - 2];
+
+					var sub = [];
+					// direction
+					_glMatrix2.default.vec3.subtract(sub, lastP2, lastP1);
+					var dir = [];
+					// between 0 and 1
+					_glMatrix2.default.vec3.normalize(dir, sub);
+					var _dist = _glMatrix2.default.vec3.distance(lastP1, lastP2);
+
+					// add
+					for (var i = 0; i < diff; i++) {
+						var addPt = [];
+						var mult = [];
+
+						var direction = [dir[0] * _dist / diff * i, dir[1] * _dist / diff * i, dir[2] * _dist / diff * i];
+
+						_glMatrix2.default.vec3.add(addPt, lastP1, direction);
+
+						this.line.points.push(addPt);
+						this.needsUpdate = true;
+					}
+				} else if (this.line.points.length > nbPointsTarget) {
+					this.line.points.slice(0, nbPointsTarget - 1);
+					this.needsUpdate = true;
+				} else {
+					this.needsUpdate = false;
+				}
+
+				// no we have the same amount of points between the line and the shape to draw
+				this.path = [];
+				this.line.vert = this.getPoints(this.line.points);
+
+				var pathLine = this.line.vert.slice();
+				var firstPointLine = this.line.points[0];
+				var firstPointTarget = ptsAnimal[0];
+				var secondPointTarget = ptsAnimal[1];
+
+				/*
+	   	create a path to the shape to draw
+	   */
+				var dist = _glMatrix2.default.vec3.distance(firstPointLine, firstPointTarget);
+				var midPoint = [(firstPointLine[0] + firstPointTarget[0]) / 2, (firstPointLine[1] + firstPointTarget[1]) / 2, (firstPointLine[2] + firstPointTarget[2]) / 2];
+				var ptsToTarget = [firstPointLine];
+				for (var i = 0; i < 2; i++) {
+					var pt = this.getRandomPos(Math.random() * dist / 5, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+					pt[0] += midPoint[0];
+					pt[1] += midPoint[1];
+					pt[2] += midPoint[2];
+
+					ptsToTarget[ptsToTarget.length] = pt;
+				}
+
+				// get a point just before the target entry point, same direction
+				var sub2 = [];
+				_glMatrix2.default.vec3.subtract(sub2, firstPointTarget, secondPointTarget);
+				var dir2 = [];
+				_glMatrix2.default.vec3.normalize(dir2, sub2);
+
+				var pointJustBeforeEntryPoint = [firstPointTarget[0] + dir2[0] * dist / 5, firstPointTarget[1] + dir2[1] * dist / 5, firstPointTarget[2] + dir2[2] * dist / 5];
+
+				ptsToTarget[ptsToTarget.length] = pointJustBeforeEntryPoint;
+				ptsToTarget[ptsToTarget.length] = firstPointTarget;
+
+				// this is the curved line of everything we did just before
+				var pathToTarget = this.getPoints(ptsToTarget);
+				var pathTarget = ptsAnimal;
+
+				/*
+	   	create the full path we will tween now
+	   */
+				index = 0;
+				// the line itself
+				for (var i = pathLine.length - 1; i > -1; i--) {
+					this.path[index++] = pathLine[i];
+				}
+
+				// the path between the line and the target
+				for (var i = 0; i < pathToTarget.length; i++) {
+					this.path[index++] = pathToTarget[i];
+				}
+
+				// the target itself
+				for (var i = 0; i < pathTarget.length; i++) {
+					this.path[index++] = pathTarget[i];
+				}
+
+				this.newPoints(this.line, true);
+			}
+		}, {
+			key: 'getRandomPos',
+			value: function getRandomPos(r, s, t) {
+				var x = r * Math.cos(s) * Math.sin(t);
+				var y = r * Math.sin(s) * Math.sin(t);
+				var z = r * Math.cos(t);
+
+				return [x, y, z];
+			}
+		}, {
+			key: 'splice',
+			value: function splice(arr, index) {
+				var len = arr.length;
+				if (!len) {
+					return;
+				}
+				while (index < len) {
+					arr[index] = arr[index + 1];
+					index++;
+				}
+
+				arr.length--;
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				// if we are drawing an animal
+				if (Easings.tweens.length) {
+					Easings.update();
+				}
+
+				this.update();
+
+				this.shader.bind();
+
+				if (this.state === STATES.wandering) {
+					var pts = this.newPoints(this.line);
+					this.line.render(pts, this.needsUpdate);
+				} else if (this.state === STATES.drawing) {
+					for (var i = 0; i < this.objectsToTween.length; i++) {
+						var o = this.objectsToTween[i];
+						if (!o.delete) {
+							for (var k = 0; k < o.props.length; k++) {
+								var e = o.props[k];
+								o.obj[e.var] = Easings.easeOutCirc(o.currentIteration, e.value, e.toValue - e.value, o.duration);
+
+								var indexFloor = Math.floor(o.obj[e.var]);
+								this.line.vert[o.point][0] = this.path[indexFloor][0];
+								this.line.vert[o.point][1] = this.path[indexFloor][1];
+								this.line.vert[o.point][2] = this.path[indexFloor][2];
+							}
+
+							o.currentIteration += 1;
+							if (o.currentIteration > o.duration) {
+								o.delete = true;
+							}
+						} else {
+							this.splice(this.objectsToTween, i);
+							i--;
+						}
+					}
+
+					if (this.objectsToTween.length) {
+						this.line.render(this.line.vert, this.needsUpdate);
+					}
+				}
+
+				this.shader.uniform("alpha", "float", 1);
+				this.shader.uniform("uTime", "float", 0);
+				this.shader.uniform("u_position", "vec3", this.position);
+				this.shader.uniform("aspect", "float", window.innerWidth / window.innerHeight);
+				this.shader.uniform("resolutions", "vec2", [window.innerWidth, window.innerHeight]);
+
+				GL.draw(this.line);
+
+				this.needsUpdate = false;
+			}
+		}]);
+		return ViewLine;
 	}();
 
 	exports.default = ViewLine;
 	module.exports = exports['default'];
 
 /***/ },
-/* 223 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -20343,18 +20569,18 @@
 	THE SOFTWARE. */
 	// END HEADER
 
-	exports.glMatrix = __webpack_require__(224);
-	exports.mat2 = __webpack_require__(225);
-	exports.mat2d = __webpack_require__(226);
-	exports.mat3 = __webpack_require__(227);
-	exports.mat4 = __webpack_require__(228);
-	exports.quat = __webpack_require__(229);
-	exports.vec2 = __webpack_require__(232);
-	exports.vec3 = __webpack_require__(230);
-	exports.vec4 = __webpack_require__(231);
+	exports.glMatrix = __webpack_require__(227);
+	exports.mat2 = __webpack_require__(228);
+	exports.mat2d = __webpack_require__(229);
+	exports.mat3 = __webpack_require__(230);
+	exports.mat4 = __webpack_require__(231);
+	exports.quat = __webpack_require__(232);
+	exports.vec2 = __webpack_require__(235);
+	exports.vec3 = __webpack_require__(233);
+	exports.vec4 = __webpack_require__(234);
 
 /***/ },
-/* 224 */
+/* 227 */
 /***/ function(module, exports) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -20430,7 +20656,7 @@
 
 
 /***/ },
-/* 225 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -20453,7 +20679,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(224);
+	var glMatrix = __webpack_require__(227);
 
 	/**
 	 * @class 2x2 Matrix
@@ -20872,7 +21098,7 @@
 
 
 /***/ },
-/* 226 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -20895,7 +21121,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(224);
+	var glMatrix = __webpack_require__(227);
 
 	/**
 	 * @class 2x3 Matrix
@@ -21347,7 +21573,7 @@
 
 
 /***/ },
-/* 227 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -21370,7 +21596,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(224);
+	var glMatrix = __webpack_require__(227);
 
 	/**
 	 * @class 3x3 Matrix
@@ -22099,7 +22325,7 @@
 
 
 /***/ },
-/* 228 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -22122,7 +22348,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(224);
+	var glMatrix = __webpack_require__(227);
 
 	/**
 	 * @class 4x4 Matrix
@@ -24241,7 +24467,7 @@
 
 
 /***/ },
-/* 229 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -24264,10 +24490,10 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(224);
-	var mat3 = __webpack_require__(227);
-	var vec3 = __webpack_require__(230);
-	var vec4 = __webpack_require__(231);
+	var glMatrix = __webpack_require__(227);
+	var mat3 = __webpack_require__(230);
+	var vec3 = __webpack_require__(233);
+	var vec4 = __webpack_require__(234);
 
 	/**
 	 * @class Quaternion
@@ -24847,7 +25073,7 @@
 
 
 /***/ },
-/* 230 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -24870,7 +25096,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(224);
+	var glMatrix = __webpack_require__(227);
 
 	/**
 	 * @class 3 Dimensional Vector
@@ -25630,7 +25856,7 @@
 
 
 /***/ },
-/* 231 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -25653,7 +25879,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(224);
+	var glMatrix = __webpack_require__(227);
 
 	/**
 	 * @class 4 Dimensional Vector
@@ -26245,7 +26471,7 @@
 
 
 /***/ },
-/* 232 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -26268,7 +26494,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(224);
+	var glMatrix = __webpack_require__(227);
 
 	/**
 	 * @class 2 Dimensional Vector
@@ -26838,19 +27064,340 @@
 
 
 /***/ },
-/* 233 */
-/***/ function(module, exports) {
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "precision highp float;\n#define GLSLIFY 1\n\nattribute vec3 a_position;\nattribute vec2 a_textureCoord;\nattribute float direction;\nattribute vec3 aPrevious;\nattribute vec3 aNext;\nattribute float width;\n// attribute vec4 a_offsets;\nattribute float aCounters;\n// attribute vec3 aNormal;\n\nuniform mat4 u_viewMatrix;\nuniform mat4 u_projectionMatrix;\nuniform mat4 u_modelMatrix;\nuniform mat4 u_inverseViewMatrix;\nuniform sampler2D heightmap;//RenderTarget containing the transformed positions\n\n// uniform mat4 uModelMatrix;\n// uniform mat4 uViewMatrix;\n// uniform mat4 uProjectionMatrix;\nuniform float uTime;\nuniform float u_height;\nuniform vec3 u_position;\n// uniform float thickness;\n\n\nuniform float aspect;\n\nvarying vec2 vUV;\nvarying vec3 vColor;\n// varying vec3 vNormal;\nvarying float vCounters;\n\nvoid main() {\n\n  float thickness = .1;\n  // float thickness = 1. * width;\n  int miter = 0;\n\n  vec3 pos = a_position;\n\n\n  vec2 aspectVec = vec2(aspect, 1.0);\n  // uProjectionMatrix * uViewMatrix * uModelMatrix\n  mat4 projViewModel = u_projectionMatrix * u_viewMatrix * u_modelMatrix;//projection * view * model;\n\n  vec4 previousProjected = projViewModel * vec4(aPrevious.x, aPrevious.y, aPrevious.z, 1.0);\n  vec4 currentProjected = projViewModel * vec4(a_position.x, a_position.y, a_position.z, 1.0);\n  vec4 nextProjected = projViewModel * vec4(aNext.x, aNext.y, aNext.z, 1.0);\n\n  // vec4 previousProjected = projViewModel * vec4(aPrevious, 1.0);\n  // vec4 currentProjected = projViewModel * vec4(a_position, 1.0);\n  // vec4 nextProjected = projViewModel * vec4(aNext, 1.0);\n\n  // vNormal = aNormal;\n  vUV = a_textureCoord;\n  //get 2D screen space with W divide and aspect correction\n  vec2 currentScreen = currentProjected.xy / currentProjected.w * aspectVec;\n  vec2 previousScreen = previousProjected.xy / previousProjected.w * aspectVec;\n  vec2 nextScreen = nextProjected.xy / nextProjected.w * aspectVec;\n\n  vCounters = aCounters;\n\n  float len = thickness *width ;\n  // len *= smoothstep(vUV.x*2.,vUV.y*2.+2.,-uTime*2000.);;\n  // len *= smoothstep(vUV.x * 2., vUV.y * 2.+ 1., -uTime*2000.);\n\n  float orientation = direction;\n\n  //starting point uses (next - current)\n  vColor = vec3(1.0, .0, 0.0);\n  vec2 dir = vec2(0.0);\n  if (currentScreen == previousScreen) {\n    dir = normalize(nextScreen - currentScreen);\n    // vColor = vec3(1.0, 0.0, 0.0);\n  }\n  //ending point uses (current - previous)\n  else if (currentScreen == nextScreen) {\n    dir = normalize(currentScreen - previousScreen);\n    // vColor = vec3(0.0, 1.0, 0.0);\n  }\n  //somewhere in middle, needs a join\n  else {\n    //get directions from (C - B) and (B - A)\n\n    vec2 dirA = normalize((currentScreen - previousScreen));\n    if (miter == 1) {\n      vec2 dirB = normalize((nextScreen - currentScreen));\n      //now compute the miter join normal and length\n      vec2 tangent = normalize(dirA + dirB);\n      vec2 perp = vec2(-dirA.y, dirA.x);\n      vec2 miter = vec2(-tangent.y, tangent.x);\n      dir = tangent;\n      len = thickness / dot(miter, perp);\n    } else {\n      dir = dirA;\n\n    }\n  }\n  vec2 normal = vec2(-dir.y, dir.x);\n  vColor = vec3(normal, 1.0);\n  normal.x /= aspect;\n  normal *= len/2.0;\n\n  vec4 offset =  vec4(normal * orientation, 0.0, 0.0);\n  // vColor = vec3(orientation);\n\n  // currentProjected.y += 20.0;\n\n  vec4 posF = currentProjected + offset;\n  posF.y -= (texture2D( heightmap, a_position.xz ).x * u_height - .15) * pow(-currentProjected.x, 2.);\n  // pos.y -= texture2D( heightmap, a_position.xz ).x * 20.;\n\n\n\n\n\n\n\n  gl_Position = posF;//currentProjected + offset;\n  gl_PointSize = 1.0;\n}\n"
+	"use strict";
+
+	/*
+	 * A speed-improved perlin and simplex noise algorithms for 2D.
+	 *
+	 * Based on example code by Stefan Gustavson (stegu@itn.liu.se).
+	 * Optimisations by Peter Eastman (peastman@drizzle.stanford.edu).
+	 * Better rank ordering method by Stefan Gustavson in 2012.
+	 * Converted to Javascript by Joseph Gentle.
+	 *
+	 * Version 2012-03-09
+	 *
+	 * This code was placed in the public domain by its original author,
+	 * Stefan Gustavson. You may use it as you see fit, but
+	 * attribution is appreciated.
+	 *
+	 */
+
+	(function (global) {
+
+	  // Passing in seed will seed this Noise instance
+	  function Noise(seed) {
+	    function Grad(x, y, z) {
+	      this.x = x;this.y = y;this.z = z;
+	    }
+
+	    Grad.prototype.dot2 = function (x, y) {
+	      return this.x * x + this.y * y;
+	    };
+
+	    Grad.prototype.dot3 = function (x, y, z) {
+	      return this.x * x + this.y * y + this.z * z;
+	    };
+
+	    this.grad3 = [new Grad(1, 1, 0), new Grad(-1, 1, 0), new Grad(1, -1, 0), new Grad(-1, -1, 0), new Grad(1, 0, 1), new Grad(-1, 0, 1), new Grad(1, 0, -1), new Grad(-1, 0, -1), new Grad(0, 1, 1), new Grad(0, -1, 1), new Grad(0, 1, -1), new Grad(0, -1, -1)];
+
+	    this.p = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180];
+	    // To remove the need for index wrapping, double the permutation table length
+	    this.perm = new Array(512);
+	    this.gradP = new Array(512);
+
+	    this.seed(seed || 0);
+	  }
+
+	  // This isn't a very good seeding function, but it works ok. It supports 2^16
+	  // different seed values. Write something better if you need more seeds.
+	  Noise.prototype.seed = function (seed) {
+	    if (seed > 0 && seed < 1) {
+	      // Scale the seed out
+	      seed *= 65536;
+	    }
+
+	    seed = Math.floor(seed);
+	    if (seed < 256) {
+	      seed |= seed << 8;
+	    }
+
+	    var p = this.p;
+	    for (var i = 0; i < 256; i++) {
+	      var v;
+	      if (i & 1) {
+	        v = p[i] ^ seed & 255;
+	      } else {
+	        v = p[i] ^ seed >> 8 & 255;
+	      }
+
+	      var perm = this.perm;
+	      var gradP = this.gradP;
+	      perm[i] = perm[i + 256] = v;
+	      gradP[i] = gradP[i + 256] = this.grad3[v % 12];
+	    }
+	  };
+
+	  /*
+	  for(var i=0; i<256; i++) {
+	    perm[i] = perm[i + 256] = p[i];
+	    gradP[i] = gradP[i + 256] = grad3[perm[i] % 12];
+	  }*/
+
+	  // Skewing and unskewing factors for 2, 3, and 4 dimensions
+	  var F2 = 0.5 * (Math.sqrt(3) - 1);
+	  var G2 = (3 - Math.sqrt(3)) / 6;
+
+	  var F3 = 1 / 3;
+	  var G3 = 1 / 6;
+
+	  // 2D simplex noise
+	  Noise.prototype.simplex2 = function (xin, yin) {
+	    var n0, n1, n2; // Noise contributions from the three corners
+	    // Skew the input space to determine which simplex cell we're in
+	    var s = (xin + yin) * F2; // Hairy factor for 2D
+	    var i = Math.floor(xin + s);
+	    var j = Math.floor(yin + s);
+	    var t = (i + j) * G2;
+	    var x0 = xin - i + t; // The x,y distances from the cell origin, unskewed.
+	    var y0 = yin - j + t;
+	    // For the 2D case, the simplex shape is an equilateral triangle.
+	    // Determine which simplex we are in.
+	    var i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coords
+	    if (x0 > y0) {
+	      // lower triangle, XY order: (0,0)->(1,0)->(1,1)
+	      i1 = 1;j1 = 0;
+	    } else {
+	      // upper triangle, YX order: (0,0)->(0,1)->(1,1)
+	      i1 = 0;j1 = 1;
+	    }
+	    // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
+	    // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
+	    // c = (3-sqrt(3))/6
+	    var x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
+	    var y1 = y0 - j1 + G2;
+	    var x2 = x0 - 1 + 2 * G2; // Offsets for last corner in (x,y) unskewed coords
+	    var y2 = y0 - 1 + 2 * G2;
+	    // Work out the hashed gradient indices of the three simplex corners
+	    i &= 255;
+	    j &= 255;
+
+	    var perm = this.perm;
+	    var gradP = this.gradP;
+	    var gi0 = gradP[i + perm[j]];
+	    var gi1 = gradP[i + i1 + perm[j + j1]];
+	    var gi2 = gradP[i + 1 + perm[j + 1]];
+	    // Calculate the contribution from the three corners
+	    var t0 = 0.5 - x0 * x0 - y0 * y0;
+	    if (t0 < 0) {
+	      n0 = 0;
+	    } else {
+	      t0 *= t0;
+	      n0 = t0 * t0 * gi0.dot2(x0, y0); // (x,y) of grad3 used for 2D gradient
+	    }
+	    var t1 = 0.5 - x1 * x1 - y1 * y1;
+	    if (t1 < 0) {
+	      n1 = 0;
+	    } else {
+	      t1 *= t1;
+	      n1 = t1 * t1 * gi1.dot2(x1, y1);
+	    }
+	    var t2 = 0.5 - x2 * x2 - y2 * y2;
+	    if (t2 < 0) {
+	      n2 = 0;
+	    } else {
+	      t2 *= t2;
+	      n2 = t2 * t2 * gi2.dot2(x2, y2);
+	    }
+	    // Add contributions from each corner to get the final noise value.
+	    // The result is scaled to return values in the interval [-1,1].
+	    return 70 * (n0 + n1 + n2);
+	  };
+
+	  // 3D simplex noise
+	  Noise.prototype.simplex3 = function (xin, yin, zin) {
+	    var n0, n1, n2, n3; // Noise contributions from the four corners
+
+	    // Skew the input space to determine which simplex cell we're in
+	    var s = (xin + yin + zin) * F3; // Hairy factor for 2D
+	    var i = Math.floor(xin + s);
+	    var j = Math.floor(yin + s);
+	    var k = Math.floor(zin + s);
+
+	    var t = (i + j + k) * G3;
+	    var x0 = xin - i + t; // The x,y distances from the cell origin, unskewed.
+	    var y0 = yin - j + t;
+	    var z0 = zin - k + t;
+
+	    // For the 3D case, the simplex shape is a slightly irregular tetrahedron.
+	    // Determine which simplex we are in.
+	    var i1, j1, k1; // Offsets for second corner of simplex in (i,j,k) coords
+	    var i2, j2, k2; // Offsets for third corner of simplex in (i,j,k) coords
+	    if (x0 >= y0) {
+	      if (y0 >= z0) {
+	        i1 = 1;j1 = 0;k1 = 0;i2 = 1;j2 = 1;k2 = 0;
+	      } else if (x0 >= z0) {
+	        i1 = 1;j1 = 0;k1 = 0;i2 = 1;j2 = 0;k2 = 1;
+	      } else {
+	        i1 = 0;j1 = 0;k1 = 1;i2 = 1;j2 = 0;k2 = 1;
+	      }
+	    } else {
+	      if (y0 < z0) {
+	        i1 = 0;j1 = 0;k1 = 1;i2 = 0;j2 = 1;k2 = 1;
+	      } else if (x0 < z0) {
+	        i1 = 0;j1 = 1;k1 = 0;i2 = 0;j2 = 1;k2 = 1;
+	      } else {
+	        i1 = 0;j1 = 1;k1 = 0;i2 = 1;j2 = 1;k2 = 0;
+	      }
+	    }
+	    // A step of (1,0,0) in (i,j,k) means a step of (1-c,-c,-c) in (x,y,z),
+	    // a step of (0,1,0) in (i,j,k) means a step of (-c,1-c,-c) in (x,y,z), and
+	    // a step of (0,0,1) in (i,j,k) means a step of (-c,-c,1-c) in (x,y,z), where
+	    // c = 1/6.
+	    var x1 = x0 - i1 + G3; // Offsets for second corner
+	    var y1 = y0 - j1 + G3;
+	    var z1 = z0 - k1 + G3;
+
+	    var x2 = x0 - i2 + 2 * G3; // Offsets for third corner
+	    var y2 = y0 - j2 + 2 * G3;
+	    var z2 = z0 - k2 + 2 * G3;
+
+	    var x3 = x0 - 1 + 3 * G3; // Offsets for fourth corner
+	    var y3 = y0 - 1 + 3 * G3;
+	    var z3 = z0 - 1 + 3 * G3;
+
+	    // Work out the hashed gradient indices of the four simplex corners
+	    i &= 255;
+	    j &= 255;
+	    k &= 255;
+
+	    var perm = this.perm;
+	    var gradP = this.gradP;
+	    var gi0 = gradP[i + perm[j + perm[k]]];
+	    var gi1 = gradP[i + i1 + perm[j + j1 + perm[k + k1]]];
+	    var gi2 = gradP[i + i2 + perm[j + j2 + perm[k + k2]]];
+	    var gi3 = gradP[i + 1 + perm[j + 1 + perm[k + 1]]];
+
+	    // Calculate the contribution from the four corners
+	    var t0 = 0.5 - x0 * x0 - y0 * y0 - z0 * z0;
+	    if (t0 < 0) {
+	      n0 = 0;
+	    } else {
+	      t0 *= t0;
+	      n0 = t0 * t0 * gi0.dot3(x0, y0, z0); // (x,y) of grad3 used for 2D gradient
+	    }
+	    var t1 = 0.5 - x1 * x1 - y1 * y1 - z1 * z1;
+	    if (t1 < 0) {
+	      n1 = 0;
+	    } else {
+	      t1 *= t1;
+	      n1 = t1 * t1 * gi1.dot3(x1, y1, z1);
+	    }
+	    var t2 = 0.5 - x2 * x2 - y2 * y2 - z2 * z2;
+	    if (t2 < 0) {
+	      n2 = 0;
+	    } else {
+	      t2 *= t2;
+	      n2 = t2 * t2 * gi2.dot3(x2, y2, z2);
+	    }
+	    var t3 = 0.5 - x3 * x3 - y3 * y3 - z3 * z3;
+	    if (t3 < 0) {
+	      n3 = 0;
+	    } else {
+	      t3 *= t3;
+	      n3 = t3 * t3 * gi3.dot3(x3, y3, z3);
+	    }
+	    // Add contributions from each corner to get the final noise value.
+	    // The result is scaled to return values in the interval [-1,1].
+	    return 32 * (n0 + n1 + n2 + n3);
+	  };
+
+	  // ##### Perlin noise stuff
+
+	  function fade(t) {
+	    return t * t * t * (t * (t * 6 - 15) + 10);
+	  }
+
+	  function lerp(a, b, t) {
+	    return (1 - t) * a + t * b;
+	  }
+
+	  // 2D Perlin Noise
+	  Noise.prototype.perlin2 = function (x, y) {
+	    // Find unit grid cell containing point
+	    var X = Math.floor(x),
+	        Y = Math.floor(y);
+	    // Get relative xy coordinates of point within that cell
+	    x = x - X;y = y - Y;
+	    // Wrap the integer cells at 255 (smaller integer period can be introduced here)
+	    X = X & 255;Y = Y & 255;
+
+	    // Calculate noise contributions from each of the four corners
+	    var perm = this.perm;
+	    var gradP = this.gradP;
+	    var n00 = gradP[X + perm[Y]].dot2(x, y);
+	    var n01 = gradP[X + perm[Y + 1]].dot2(x, y - 1);
+	    var n10 = gradP[X + 1 + perm[Y]].dot2(x - 1, y);
+	    var n11 = gradP[X + 1 + perm[Y + 1]].dot2(x - 1, y - 1);
+
+	    // Compute the fade curve value for x
+	    var u = fade(x);
+
+	    // Interpolate the four results
+	    return lerp(lerp(n00, n10, u), lerp(n01, n11, u), fade(y));
+	  };
+
+	  // 3D Perlin Noise
+	  Noise.prototype.perlin3 = function (x, y, z) {
+	    // Find unit grid cell containing point
+	    var X = Math.floor(x),
+	        Y = Math.floor(y),
+	        Z = Math.floor(z);
+	    // Get relative xyz coordinates of point within that cell
+	    x = x - X;y = y - Y;z = z - Z;
+	    // Wrap the integer cells at 255 (smaller integer period can be introduced here)
+	    X = X & 255;Y = Y & 255;Z = Z & 255;
+
+	    // Calculate noise contributions from each of the eight corners
+	    var perm = this.perm;
+	    var gradP = this.gradP;
+	    var n000 = gradP[X + perm[Y + perm[Z]]].dot3(x, y, z);
+	    var n001 = gradP[X + perm[Y + perm[Z + 1]]].dot3(x, y, z - 1);
+	    var n010 = gradP[X + perm[Y + 1 + perm[Z]]].dot3(x, y - 1, z);
+	    var n011 = gradP[X + perm[Y + 1 + perm[Z + 1]]].dot3(x, y - 1, z - 1);
+	    var n100 = gradP[X + 1 + perm[Y + perm[Z]]].dot3(x - 1, y, z);
+	    var n101 = gradP[X + 1 + perm[Y + perm[Z + 1]]].dot3(x - 1, y, z - 1);
+	    var n110 = gradP[X + 1 + perm[Y + 1 + perm[Z]]].dot3(x - 1, y - 1, z);
+	    var n111 = gradP[X + 1 + perm[Y + 1 + perm[Z + 1]]].dot3(x - 1, y - 1, z - 1);
+
+	    // Compute the fade curve value for x, y, z
+	    var u = fade(x);
+	    var v = fade(y);
+	    var w = fade(z);
+
+	    // Interpolate
+	    return lerp(lerp(lerp(n000, n100, u), lerp(n001, n101, u), w), lerp(lerp(n010, n110, u), lerp(n011, n111, u), w), v);
+	  };
+
+	  global.Noise = Noise;
+	})( false ? undefined : module.exports);
 
 /***/ },
-/* 234 */
+/* 237 */
 /***/ function(module, exports) {
 
-	module.exports = "precision mediump float;\n#define GLSLIFY 1\n\n\nuniform sampler2D texture;\n// varying vec3 vPosition;\n// varying vec3 vColor;\n// uniform vec2 resolutions;\nuniform float alpha;\n\nvarying float vCounters;\nvarying vec2 vUV;\n\nvoid main() {\n\n  vec4 color = vec4(.0, .0, .0, alpha);\n  // vec4 color = vec4(1.0);\n  vec4 colorEnd = color * texture2D( texture, vUV );\n\n  // if(colorEnd.a < .01){\n  //   discard;\n  // }\n\n  // colorEnd.a = 1.0;\n  // color *= texture2D( texture, vUV );\n\n  // gl_FragColor = vec4(0., .0, .0, alpha);\n  // gl_FragColor = colorEnd;\n\n  // vec3 color = vec3(0.0, .0, .0);\n  //\n  // color.a = colorEnd.a;\n  gl_FragColor = color;\n\n  // gl_FragColor.rgb *= alpha;\n\n  // gl_FragColor.a *= step(vCounters, 1.0);\n\n}\n"
+	module.exports = "precision highp float;\n#define GLSLIFY 1\n\nattribute vec3 a_position;\nattribute vec2 a_textureCoord;\nattribute float direction;\nattribute vec3 aPrevious;\nattribute vec3 aNext;\nattribute float width;\n// attribute vec4 a_offsets;\nattribute float aCounters;\n// attribute vec3 aNormal;\n\nuniform mat4 u_viewMatrix;\nuniform mat4 u_projectionMatrix;\nuniform mat4 u_modelMatrix;\nuniform mat4 u_inverseViewMatrix;\nuniform float uTime;\nuniform vec3 u_position;\n\nuniform float aspect;\n\nvarying vec2 vUV;\nvarying vec3 vColor;\nvarying float vCounters;\n\nvoid main() {\n\n  float thickness = .1;\n  int miter = 0;\n\n  vec3 pos = a_position;\n\n\n  vec2 aspectVec = vec2(aspect, 1.0);\n  mat4 projViewModel = u_projectionMatrix * u_viewMatrix * u_modelMatrix;\n\n  vec4 previousProjected = projViewModel * vec4(aPrevious.x, aPrevious.y, aPrevious.z, 1.0);\n  vec4 currentProjected = projViewModel * vec4(a_position.x, a_position.y, a_position.z, 1.0);\n  vec4 nextProjected = projViewModel * vec4(aNext.x, aNext.y, aNext.z, 1.0);\n  vUV = a_textureCoord;\n\n  //get 2D screen space with W divide and aspect correction\n  vec2 currentScreen = currentProjected.xy / currentProjected.w * aspectVec;\n  vec2 previousScreen = previousProjected.xy / previousProjected.w * aspectVec;\n  vec2 nextScreen = nextProjected.xy / nextProjected.w * aspectVec;\n\n  vCounters = aCounters;\n\n  float len = thickness * width ;\n\n  float orientation = direction;\n\n  //starting point uses (next - current)\n  vColor = vec3(1.0, .0, 0.0);\n  vec2 dir = vec2(0.0);\n  if (currentScreen == previousScreen) {\n    dir = normalize(nextScreen - currentScreen);\n  }\n\n  //ending point uses (current - previous)\n  else if (currentScreen == nextScreen) {\n    dir = normalize(currentScreen - previousScreen);\n  }\n  //somewhere in middle, needs a join\n  else {\n    //get directions from (C - B) and (B - A)\n    vec2 dirA = normalize((currentScreen - previousScreen));\n    if (miter == 1) {\n      vec2 dirB = normalize((nextScreen - currentScreen));\n      //now compute the miter join normal and length\n      vec2 tangent = normalize(dirA + dirB);\n      vec2 perp = vec2(-dirA.y, dirA.x);\n      vec2 miter = vec2(-tangent.y, tangent.x);\n      dir = tangent;\n      len = thickness / dot(miter, perp);\n    } else {\n      dir = dirA;\n\n    }\n  }\n  vec2 normal = vec2(-dir.y, dir.x);\n  vColor = vec3(normal, 1.0);\n  normal.x /= aspect;\n  normal *= len/2.0;\n\n  vec4 offset =  vec4(normal * orientation, 0.0, 0.0);\n\n  gl_Position = currentProjected + offset;\n  gl_PointSize = 1.0;\n}\n"
 
 /***/ },
-/* 235 */
+/* 238 */
+/***/ function(module, exports) {
+
+	module.exports = "precision mediump float;\n#define GLSLIFY 1\n\n\nuniform sampler2D texture;\n// varying vec3 vPosition;\n// varying vec3 vColor;\n// uniform vec2 resolutions;\nuniform float alpha;\n\nvarying float vCounters;\nvarying vec2 vUV;\n\nvoid main() {\n\n  // vec4 color = vec4(1., 1., .0, 1.);;\n  // vec4 color = vec4(1.0);\n  // vec4 colorEnd = color * texture2D( texture, vUV );\n\n  // if(colorEnd.a < .01){\n  //   discard;\n  // }\n\n  // colorEnd.a = 1.0;\n  // color *= texture2D( texture, vUV );\n\n  // gl_FragColor = vec4(0., .0, .0, alpha);\n  // gl_FragColor = colorEnd;\n\n  // vec3 color = vec3(0.0, .0, .0);\n  //\n  // color.a = colorEnd.a;\n  gl_FragColor = vec4(vec3(.2), alpha);\n\n  // gl_FragColor.rgb *= alpha;\n\n  // gl_FragColor.a *= step(vCounters, 1.0);\n\n}\n"
+
+/***/ },
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -26947,401 +27494,47 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 236 */
+/* 240 */
 /***/ function(module, exports) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	var Motions = {
-	  move1: function move1(options) {
-	    var time = options.time;
-	    var targetPoint = options.targetPoint;
-	    if (time > 120) {
-	      time = 0;
+		basic: function basic(options) {
+			options.targetPoint[0] = options.position[0] + Math.cos(options.time / 20 + options.startAngle) * options.radius;
+			options.targetPoint[2] = options.position[2] + Math.sin(options.time / 20 + options.startAngle) * options.radius;
+		},
 
-	      Easings.to(this.targetPoint, .6, {
-	        0: Math.random()
-	      });
-	    }
-	  },
-	  move2: function move2(options) {
-	    var time = options.time;
-	    var targetPoint = options.targetPoint;
+		circle: function circle(options) {
+			options.targetPoint[0] = options.position[0] + Math.cos(options.time / 20 + options.startAngle) * options.radius;
+			options.targetPoint[2] = options.position[2] + Math.sin(options.time / 20 + options.startAngle) * options.radius;
 
-	    targetPoint[0] = Math.cos(time / 200) * .5 + .5;
-	  },
-	  move4: function move4(options) {
-	    var time = options.time;
-	    var targetPoint = options.targetPoint;
+			options.xoff += .01 * 1;
+			options.yoff += .01 * 1;
 
-	    targetPoint[0] = Math.pow(Math.abs(Math.sin(time / 200 * 2)) * .6, Math.sin(time / 200 * 2)) * .5;
-	  },
-	  move3: function move3(options) {
-	    var time = options.time;
-	    var targetPoint = options.targetPoint;
+			var p = options.perlin.perlin2(options.xoff, options.yoff);
+			options.targetPoint[1] += p / 20;
+			options.targetPoint[1] += Math.sin(Math.tan(Math.cos(options.time / 80 + options.startAngle) * 1.2)) * .01;
+		},
 
-	    targetPoint[0] = Math.abs(Math.cos(time / 200 * 2) * Math.sin(time / 200 * 4)) * 1;
-	  }
+		snake: function snake(options) {
+			options.targetPoint[0] = options.position[0] + Math.cos(options.time / 40 + options.startAngle) * options.radius;
+			options.targetPoint[2] = options.position[2] + Math.sin(options.time / 50 + options.startAngle) * options.radius * 1.2;
+
+			options.targetPoint[1] = options.position[1] + Math.abs(Math.sin(options.time / 100) * 4) - 2;
+			options.targetPoint[0] += Math.cos(Math.pow(8, Math.sin(options.time / 40 + options.startAngle))) * .5;
+			options.targetPoint[1] += Math.sin(Math.pow(8, Math.sin(options.time / 20 + options.startAngle))) * 1;
+		}
 	};
 
 	exports.default = Motions;
 	module.exports = exports['default'];
 
 /***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _classCallCheck2 = __webpack_require__(199);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _createClass2 = __webpack_require__(200);
-
-	var _createClass3 = _interopRequireDefault(_createClass2);
-
-	var _mcgl = __webpack_require__(2);
-
-	var _mcgl2 = _interopRequireDefault(_mcgl);
-
-	var _glMatrix = __webpack_require__(223);
-
-	var _glMatrix2 = _interopRequireDefault(_glMatrix);
-
-	var _sim = __webpack_require__(238);
-
-	var _sim2 = _interopRequireDefault(_sim);
-
-	var _sim3 = __webpack_require__(239);
-
-	var _sim4 = _interopRequireDefault(_sim3);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var ViewSim = function () {
-	  function ViewSim(width, height) {
-	    (0, _classCallCheck3.default)(this, ViewSim);
-
-	    this.time = 0;
-	    this.shader = new _mcgl.GLShader(_sim2.default, _sim4.default);
-	    this.shader.bind();
-
-	    this.mesh = new _mcgl2.default.geom.BigTriangle(this.shader.shaderProgram, GL.gl.POINTS);
-	  }
-
-	  (0, _createClass3.default)(ViewSim, [{
-	    key: 'render',
-	    value: function render(t) {
-	      this.time += .01;
-	      this.shader.bind();
-	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
-
-	      t.bind();
-	      // GL.gl.activeTexture(GL.gl.TEXTURE0);
-	      this.shader.uniform("time", "float", this.time);
-	      this.shader.uniform("viewport", "vec2", [GL.gl.viewport.width, GL.gl.viewport.height]);
-
-	      GL.draw(this.mesh);
-
-	      // //
-	      // //
-	      // mcgl.GL.gl.generateMipmap(mcgl.GL.gl.TEXTURE_2D);
-	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, null);
-	    }
-	  }]);
-	  return ViewSim;
-	}();
-
-	exports.default = ViewSim;
-	module.exports = exports['default'];
-
-/***/ },
-/* 238 */
-/***/ function(module, exports) {
-
-	module.exports = "precision highp float;\n#define GLSLIFY 1\n\nattribute vec2 a_position;\n\nuniform vec3 u_viewport;\nuniform mat4 u_worldViewProjection;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void) {\n    gl_Position = vec4(a_position, 0.0, 1.0);\n    vTextureCoord = a_position * .5 + .5;\n\n    const float radius = 0.01;\n    float distOffset = u_viewport.y * u_worldViewProjection[1][1] * radius / gl_Position.w;\n    gl_PointSize = distOffset * (2.0);\n}\n"
-
-/***/ },
-/* 239 */
-/***/ function(module, exports) {
-
-	module.exports = "precision highp float;\n#define GLSLIFY 1\n\nuniform sampler2D texturePos;\nuniform float time;\nvarying vec2 vTextureCoord;\n\nvec3 mod289(vec3 x) {\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 mod289(vec4 x) {\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 permute(vec4 x) {\n     return mod289(((x*34.0)+1.0)*x);\n}\n\nvec4 taylorInvSqrt(vec4 r)\n{\n  return 1.79284291400159 - 0.85373472095314 * r;\n}\n\nfloat snoise(vec3 v)\n  {\n  const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;\n  const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);\n\n// First corner\n  vec3 i  = floor(v + dot(v, C.yyy) );\n  vec3 x0 =   v - i + dot(i, C.xxx) ;\n\n// Other corners\n  vec3 g = step(x0.yzx, x0.xyz);\n  vec3 l = 1.0 - g;\n  vec3 i1 = min( g.xyz, l.zxy );\n  vec3 i2 = max( g.xyz, l.zxy );\n\n  //   x0 = x0 - 0.0 + 0.0 * C.xxx;\n  //   x1 = x0 - i1  + 1.0 * C.xxx;\n  //   x2 = x0 - i2  + 2.0 * C.xxx;\n  //   x3 = x0 - 1.0 + 3.0 * C.xxx;\n  vec3 x1 = x0 - i1 + C.xxx;\n  vec3 x2 = x0 - i2 + C.yyy; // 2.0*C.x = 1/3 = C.y\n  vec3 x3 = x0 - D.yyy;      // -1.0+3.0*C.x = -0.5 = -D.y\n\n// Permutations\n  i = mod289(i);\n  vec4 p = permute( permute( permute(\n             i.z + vec4(0.0, i1.z, i2.z, 1.0 ))\n           + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))\n           + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));\n\n// Gradients: 7x7 points over a square, mapped onto an octahedron.\n// The ring size 17*17 = 289 is close to a multiple of 49 (49*6 = 294)\n  float n_ = 0.142857142857; // 1.0/7.0\n  vec3  ns = n_ * D.wyz - D.xzx;\n\n  vec4 j = p - 49.0 * floor(p * ns.z * ns.z);  //  mod(p,7*7)\n\n  vec4 x_ = floor(j * ns.z);\n  vec4 y_ = floor(j - 7.0 * x_ );    // mod(j,N)\n\n  vec4 x = x_ *ns.x + ns.yyyy;\n  vec4 y = y_ *ns.x + ns.yyyy;\n  vec4 h = 1.0 - abs(x) - abs(y);\n\n  vec4 b0 = vec4( x.xy, y.xy );\n  vec4 b1 = vec4( x.zw, y.zw );\n\n  //vec4 s0 = vec4(lessThan(b0,0.0))*2.0 - 1.0;\n  //vec4 s1 = vec4(lessThan(b1,0.0))*2.0 - 1.0;\n  vec4 s0 = floor(b0)*2.0 + 1.0;\n  vec4 s1 = floor(b1)*2.0 + 1.0;\n  vec4 sh = -step(h, vec4(0.0));\n\n  vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;\n  vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;\n\n  vec3 p0 = vec3(a0.xy,h.x);\n  vec3 p1 = vec3(a0.zw,h.y);\n  vec3 p2 = vec3(a1.xy,h.z);\n  vec3 p3 = vec3(a1.zw,h.w);\n\n//Normalise gradients\n  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));\n  p0 *= norm.x;\n  p1 *= norm.y;\n  p2 *= norm.z;\n  p3 *= norm.w;\n\n// Mix final noise value\n  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);\n  m = m * m;\n  return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),\n                                dot(p2,x2), dot(p3,x3) ) );\n\n}\nvec3 snoiseVec3( vec3 x ){\n\n  float s  = snoise(vec3( x ));\n  float s1 = snoise(vec3( x.y - 19.1 , x.z + 33.4 , x.x + 47.2 ));\n  float s2 = snoise(vec3( x.z + 74.2 , x.x - 124.5 , x.y + 99.4 ));\n  vec3 c = vec3( s , s1 , s2 );\n  return c;\n\n}\n\n\nvec3 curlNoise( vec3 p ){\n\n  const float e = .1;\n  vec3 dx = vec3( e   , 0.0 , 0.0 );\n  vec3 dy = vec3( 0.0 , e   , 0.0 );\n  vec3 dz = vec3( 0.0 , 0.0 , e   );\n\n  vec3 p_x0 = snoiseVec3( p - dx );\n  vec3 p_x1 = snoiseVec3( p + dx );\n  vec3 p_y0 = snoiseVec3( p - dy );\n  vec3 p_y1 = snoiseVec3( p + dy );\n  vec3 p_z0 = snoiseVec3( p - dz );\n  vec3 p_z1 = snoiseVec3( p + dz );\n\n  float x = p_y1.z - p_y0.z - p_z1.y + p_z0.y;\n  float y = p_z1.x - p_z0.x - p_x1.z + p_x0.z;\n  float z = p_x1.y - p_x0.y - p_y1.x + p_y0.x;\n\n  const float divisor = 1.0 / ( 2.0 * e );\n  return normalize( vec3( x , y , z ) * divisor );\n\n}\n\nvoid main() {\n\n    //basic simulation: displays the particles in place.\n\n    // if(distance(gl_PointCoord, vec2(.5)) > .5) discard;\n\n    vec3 pos = texture2D(texturePos, vTextureCoord).rgb;\n    // pos.x += .1;//time;\n\n    vec3 n = curlNoise(vec3(pos.x, pos.y, pos.z * time/6.));\n    // vec3 n = curlNoise(pos + time * 100. * 1.0 );\n    pos += n;\n\n    gl_FragColor = vec4(pos, 1.0);\n}\n"
-
-/***/ },
-/* 240 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _classCallCheck2 = __webpack_require__(199);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _createClass2 = __webpack_require__(200);
-
-	var _createClass3 = _interopRequireDefault(_createClass2);
-
-	var _mcgl = __webpack_require__(2);
-
-	var _mcgl2 = _interopRequireDefault(_mcgl);
-
-	var _glMatrix = __webpack_require__(223);
-
-	var _glMatrix2 = _interopRequireDefault(_glMatrix);
-
-	var _noise = __webpack_require__(241);
-
-	var _noise2 = _interopRequireDefault(_noise);
-
-	var _noise3 = __webpack_require__(242);
-
-	var _noise4 = _interopRequireDefault(_noise3);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var ViewNoise = function () {
-	  function ViewNoise(width, height) {
-	    (0, _classCallCheck3.default)(this, ViewNoise);
-
-	    this.tick = 0;
-	    this.shader = new _mcgl.GLShader(_noise2.default, _noise4.default);
-	    // this.shader.bind();
-	    this.height = 1;
-	    this.tick = 0;
-	    this.position = [0, 0];
-	    this.amplitude = 0;
-	    this.a = 0;
-
-	    var positions = [];
-	    var coords = [];
-	    var indices = [];
-	    var extras = [];
-	    var count = 0;
-
-	    var numParticles = 200;
-	    var totalParticles = numParticles * numParticles;
-	    // console.debug('Total Particles : ', totalParticles);
-	    var ux = void 0,
-	        uy = void 0;
-	    var range = 30;
-
-	    for (var j = 0; j < width; j++) {
-	      for (var i = 0; i < height; i++) {
-	        positions.push([Math.random() * range - range / 2, Math.random() * range - range / 2, Math.random() * range - range / 2]);
-
-	        ux = i / width * 2.0 - 1.0 + 0.5 / width;
-	        uy = j / height * 2.0 - 1.0 + 0.5 / height;
-
-	        // if(i == 0)  {
-	        //   console.log(ux, uy);
-	        // }
-	        coords.push([ux, uy]);
-	        indices.push(count);
-	        count++;
-	      }
-	    }
-
-	    // positions = this.getRandomData(width, height, range);
-
-
-	    // console.log(mcgl.loadedResources, mcgl.loadedResources["../../assets/images/noise.jpg"]);
-	    // let data = this.getImage(mcgl.loadedResources["../../assets/images/noise.jpg"].data, 256, 256, 100);
-	    // positions = this.getImage(ASSET_URL + "images/noise.jpg", width, height, 10);
-	    // console.log(positions);
-
-	    // let icosphere = new mcgl.geom.IcoSphere(null);
-	    // let data = this.parseMesh(icosphere);
-
-	    // console.log(icosphere);
-
-	    // console.log("here", GL);
-	    this.mesh = new _mcgl2.default.Mesh(this.shader.shaderProgram, GL.gl.POINTS);
-	    this.mesh.bufferVertex(positions);
-	    this.mesh.bufferTexCoord(coords);
-	    this.mesh.bufferIndex(indices);
-
-	    this.speed = 0.01;
-	    // gui.add(this, "speed", 0, .5).step(.001);
-
-	    // this.meshExtra = new alfrid.Mesh(GL.POINTS);
-	    // this.meshExtra.bufferVertex(extras);
-	    // this.meshExtra.bufferTexCoord(coords);
-	    // this.meshExtra.bufferIndex(indices);
-
-	  }
-
-	  (0, _createClass3.default)(ViewNoise, [{
-	    key: 'parseMesh',
-	    value: function parseMesh(g) {
-
-	      var vertices = g._vertices;
-	      var total = vertices.length;
-	      console.log(total);
-	      var size = parseInt(Math.sqrt(total * 3) + .5);
-	      var data = []; //new Float32Array( size*size );
-	      var index = 0;
-	      var coords = [];
-	      var uy = void 0,
-	          ux = void 0;
-	      var count = 0;
-	      var indices = [];
-
-	      for (var j = 0; j < size; j++) {
-	        for (var _i = 0; _i < size; _i++) {
-
-	          ux = _i / size * 2.0 - 1.0 + 0.5 / size;
-	          uy = j / size * 2.0 - 1.0 + 0.5 / size;
-	          coords.push([ux, uy]);
-	        }
-	      }
-
-	      for (var i = 0; i < total; i++) {
-	        data[index++] = [vertices[i][0], vertices[i][1], vertices[i][2]];
-
-	        // ux = (i / total * 2.0 - 1.0) + 0.5 / total;
-	        // uy = (i/ total * 2.0 - 1.0) + 0.5 / total;
-
-	        indices.push(count);
-	        count++;
-
-	        // data[i * 3] = vertices[i].x;
-	        // data[i * 3 + 1] = vertices[i].y;
-	        // data[i * 3 + 2] = vertices[i].z;
-	      }
-	      return { positions: g._vertices.slice(), coords: coords, indices: indices };
-	    }
-	  }, {
-	    key: 'getRandomData',
-	    value: function getRandomData(width, height, size) {
-	      var len = width * height;
-	      var data = []; //new Float32Array( len );
-	      while (len--) {
-	        data[len] = [(Math.random() * 2 - 1) * size, (Math.random() * 2 - 1) * size, (Math.random() * 2 - 1) * size];
-	      }return data;
-	    }
-	  }, {
-	    key: 'getCanvas',
-	    value: function getCanvas(w, h) {
-	      var canvas = document.createElement("canvas");
-	      canvas.width = w || 512;
-	      canvas.height = h || 512;
-	      return canvas;
-	    }
-	  }, {
-	    key: 'getContext',
-	    value: function getContext(canvas, w, h) {
-	      canvas = canvas || this.getCanvas(w, h);
-	      canvas.width = w || canvas.width;
-	      canvas.height = h || canvas.height;
-	      return canvas.getContext("2d");
-	    }
-	  }, {
-	    key: 'getImage',
-	    value: function getImage(img, width, height, elevation) {
-
-	      var ctx = this.getContext(null, width, height);
-	      ctx.drawImage(img, 0, 0);
-
-	      var imgData = ctx.getImageData(0, 0, width, height);
-	      var iData = imgData.data;
-
-	      var l = width * height;
-	      var data = []; //new Float32Array( l * 3 );
-	      var indices = []; //new Float32Array( l * 3 );
-	      var count = 0;
-	      var coords = [];
-	      var ux = void 0,
-	          uy = void 0;
-
-	      for (var i = 0; i < l; i++) {
-
-	        var i3 = i * 3;
-	        var i4 = i * 4;
-	        var a = (i % width / width - .5) * width;
-	        var b = (iData[i4] / 0xFF * 0.299 + iData[i4 + 1] / 0xFF * 0.587 + iData[i4 + 2] / 0xFF * 0.114) * elevation;
-	        var c = (i / width / height - .5) * height;
-	        data.push([a, b, c]);
-	        indices.push(count);
-
-	        // ux = (i / width * 2.0 - 1.0) + 0.5 / width;
-	        // uy = (j / height * 2.0 - 1.0) + 0.5 / height;
-
-	        // coords.push([ux, uy]);
-
-	        count++;
-	      }
-
-	      return { positions: data, indices: indices, coords: coords };
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render(t) {
-
-	      this.shader.bind();
-	      // GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
-	      this.tick -= this.speed;
-
-	      this.a -= this.amplitude;
-	      this.amplitude *= .9;
-
-	      this.height += (this.amplitude - this.height) * .01;
-	      // this.height *= .98;;
-
-	      // console.log(this.height);
-	      // this.a *= .99;
-
-	      // this.a += (this.amplitude - this.a) * .01;
-
-	      // if(this.a < 2) this.a = 2;
-	      // console.log(this.amplitude);
-	      this.shader.uniform("u_height", "float", this.height);
-	      this.shader.uniform("u_amplitude", "float", this.a);
-	      this.shader.uniform("u_time", "float", this.tick);
-	      // this.shader.uniform("time", "float", this.tick)
-	      GL.draw(this.mesh);
-
-	      // this.shader.uniform("positions", "int", 1)
-	      // //
-	      // //
-	      // mcgl.GL.gl.generateMipmap(mcgl.GL.gl.TEXTURE_2D);
-	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, null);
-
-	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, this.texture);
-	      // GL.draw(this.mesh);
-	    }
-	  }]);
-	  return ViewNoise;
-	}();
-
-	exports.default = ViewNoise;
-	module.exports = exports['default'];
-
-/***/ },
 /* 241 */
-/***/ function(module, exports) {
-
-	module.exports = "precision highp float;\n#define GLSLIFY 1\nattribute vec3 a_position;\nattribute vec2 a_textureCoord;\n\n\nuniform mat4 u_world;\nuniform mat4 u_worldViewProjection;\nuniform float u_time;\nuniform float u_amplitude;\nuniform float u_height;\nuniform vec2 u_viewport;\n\nvarying vec2 vTextureCoord;\nvarying vec3 vColor;\n\nvec3 mod289(vec3 x) {\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 mod289(vec4 x) {\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 permute(vec4 x) {\n     return mod289(((x*34.0)+1.0)*x);\n}\n\nvec4 taylorInvSqrt(vec4 r)\n{\n  return 1.79284291400159 - 0.85373472095314 * r;\n}\n\nfloat snoise(vec3 v)\n  {\n  const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;\n  const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);\n\n// First corner\n  vec3 i  = floor(v + dot(v, C.yyy) );\n  vec3 x0 =   v - i + dot(i, C.xxx) ;\n\n// Other corners\n  vec3 g = step(x0.yzx, x0.xyz);\n  vec3 l = 1.0 - g;\n  vec3 i1 = min( g.xyz, l.zxy );\n  vec3 i2 = max( g.xyz, l.zxy );\n\n  //   x0 = x0 - 0.0 + 0.0 * C.xxx;\n  //   x1 = x0 - i1  + 1.0 * C.xxx;\n  //   x2 = x0 - i2  + 2.0 * C.xxx;\n  //   x3 = x0 - 1.0 + 3.0 * C.xxx;\n  vec3 x1 = x0 - i1 + C.xxx;\n  vec3 x2 = x0 - i2 + C.yyy; // 2.0*C.x = 1/3 = C.y\n  vec3 x3 = x0 - D.yyy;      // -1.0+3.0*C.x = -0.5 = -D.y\n\n// Permutations\n  i = mod289(i);\n  vec4 p = permute( permute( permute(\n             i.z + vec4(0.0, i1.z, i2.z, 1.0 ))\n           + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))\n           + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));\n\n// Gradients: 7x7 points over a square, mapped onto an octahedron.\n// The ring size 17*17 = 289 is close to a multiple of 49 (49*6 = 294)\n  float n_ = 0.142857142857; // 1.0/7.0\n  vec3  ns = n_ * D.wyz - D.xzx;\n\n  vec4 j = p - 49.0 * floor(p * ns.z * ns.z);  //  mod(p,7*7)\n\n  vec4 x_ = floor(j * ns.z);\n  vec4 y_ = floor(j - 7.0 * x_ );    // mod(j,N)\n\n  vec4 x = x_ *ns.x + ns.yyyy;\n  vec4 y = y_ *ns.x + ns.yyyy;\n  vec4 h = 1.0 - abs(x) - abs(y);\n\n  vec4 b0 = vec4( x.xy, y.xy );\n  vec4 b1 = vec4( x.zw, y.zw );\n\n  //vec4 s0 = vec4(lessThan(b0,0.0))*2.0 - 1.0;\n  //vec4 s1 = vec4(lessThan(b1,0.0))*2.0 - 1.0;\n  vec4 s0 = floor(b0)*2.0 + 1.0;\n  vec4 s1 = floor(b1)*2.0 + 1.0;\n  vec4 sh = -step(h, vec4(0.0));\n\n  vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;\n  vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;\n\n  vec3 p0 = vec3(a0.xy,h.x);\n  vec3 p1 = vec3(a0.zw,h.y);\n  vec3 p2 = vec3(a1.xy,h.z);\n  vec3 p3 = vec3(a1.zw,h.w);\n\n//Normalise gradients\n  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));\n  p0 *= norm.x;\n  p1 *= norm.y;\n  p2 *= norm.z;\n  p3 *= norm.w;\n\n// Mix final noise value\n  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);\n  m = m * m;\n  return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),\n                                dot(p2,x2), dot(p3,x3) ) );\n  }\n\n\tvec3 snoiseVec3( vec3 x ){\n\n\t  float s  = snoise(vec3( x ));\n\t  float s1 = snoise(vec3( x.y - 19.1 , x.z + 33.4 , x.x + 47.2 ));\n\t  float s2 = snoise(vec3( x.z + 74.2 , x.x - 124.5 , x.y + 99.4 ));\n\t  vec3 c = vec3( s , s1 , s2 );\n\t  return c;\n\n\t}\n\n\n\tvec3 curlNoise( vec3 p ){\n\n\t  const float e = .1;\n\t  vec3 dx = vec3( e   , 0.0 , 0.0 );\n\t  vec3 dy = vec3( 0.0 , e   , 0.0 );\n\t  vec3 dz = vec3( 0.0 , 0.0 , e   );\n\n\t  vec3 p_x0 = snoiseVec3( p - dx );\n\t  vec3 p_x1 = snoiseVec3( p + dx );\n\t  vec3 p_y0 = snoiseVec3( p - dy );\n\t  vec3 p_y1 = snoiseVec3( p + dy );\n\t  vec3 p_z0 = snoiseVec3( p - dz );\n\t  vec3 p_z1 = snoiseVec3( p + dz );\n\n\t  float x = p_y1.z - p_y0.z - p_z1.y + p_z0.y;\n\t  float y = p_z1.x - p_z0.x - p_x1.z + p_x0.z;\n\t  float z = p_x1.y - p_x0.y - p_y1.x + p_y0.x;\n\n\t  const float divisor = 1.0 / ( 2.0 * e );\n\t  return normalize( vec3( x , y , z ) * divisor );\n\n\t}\n\nvoid main(void) {\n\tvColor      = a_position;\n\tvec3 pos    = vec3(a_textureCoord, 0.0);\n\n\tfloat n = snoise( vec3(pos.x, pos.y + u_amplitude/50. + u_time, pos.z)  * (1.)  );\n\t// float n = snoise( vec3(pos.x, pos.y + u_amplitude/50., pos.z)  * (1.) + pow(u_height, .2));\n\tvColor = vec3(n);\n\n\tgl_Position = vec4(pos, 1.0);\n\n  // const float radius = 0.01;\n  // float distOffset = u_viewport.y * u_worldViewProjection[1][1] * radius / gl_Position.w;\n  // gl_PointSize = distOffset * 2.0;\n  gl_PointSize = 1.0;\n}\n"
-
-/***/ },
-/* 242 */
-/***/ function(module, exports) {
-
-	module.exports = "precision highp float;\n#define GLSLIFY 1\n\nvarying vec3 vColor;\n\nvoid main(void) {\n    gl_FragColor = vec4(vColor, 1.0);\n    // gl_FragColor = vec4(vec3(0.), 1.0);\n}\n"
-
-/***/ },
-/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27362,140 +27555,11 @@
 
 	var _mcgl2 = _interopRequireDefault(_mcgl);
 
-	var _glMatrix = __webpack_require__(223);
-
-	var _glMatrix2 = _interopRequireDefault(_glMatrix);
-
-	var _render = __webpack_require__(244);
-
-	var _render2 = _interopRequireDefault(_render);
-
-	var _render3 = __webpack_require__(245);
-
-	var _render4 = _interopRequireDefault(_render3);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var ViewRenderer = function () {
-	  function ViewRenderer(width, height) {
-	    (0, _classCallCheck3.default)(this, ViewRenderer);
-
-	    this.h = 0;
-	    this.tick = 0;
-	    this.amplitude = 1;
-	    this.height = 0;
-	    this.shader = new _mcgl.GLShader(_render2.default, _render4.default);
-	    this.shader.bind();
-	    this.position = [0, 0, 0];
-
-	    this.height = .2;
-
-	    var positions = [];
-	    var indices = [];
-	    var count = 0;
-	    // let totalParticles = numParticles * numParticles;
-	    var ux = void 0,
-	        uy = void 0;
-
-	    for (var j = 0; j < width; j++) {
-	      for (var i = 0; i < height; i++) {
-	        ux = i / width * 1;
-	        uy = j / height * 1;
-	        indices.push(count);
-	        count++;
-
-	        positions.push([ux, uy, 0]);
-	      }
-	    }
-
-	    this.mesh = new _mcgl2.default.Mesh(this.shader.shaderProgram, GL.gl.POINTS);
-	    this.mesh.bufferVertex(positions);
-	    this.mesh.bufferIndex(indices);
-
-	    // this.m = glmatrix.mat4.fromRotati
-	    this.rot = [];
-	    _glMatrix2.default.mat4.fromRotation(this.rot, Math.PI / 2, [1, 0, 0]);
-
-	    this.speed = 1;
-
-	    // gui.add(this, "speed", 0, 4).step(.1);
-
-	    console.log(this.rot);
-	  }
-
-	  (0, _createClass3.default)(ViewRenderer, [{
-	    key: 'render',
-	    value: function render(t, height) {
-	      this.tick++; //=this.speed;
-	      this.shader.bind();
-
-	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
-	      t.bind();
-
-	      // if(height > this.height){
-	      this.height += (height - this.height) * .05;
-	      // }
-	      // this.height *= .9
-	      // mcgl.GL.gl.activeTexture(mcgl.GL.gl.TEXTURE0);
-	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
-	      this.shader.uniform("positions", "int", 0);
-	      this.shader.uniform("u_height", "float", this.height);
-	      this.shader.uniform("u_time", "float", this.tick);
-	      this.shader.uniform("u_transform", "mat4", this.rot);
-	      this.shader.uniform("u_position", "vec3", this.position);
-
-	      GL.draw(this.mesh);
-
-	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, t);
-	      // mcgl.GL.gl.generateMipmap(mcgl.GL.gl.TEXTURE_2D);
-	      // mcgl.GL.gl.bindTexture(mcgl.GL.gl.TEXTURE_2D, null);
-	    }
-	  }]);
-	  return ViewRenderer;
-	}();
-
-	exports.default = ViewRenderer;
-	module.exports = exports['default'];
-
-/***/ },
-/* 244 */
-/***/ function(module, exports) {
-
-	module.exports = "//vertex shader\nprecision highp float;\n#define GLSLIFY 1\n\nattribute vec3 a_position;\n\n\nuniform mat4 u_viewMatrix;\nuniform mat4 u_projectionMatrix;\nuniform mat4 u_transform;\nuniform float u_height;\nuniform float u_time;\n\nuniform vec3 u_position;\n\nuniform sampler2D positions;//RenderTarget containing the transformed positions\nvarying vec3 v_pos;\n// uniform float pointSize;//size\nvoid main() {\n\n    vec3 a_pos = a_position; // for nothing this line\n\n    // if( == 0){\n    //   discard;\n    // }\n    //the mesh is a nomrliazed square so the uvs = the xy positions of the vertices\n    vec3 pos = a_position * 1.;//texture2D( positions, a_position.xy ).xyz * 1.;\n    // vec3 pos = texture2D( positions, a_position.xy ).xyz * 1.;\n    pos.z = texture2D( positions, a_position.xy ).x * u_height/4. * (sin(a_position.y * 1.) + .02);\n    v_pos = pos;\n    // pos.z = texture2D( positions, a_position.xy ).x * u_height * (pow(a_position.y, 1.8) + .02);\n    // pos.z = texture2D( positions, a_position.xy ).x * u_height * pow(a_position.y, 1. + pow(sin(u_time/100.), 3.) * .6);\n    // float alpha = pow(a_position.x, 2.);\n    pos += u_position;\n    //pos now contains a 3D position in space, we can use it as a regular vertex\n\n    //regular projection of our position\n    gl_Position = u_projectionMatrix * u_viewMatrix * u_transform * vec4( pos, 1.0 );\n    // gl_Position = u_projectionMatrix * u_viewMatrix * u_transform * vec4( pos, a_position.x * alpha );\n\n    //sets the point size\n    gl_PointSize = 1.0;// pointSize;\n}\n"
-
-/***/ },
-/* 245 */
-/***/ function(module, exports) {
-
-	module.exports = "precision highp float;\n#define GLSLIFY 1\n\nuniform float u_height;\nvarying vec3 v_pos;\n\nvoid main()\n{\n    vec3 color = vec3( 0., 0., 0. );\n    // color.r += v_pos.z * 2.;\n\n    float alpha = u_height + .4;\n    gl_FragColor = vec4(color,  alpha);\n}\n"
-
-/***/ },
-/* 246 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _classCallCheck2 = __webpack_require__(199);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _createClass2 = __webpack_require__(200);
-
-	var _createClass3 = _interopRequireDefault(_createClass2);
-
-	var _mcgl = __webpack_require__(2);
-
-	var _mcgl2 = _interopRequireDefault(_mcgl);
-
-	var _plane = __webpack_require__(247);
+	var _plane = __webpack_require__(242);
 
 	var _plane2 = _interopRequireDefault(_plane);
 
-	var _plane3 = __webpack_require__(248);
+	var _plane3 = __webpack_require__(243);
 
 	var _plane4 = _interopRequireDefault(_plane3);
 
@@ -27532,126 +27596,678 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 247 */
+/* 242 */
 /***/ function(module, exports) {
 
 	module.exports = "#define GLSLIFY 1\nattribute vec4 a_position;\n\nuniform mat4 u_viewMatrix;\nuniform mat4 u_projectionMatrix;\n// uniform mat4 u_viewMatrixInverseTranspose;\n\n\nvoid main() {\n  // Multiply the position by the matrix.\n\n  vec3 surfaceWorldPosition = (u_viewMatrix * a_position).xyz;\n\n\n  vec3 position = a_position.xyz;\n\n  // position.yz = rotate(position.yz, sin(time * 0.1));\n  // position.xz = rotate(position.xz, time * 2.1);\n\n  gl_Position = u_projectionMatrix * u_viewMatrix * vec4(position, a_position.w);\n\n}\n"
 
 /***/ },
-/* 248 */
+/* 243 */
 /***/ function(module, exports) {
 
-	module.exports = "precision mediump float;\n#define GLSLIFY 1\n\n\nuniform float alpha;\nuniform vec2 resolutions;\n\nvoid main() {\n  vec3 color = vec3(.92,.92,.92);\n\n  float y = gl_FragCoord.y/resolutions.y;\n  gl_FragColor = vec4(color, 1.0);\n  // gl_FragColor *= 1.0 - y;\n}\n"
+	module.exports = "precision mediump float;\n#define GLSLIFY 1\n\n\nuniform float alpha;\nuniform vec2 resolutions;\n\nvoid main() {\n  vec3 color = vec3(.92,.92,.92);\n\n  float y = gl_FragCoord.y/resolutions.y;\n  gl_FragColor = vec4(color, 1.0);\n  gl_FragColor *= 1.0 - y;\n}\n"
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(200);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(269);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ViewAnimal2 = __webpack_require__(281);
+
+	var _ViewAnimal3 = _interopRequireDefault(_ViewAnimal2);
+
+	var _Dear = __webpack_require__(282);
+
+	var _Dear2 = _interopRequireDefault(_Dear);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// ViewDear.js
+
+	var ViewDear = function (_ViewAnimal) {
+		(0, _inherits3.default)(ViewDear, _ViewAnimal);
+
+		function ViewDear(pos) {
+			(0, _classCallCheck3.default)(this, ViewDear);
+			return (0, _possibleConstructorReturn3.default)(this, (ViewDear.__proto__ || (0, _getPrototypeOf2.default)(ViewDear)).call(this, pos));
+		}
+
+		(0, _createClass3.default)(ViewDear, [{
+			key: 'reset',
+			value: function reset(pos, rx, ry) {
+				this.shape = new _Dear2.default(pos);
+				(0, _get3.default)(ViewDear.prototype.__proto__ || (0, _getPrototypeOf2.default)(ViewDear.prototype), 'reset', this).call(this, pos, rx, ry);
+			}
+		}]);
+		return ViewDear;
+	}(_ViewAnimal3.default);
+
+	exports.default = ViewDear;
+	module.exports = exports['default'];
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(246), __esModule: true };
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(247);
+	module.exports = __webpack_require__(145).Object.getPrototypeOf;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.9 Object.getPrototypeOf(O)
+	var toObject        = __webpack_require__(180)
+	  , $getPrototypeOf = __webpack_require__(179);
+
+	__webpack_require__(248)('getPrototypeOf', function(){
+	  return function getPrototypeOf(it){
+	    return $getPrototypeOf(toObject(it));
+	  };
+	});
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// most Object methods by ES6 should accept primitives
+	var $export = __webpack_require__(143)
+	  , core    = __webpack_require__(145)
+	  , fails   = __webpack_require__(154);
+	module.exports = function(KEY, exec){
+	  var fn  = (core.Object || {})[KEY] || Object[KEY]
+	    , exp = {};
+	  exp[KEY] = exec(fn);
+	  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
+	};
 
 /***/ },
 /* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
-	(function (global, factory) {
-	   true ? module.exports = factory() :
-	  typeof define === 'function' && define.amd ? define(factory) :
-	  (global.sono = factory());
-	}(this, (function () { 'use strict';
+	"use strict";
 
-	var browser = {};
+	exports.__esModule = true;
 
-	browser.handlePageVisibility = function (onHidden, onShown) {
-	    var hidden = void 0,
-	        visibilityChange = void 0;
+	var _typeof2 = __webpack_require__(250);
 
-	    if (typeof document.hidden !== 'undefined') {
-	        hidden = 'hidden';
-	        visibilityChange = 'visibilitychange';
-	    } else if (typeof document.mozHidden !== 'undefined') {
-	        hidden = 'mozHidden';
-	        visibilityChange = 'mozvisibilitychange';
-	    } else if (typeof document.msHidden !== 'undefined') {
-	        hidden = 'msHidden';
-	        visibilityChange = 'msvisibilitychange';
-	    } else if (typeof document.webkitHidden !== 'undefined') {
-	        hidden = 'webkitHidden';
-	        visibilityChange = 'webkitvisibilitychange';
-	    }
+	var _typeof3 = _interopRequireDefault(_typeof2);
 
-	    function onChange() {
-	        if (document[hidden]) {
-	            onHidden();
-	        } else {
-	            onShown();
-	        }
-	    }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	    if (typeof visibilityChange !== 'undefined') {
-	        document.addEventListener(visibilityChange, onChange, false);
-	    }
+	exports.default = function (self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }
+
+	  return call && ((typeof call === "undefined" ? "undefined" : (0, _typeof3.default)(call)) === "object" || typeof call === "function") ? call : self;
 	};
 
-	browser.handleTouchLock = function (context, onUnlock) {
-	    var ua = navigator.userAgent,
-	        locked = !!ua.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone|SymbianOS/i);
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
 
-	    function unlock() {
-	        if (context && context.state === 'suspended') {
-	            context.resume().then(function () {
-	                var buffer = context.createBuffer(1, 1, 22050);
-	                var source = context.createBufferSource();
-	                source.buffer = buffer;
-	                source.connect(context.destination);
-	                source.start(0);
-	                source.stop(0);
-	                source.disconnect();
+	"use strict";
 
-	                document.body.removeEventListener('touchend', unlock);
-	                onUnlock();
-	            });
-	        } else {
-	            document.body.removeEventListener('touchend', unlock);
-	            onUnlock();
-	        }
-	    }
+	exports.__esModule = true;
 
-	    if (locked) {
-	        document.body.addEventListener('touchend', unlock, false);
-	    }
+	var _iterator = __webpack_require__(251);
 
-	    return locked;
-	};
+	var _iterator2 = _interopRequireDefault(_iterator);
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-	  return typeof obj;
+	var _symbol = __webpack_require__(254);
+
+	var _symbol2 = _interopRequireDefault(_symbol);
+
+	var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
+	  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
 	} : function (obj) {
-	  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+	  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
 	};
 
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
 
+	module.exports = { "default": __webpack_require__(252), __esModule: true };
 
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
 
+	__webpack_require__(137);
+	__webpack_require__(181);
+	module.exports = __webpack_require__(253).f('iterator');
 
-	var classCallCheck = function (instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError("Cannot call a class as a function");
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports.f = __webpack_require__(178);
+
+/***/ },
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(255), __esModule: true };
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(256);
+	__webpack_require__(136);
+	__webpack_require__(267);
+	__webpack_require__(268);
+	module.exports = __webpack_require__(145).Symbol;
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	// ECMAScript 6 symbols shim
+	var global         = __webpack_require__(144)
+	  , has            = __webpack_require__(159)
+	  , DESCRIPTORS    = __webpack_require__(153)
+	  , $export        = __webpack_require__(143)
+	  , redefine       = __webpack_require__(158)
+	  , META           = __webpack_require__(257).KEY
+	  , $fails         = __webpack_require__(154)
+	  , shared         = __webpack_require__(173)
+	  , setToStringTag = __webpack_require__(177)
+	  , uid            = __webpack_require__(174)
+	  , wks            = __webpack_require__(178)
+	  , wksExt         = __webpack_require__(253)
+	  , wksDefine      = __webpack_require__(258)
+	  , keyOf          = __webpack_require__(259)
+	  , enumKeys       = __webpack_require__(260)
+	  , isArray        = __webpack_require__(263)
+	  , anObject       = __webpack_require__(150)
+	  , toIObject      = __webpack_require__(166)
+	  , toPrimitive    = __webpack_require__(156)
+	  , createDesc     = __webpack_require__(157)
+	  , _create        = __webpack_require__(162)
+	  , gOPNExt        = __webpack_require__(264)
+	  , $GOPD          = __webpack_require__(266)
+	  , $DP            = __webpack_require__(149)
+	  , $keys          = __webpack_require__(164)
+	  , gOPD           = $GOPD.f
+	  , dP             = $DP.f
+	  , gOPN           = gOPNExt.f
+	  , $Symbol        = global.Symbol
+	  , $JSON          = global.JSON
+	  , _stringify     = $JSON && $JSON.stringify
+	  , PROTOTYPE      = 'prototype'
+	  , HIDDEN         = wks('_hidden')
+	  , TO_PRIMITIVE   = wks('toPrimitive')
+	  , isEnum         = {}.propertyIsEnumerable
+	  , SymbolRegistry = shared('symbol-registry')
+	  , AllSymbols     = shared('symbols')
+	  , OPSymbols      = shared('op-symbols')
+	  , ObjectProto    = Object[PROTOTYPE]
+	  , USE_NATIVE     = typeof $Symbol == 'function'
+	  , QObject        = global.QObject;
+	// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
+	var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
+
+	// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
+	var setSymbolDesc = DESCRIPTORS && $fails(function(){
+	  return _create(dP({}, 'a', {
+	    get: function(){ return dP(this, 'a', {value: 7}).a; }
+	  })).a != 7;
+	}) ? function(it, key, D){
+	  var protoDesc = gOPD(ObjectProto, key);
+	  if(protoDesc)delete ObjectProto[key];
+	  dP(it, key, D);
+	  if(protoDesc && it !== ObjectProto)dP(ObjectProto, key, protoDesc);
+	} : dP;
+
+	var wrap = function(tag){
+	  var sym = AllSymbols[tag] = _create($Symbol[PROTOTYPE]);
+	  sym._k = tag;
+	  return sym;
+	};
+
+	var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function(it){
+	  return typeof it == 'symbol';
+	} : function(it){
+	  return it instanceof $Symbol;
+	};
+
+	var $defineProperty = function defineProperty(it, key, D){
+	  if(it === ObjectProto)$defineProperty(OPSymbols, key, D);
+	  anObject(it);
+	  key = toPrimitive(key, true);
+	  anObject(D);
+	  if(has(AllSymbols, key)){
+	    if(!D.enumerable){
+	      if(!has(it, HIDDEN))dP(it, HIDDEN, createDesc(1, {}));
+	      it[HIDDEN][key] = true;
+	    } else {
+	      if(has(it, HIDDEN) && it[HIDDEN][key])it[HIDDEN][key] = false;
+	      D = _create(D, {enumerable: createDesc(0, false)});
+	    } return setSymbolDesc(it, key, D);
+	  } return dP(it, key, D);
+	};
+	var $defineProperties = function defineProperties(it, P){
+	  anObject(it);
+	  var keys = enumKeys(P = toIObject(P))
+	    , i    = 0
+	    , l = keys.length
+	    , key;
+	  while(l > i)$defineProperty(it, key = keys[i++], P[key]);
+	  return it;
+	};
+	var $create = function create(it, P){
+	  return P === undefined ? _create(it) : $defineProperties(_create(it), P);
+	};
+	var $propertyIsEnumerable = function propertyIsEnumerable(key){
+	  var E = isEnum.call(this, key = toPrimitive(key, true));
+	  if(this === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))return false;
+	  return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
+	};
+	var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key){
+	  it  = toIObject(it);
+	  key = toPrimitive(key, true);
+	  if(it === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))return;
+	  var D = gOPD(it, key);
+	  if(D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key]))D.enumerable = true;
+	  return D;
+	};
+	var $getOwnPropertyNames = function getOwnPropertyNames(it){
+	  var names  = gOPN(toIObject(it))
+	    , result = []
+	    , i      = 0
+	    , key;
+	  while(names.length > i){
+	    if(!has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META)result.push(key);
+	  } return result;
+	};
+	var $getOwnPropertySymbols = function getOwnPropertySymbols(it){
+	  var IS_OP  = it === ObjectProto
+	    , names  = gOPN(IS_OP ? OPSymbols : toIObject(it))
+	    , result = []
+	    , i      = 0
+	    , key;
+	  while(names.length > i){
+	    if(has(AllSymbols, key = names[i++]) && (IS_OP ? has(ObjectProto, key) : true))result.push(AllSymbols[key]);
+	  } return result;
+	};
+
+	// 19.4.1.1 Symbol([description])
+	if(!USE_NATIVE){
+	  $Symbol = function Symbol(){
+	    if(this instanceof $Symbol)throw TypeError('Symbol is not a constructor!');
+	    var tag = uid(arguments.length > 0 ? arguments[0] : undefined);
+	    var $set = function(value){
+	      if(this === ObjectProto)$set.call(OPSymbols, value);
+	      if(has(this, HIDDEN) && has(this[HIDDEN], tag))this[HIDDEN][tag] = false;
+	      setSymbolDesc(this, tag, createDesc(1, value));
+	    };
+	    if(DESCRIPTORS && setter)setSymbolDesc(ObjectProto, tag, {configurable: true, set: $set});
+	    return wrap(tag);
+	  };
+	  redefine($Symbol[PROTOTYPE], 'toString', function toString(){
+	    return this._k;
+	  });
+
+	  $GOPD.f = $getOwnPropertyDescriptor;
+	  $DP.f   = $defineProperty;
+	  __webpack_require__(265).f = gOPNExt.f = $getOwnPropertyNames;
+	  __webpack_require__(262).f  = $propertyIsEnumerable;
+	  __webpack_require__(261).f = $getOwnPropertySymbols;
+
+	  if(DESCRIPTORS && !__webpack_require__(142)){
+	    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
+	  }
+
+	  wksExt.f = function(name){
+	    return wrap(wks(name));
+	  }
+	}
+
+	$export($export.G + $export.W + $export.F * !USE_NATIVE, {Symbol: $Symbol});
+
+	for(var symbols = (
+	  // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
+	  'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
+	).split(','), i = 0; symbols.length > i; )wks(symbols[i++]);
+
+	for(var symbols = $keys(wks.store), i = 0; symbols.length > i; )wksDefine(symbols[i++]);
+
+	$export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
+	  // 19.4.2.1 Symbol.for(key)
+	  'for': function(key){
+	    return has(SymbolRegistry, key += '')
+	      ? SymbolRegistry[key]
+	      : SymbolRegistry[key] = $Symbol(key);
+	  },
+	  // 19.4.2.5 Symbol.keyFor(sym)
+	  keyFor: function keyFor(key){
+	    if(isSymbol(key))return keyOf(SymbolRegistry, key);
+	    throw TypeError(key + ' is not a symbol!');
+	  },
+	  useSetter: function(){ setter = true; },
+	  useSimple: function(){ setter = false; }
+	});
+
+	$export($export.S + $export.F * !USE_NATIVE, 'Object', {
+	  // 19.1.2.2 Object.create(O [, Properties])
+	  create: $create,
+	  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
+	  defineProperty: $defineProperty,
+	  // 19.1.2.3 Object.defineProperties(O, Properties)
+	  defineProperties: $defineProperties,
+	  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+	  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
+	  // 19.1.2.7 Object.getOwnPropertyNames(O)
+	  getOwnPropertyNames: $getOwnPropertyNames,
+	  // 19.1.2.8 Object.getOwnPropertySymbols(O)
+	  getOwnPropertySymbols: $getOwnPropertySymbols
+	});
+
+	// 24.3.2 JSON.stringify(value [, replacer [, space]])
+	$JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function(){
+	  var S = $Symbol();
+	  // MS Edge converts symbol values to JSON as {}
+	  // WebKit converts symbol values to JSON as null
+	  // V8 throws on boxed symbols
+	  return _stringify([S]) != '[null]' || _stringify({a: S}) != '{}' || _stringify(Object(S)) != '{}';
+	})), 'JSON', {
+	  stringify: function stringify(it){
+	    if(it === undefined || isSymbol(it))return; // IE8 returns string on undefined
+	    var args = [it]
+	      , i    = 1
+	      , replacer, $replacer;
+	    while(arguments.length > i)args.push(arguments[i++]);
+	    replacer = args[1];
+	    if(typeof replacer == 'function')$replacer = replacer;
+	    if($replacer || !isArray(replacer))replacer = function(key, value){
+	      if($replacer)value = $replacer.call(this, key, value);
+	      if(!isSymbol(value))return value;
+	    };
+	    args[1] = replacer;
+	    return _stringify.apply($JSON, args);
+	  }
+	});
+
+	// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
+	$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(148)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+	// 19.4.3.5 Symbol.prototype[@@toStringTag]
+	setToStringTag($Symbol, 'Symbol');
+	// 20.2.1.9 Math[@@toStringTag]
+	setToStringTag(Math, 'Math', true);
+	// 24.3.3 JSON[@@toStringTag]
+	setToStringTag(global.JSON, 'JSON', true);
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var META     = __webpack_require__(174)('meta')
+	  , isObject = __webpack_require__(151)
+	  , has      = __webpack_require__(159)
+	  , setDesc  = __webpack_require__(149).f
+	  , id       = 0;
+	var isExtensible = Object.isExtensible || function(){
+	  return true;
+	};
+	var FREEZE = !__webpack_require__(154)(function(){
+	  return isExtensible(Object.preventExtensions({}));
+	});
+	var setMeta = function(it){
+	  setDesc(it, META, {value: {
+	    i: 'O' + ++id, // object ID
+	    w: {}          // weak collections IDs
+	  }});
+	};
+	var fastKey = function(it, create){
+	  // return primitive with prefix
+	  if(!isObject(it))return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+	  if(!has(it, META)){
+	    // can't set metadata to uncaught frozen object
+	    if(!isExtensible(it))return 'F';
+	    // not necessary to add metadata
+	    if(!create)return 'E';
+	    // add missing metadata
+	    setMeta(it);
+	  // return object ID
+	  } return it[META].i;
+	};
+	var getWeak = function(it, create){
+	  if(!has(it, META)){
+	    // can't set metadata to uncaught frozen object
+	    if(!isExtensible(it))return true;
+	    // not necessary to add metadata
+	    if(!create)return false;
+	    // add missing metadata
+	    setMeta(it);
+	  // return hash weak collections IDs
+	  } return it[META].w;
+	};
+	// add metadata on freeze-family methods calling
+	var onFreeze = function(it){
+	  if(FREEZE && meta.NEED && isExtensible(it) && !has(it, META))setMeta(it);
+	  return it;
+	};
+	var meta = module.exports = {
+	  KEY:      META,
+	  NEED:     false,
+	  fastKey:  fastKey,
+	  getWeak:  getWeak,
+	  onFreeze: onFreeze
+	};
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global         = __webpack_require__(144)
+	  , core           = __webpack_require__(145)
+	  , LIBRARY        = __webpack_require__(142)
+	  , wksExt         = __webpack_require__(253)
+	  , defineProperty = __webpack_require__(149).f;
+	module.exports = function(name){
+	  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
+	  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
+	};
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var getKeys   = __webpack_require__(164)
+	  , toIObject = __webpack_require__(166);
+	module.exports = function(object, el){
+	  var O      = toIObject(object)
+	    , keys   = getKeys(O)
+	    , length = keys.length
+	    , index  = 0
+	    , key;
+	  while(length > index)if(O[key = keys[index++]] === el)return key;
+	};
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// all enumerable object keys, includes symbols
+	var getKeys = __webpack_require__(164)
+	  , gOPS    = __webpack_require__(261)
+	  , pIE     = __webpack_require__(262);
+	module.exports = function(it){
+	  var result     = getKeys(it)
+	    , getSymbols = gOPS.f;
+	  if(getSymbols){
+	    var symbols = getSymbols(it)
+	      , isEnum  = pIE.f
+	      , i       = 0
+	      , key;
+	    while(symbols.length > i)if(isEnum.call(it, key = symbols[i++]))result.push(key);
+	  } return result;
+	};
+
+/***/ },
+/* 261 */
+/***/ function(module, exports) {
+
+	exports.f = Object.getOwnPropertySymbols;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports) {
+
+	exports.f = {}.propertyIsEnumerable;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.2.2 IsArray(argument)
+	var cof = __webpack_require__(168);
+	module.exports = Array.isArray || function isArray(arg){
+	  return cof(arg) == 'Array';
+	};
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+	var toIObject = __webpack_require__(166)
+	  , gOPN      = __webpack_require__(265).f
+	  , toString  = {}.toString;
+
+	var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
+	  ? Object.getOwnPropertyNames(window) : [];
+
+	var getWindowNames = function(it){
+	  try {
+	    return gOPN(it);
+	  } catch(e){
+	    return windowNames.slice();
 	  }
 	};
 
+	module.exports.f = function getOwnPropertyNames(it){
+	  return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
+	};
 
 
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
 
+	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+	var $keys      = __webpack_require__(165)
+	  , hiddenKeys = __webpack_require__(175).concat('length', 'prototype');
 
+	exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
+	  return $keys(O, hiddenKeys);
+	};
 
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
 
+	var pIE            = __webpack_require__(262)
+	  , createDesc     = __webpack_require__(157)
+	  , toIObject      = __webpack_require__(166)
+	  , toPrimitive    = __webpack_require__(156)
+	  , has            = __webpack_require__(159)
+	  , IE8_DOM_DEFINE = __webpack_require__(152)
+	  , gOPD           = Object.getOwnPropertyDescriptor;
 
+	exports.f = __webpack_require__(153) ? gOPD : function getOwnPropertyDescriptor(O, P){
+	  O = toIObject(O);
+	  P = toPrimitive(P, true);
+	  if(IE8_DOM_DEFINE)try {
+	    return gOPD(O, P);
+	  } catch(e){ /* empty */ }
+	  if(has(O, P))return createDesc(!pIE.f.call(O, P), O[P]);
+	};
 
-	var get$1 = function get$1(object, property, receiver) {
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(258)('asyncIterator');
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(258)('observable');
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _getOwnPropertyDescriptor = __webpack_require__(270);
+
+	var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function get(object, property, receiver) {
 	  if (object === null) object = Function.prototype;
-	  var desc = Object.getOwnPropertyDescriptor(object, property);
+	  var desc = (0, _getOwnPropertyDescriptor2.default)(object, property);
 
 	  if (desc === undefined) {
-	    var parent = Object.getPrototypeOf(object);
+	    var parent = (0, _getPrototypeOf2.default)(object);
 
 	    if (parent === null) {
 	      return undefined;
 	    } else {
-	      return get$1(parent, property, receiver);
+	      return get(parent, property, receiver);
 	    }
 	  } else if ("value" in desc) {
 	    return desc.value;
@@ -27666,12 +28282,64 @@
 	  }
 	};
 
-	var inherits = function (subClass, superClass) {
+/***/ },
+/* 270 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(271), __esModule: true };
+
+/***/ },
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(272);
+	var $Object = __webpack_require__(145).Object;
+	module.exports = function getOwnPropertyDescriptor(it, key){
+	  return $Object.getOwnPropertyDescriptor(it, key);
+	};
+
+/***/ },
+/* 272 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+	var toIObject                 = __webpack_require__(166)
+	  , $getOwnPropertyDescriptor = __webpack_require__(266).f;
+
+	__webpack_require__(248)('getOwnPropertyDescriptor', function(){
+	  return function getOwnPropertyDescriptor(it, key){
+	    return $getOwnPropertyDescriptor(toIObject(it), key);
+	  };
+	});
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	var _setPrototypeOf = __webpack_require__(274);
+
+	var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
+
+	var _create = __webpack_require__(278);
+
+	var _create2 = _interopRequireDefault(_create);
+
+	var _typeof2 = __webpack_require__(250);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function (subClass, superClass) {
 	  if (typeof superClass !== "function" && superClass !== null) {
-	    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : (0, _typeof3.default)(superClass)));
 	  }
 
-	  subClass.prototype = Object.create(superClass && superClass.prototype, {
+	  subClass.prototype = (0, _create2.default)(superClass && superClass.prototype, {
 	    constructor: {
 	      value: subClass,
 	      enumerable: false,
@@ -27679,4503 +28347,1224 @@
 	      configurable: true
 	    }
 	  });
-	  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	  if (superClass) _setPrototypeOf2.default ? (0, _setPrototypeOf2.default)(subClass, superClass) : subClass.__proto__ = superClass;
 	};
-
-
-
-
-
-
-
-
-
-
-
-	var possibleConstructorReturn = function (self, call) {
-	  if (!self) {
-	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-	  }
-
-	  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-	};
-
-
-
-	var set$1 = function set$1(object, property, value, receiver) {
-	  var desc = Object.getOwnPropertyDescriptor(object, property);
-
-	  if (desc === undefined) {
-	    var parent = Object.getPrototypeOf(object);
-
-	    if (parent !== null) {
-	      set$1(parent, property, value, receiver);
-	    }
-	  } else if ("value" in desc && desc.writable) {
-	    desc.value = value;
-	  } else {
-	    var setter = desc.set;
-
-	    if (setter !== undefined) {
-	      setter.call(receiver, value);
-	    }
-	  }
-
-	  return value;
-	};
-
-	var extensions = [];
-	var canPlay = {};
-
-	/*
-	 * Initial tests
-	 */
-
-	var tests = [{
-	    ext: 'ogg',
-	    type: 'audio/ogg; codecs="vorbis"'
-	}, {
-	    ext: 'mp3',
-	    type: 'audio/mpeg;'
-	}, {
-	    ext: 'opus',
-	    type: 'audio/ogg; codecs="opus"'
-	}, {
-	    ext: 'wav',
-	    type: 'audio/wav; codecs="1"'
-	}, {
-	    ext: 'm4a',
-	    type: 'audio/x-m4a;'
-	}, {
-	    ext: 'm4a',
-	    type: 'audio/aac;'
-	}];
-
-	var el = document.createElement('audio');
-	if (el) {
-	    tests.forEach(function (test) {
-	        var canPlayType = !!el.canPlayType(test.type);
-	        if (canPlayType && extensions.indexOf(test.ext) === -1) {
-	            extensions.push(test.ext);
-	        }
-	        canPlay[test.ext] = canPlayType;
-	    });
-	    el = null;
-	}
-
-	/*
-	 * find a supported file
-	 */
-
-	function getFileExtension(url) {
-	    if (typeof url !== 'string') {
-	        return '';
-	    }
-	    // from DataURL
-	    if (url.slice(0, 5) === 'data:') {
-	        var match = url.match(/data:audio\/(ogg|mp3|opus|wav|m4a)/i);
-	        if (match && match.length > 1) {
-	            return match[1].toLowerCase();
-	        }
-	    }
-	    // from Standard URL
-	    url = url.split('?')[0];
-	    url = url.slice(url.lastIndexOf('/') + 1);
-
-	    var a = url.split('.');
-	    if (a.length === 1 || a[0] === '' && a.length === 2) {
-	        return '';
-	    }
-	    return a.pop().toLowerCase();
-	}
-
-	function getSupportedFile(fileNames) {
-	    var name = void 0;
-
-	    if (Array.isArray(fileNames)) {
-	        // if array get the first one that works
-	        for (var i = 0; i < fileNames.length; i++) {
-	            name = fileNames[i];
-	            var ext = getFileExtension(name);
-	            if (extensions.indexOf(ext) > -1) {
-	                break;
-	            }
-	        }
-	    } else if ((typeof fileNames === 'undefined' ? 'undefined' : _typeof(fileNames)) === 'object') {
-	        // if not array and is object
-	        Object.keys(fileNames).some(function (key) {
-	            name = fileNames[key];
-	            var ext = getFileExtension(name);
-	            return extensions.indexOf(ext) > -1;
-	        });
-	    }
-	    // if string just return
-	    return name || fileNames;
-	}
-
-	/*
-	 * infer file types
-	 */
-
-	function isAudioBuffer(data) {
-	    return !!(data && window.AudioBuffer && data instanceof window.AudioBuffer);
-	}
-
-	function isArrayBuffer(data) {
-	    return !!(data && window.ArrayBuffer && data instanceof window.ArrayBuffer);
-	}
-
-	function isMediaElement(data) {
-	    return !!(data && window.HTMLMediaElement && data instanceof window.HTMLMediaElement);
-	}
-
-	function isMediaStream(data) {
-	    return !!(data && typeof data.getAudioTracks === 'function' && data.getAudioTracks().length && window.MediaStreamTrack && data.getAudioTracks()[0] instanceof window.MediaStreamTrack);
-	}
-
-	function isOscillatorType(data) {
-	    return !!(data && typeof data === 'string' && (data === 'sine' || data === 'square' || data === 'sawtooth' || data === 'triangle'));
-	}
-
-	function isScriptConfig(data) {
-	    return !!(data && (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object' && data.bufferSize && data.channels && data.callback);
-	}
-
-	function isURL(data) {
-	    return !!(data && typeof data === 'string' && (data.indexOf('.') > -1 || data.slice(0, 5) === 'data:'));
-	}
-
-	function containsURL(config) {
-	    if (!config || isMediaElement(config)) {
-	        return false;
-	    }
-	    // string, array or object with src/url/data property that is string, array or arraybuffer
-	    var src = config.src || config.url || config.data || config;
-	    return isURL(src) || isArrayBuffer(src) || Array.isArray(src) && isURL(src[0]);
-	}
-
-	var file = {
-	    canPlay: canPlay,
-	    containsURL: containsURL,
-	    extensions: extensions,
-	    getFileExtension: getFileExtension,
-	    getSupportedFile: getSupportedFile,
-	    isAudioBuffer: isAudioBuffer,
-	    isMediaElement: isMediaElement,
-	    isMediaStream: isMediaStream,
-	    isOscillatorType: isOscillatorType,
-	    isScriptConfig: isScriptConfig,
-	    isURL: isURL
-	};
-
-	function Analyser(context, config) {
-	    config = config || {};
-
-	    var node = context.createAnalyser();
-
-	    var fftSize = config.fftSize || 512,
-	        freqFloat = !!config.float,
-	        waveFloat = !!config.float,
-	        waveform = void 0,
-	        frequencies = void 0;
-
-	    node.fftSize = fftSize; // frequencyBinCount will be half this value
-	    node.smoothingTimeConstant = config.smoothing || config.smoothingTimeConstant || node.smoothingTimeConstant;
-	    node.minDecibels = config.minDecibels || node.minDecibels;
-	    node.maxDecibels = config.maxDecibels || node.maxDecibels;
-
-	    //the worker returns a normalized value
-	    //first a sum of all magnitudes devided by the byteLength, then devide  by half the fft (1channel)
-	    var amplitudeBlob = new Blob(['onmessage=function(e){var data=e.data;var f=new Float32Array(data.b);for(var i=0;i<f.length;i++){data.sum+=f[i]}data.sum/=f.length;postMessage(Math.max(1.0-(data.sum/data.numSamples*-1.0),0))};']);
-	    var pitchBlob = new Blob(['onmessage=function(e){var data=e.data;var sampleRate=data.sampleRate;var buf=new Float32Array(data.b);var SIZE=buf.length;var MAX_SAMPLES=Math.floor(SIZE/2);var best_offset=-1;var best_correlation=0;var rms=0;var foundGoodCorrelation=false;var correlations=new Array(MAX_SAMPLES);for(var i=0;i<SIZE;i++){var val=buf[i];rms+=val*val}rms=Math.sqrt(rms/SIZE);if (rms<0.01){postMessage(-1)}else{var lastCorrelation=1;for(var offset=0;offset<MAX_SAMPLES;offset++){var correlation=0;for(var i=0;i<MAX_SAMPLES;i++){correlation+=Math.abs((buf[i])-(buf[i+offset]))}correlation=1-(correlation/MAX_SAMPLES);correlations[offset]=correlation;if ((correlation>0.9)&&(correlation>lastCorrelation)){foundGoodCorrelation=true;if (correlation>best_correlation){best_correlation=correlation;best_offset=offset}}else if (foundGoodCorrelation){var shift=(correlations[best_offset+1]-correlations[best_offset-1])/correlations[best_offset];postMessage(sampleRate/(best_offset+(8*shift)))}lastCorrelation=correlation}if (best_correlation>0.01){postMessage(sampleRate/best_offset)}else{postMessage(-1)}}};']);
-	    var amplitudeBlobURL = URL.createObjectURL(amplitudeBlob);
-	    var amplitudeWorker = new Worker(amplitudeBlobURL);
-	    var pitchBlobURL = URL.createObjectURL(pitchBlob);
-	    var pitchWorker = new Worker(pitchBlobURL);
-
-	    var amplitudeCallback = null;
-	    var noteStrings = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-	    var pitchCallback = null;
-	    var pitchCallbackObject = {
-	        hertz: null, //number
-	        note: null, //string
-	        noteIndex: null, //int
-	        detuneCents: null, //number
-	        detune: null //string
-	    };
-
-	    function noteFromPitch(frequency) {
-	        var noteNum = 12 * (Math.log(frequency / 440) / Math.log(2));
-	        return Math.round(noteNum) + 69;
-	    }
-
-	    function frequencyFromNoteNumber(note) {
-	        return 440 * Math.pow(2, (note - 69) / 12);
-	    }
-
-	    function centsOffFromPitch(frequency, note) {
-	        return Math.floor(1200 * Math.log(frequency / frequencyFromNoteNumber(note)) / Math.log(2));
-	    }
-
-	    amplitudeWorker.onmessage = function (e) {
-	        if (amplitudeCallback) {
-	            amplitudeCallback(e.data);
-	        }
-	    };
-
-	    pitchWorker.onmessage = function (e) {
-	        if (pitchCallback) {
-	            var Hz = e.data;
-	            if (Hz !== -1) {
-	                var note = noteFromPitch(Hz);
-	                var detune = centsOffFromPitch(Hz, note);
-	                pitchCallbackObject.hertz = Hz;
-	                pitchCallbackObject.noteIndex = note % 12;
-	                pitchCallbackObject.note = noteStrings[note % 12];
-	                pitchCallbackObject.detuneCents = detune;
-	                if (detune === 0) {
-	                    pitchCallbackObject.detune = '';
-	                } else if (detune < 0) {
-	                    pitchCallbackObject.detune = 'flat';
-	                } else {
-	                    pitchCallbackObject.detune = 'sharp';
-	                }
-	            }
-	            pitchCallback(pitchCallbackObject);
-	        }
-	    };
-
-	    function needsUpdate(arr, float) {
-	        if (!arr) {
-	            return true;
-	        }
-	        if (node.fftSize !== fftSize) {
-	            return true;
-	        }
-	        if (float && arr instanceof Uint8Array) {
-	            return true;
-	        }
-	        return !float && arr instanceof Float32Array;
-	    }
-
-	    function createArray(float, length) {
-	        return float ? new Float32Array(length) : new Uint8Array(length);
-	    }
-
-	    node.getWaveform = function (float) {
-	        if (!arguments.length) {
-	            float = waveFloat;
-	        }
-
-	        if (needsUpdate(waveform, float)) {
-	            fftSize = node.fftSize;
-	            waveFloat = float;
-	            waveform = createArray(float, fftSize);
-	        }
-	        if (float && this.getFloatTimeDomainData) {
-	            this.getFloatTimeDomainData(waveform);
-	        } else {
-	            this.getByteTimeDomainData(waveform);
-	        }
-
-	        return waveform;
-	    };
-
-	    node.getPitch = function (callback) {
-	        pitchCallback = pitchCallback || callback;
-	        var f = new Float32Array(node.fftSize);
-	        f.set(node.getWaveform(true));
-	        pitchWorker.postMessage({
-	            sampleRate: context.sampleRate,
-	            b: f.buffer
-	        }, [f.buffer]);
-	    };
-
-	    node.getFrequencies = function (float) {
-	        if (!arguments.length) {
-	            float = freqFloat;
-	        }
-
-	        if (needsUpdate(frequencies, float)) {
-	            fftSize = node.fftSize;
-	            freqFloat = float;
-	            frequencies = createArray(float, node.frequencyBinCount);
-	        }
-
-	        if (float) {
-	            this.getFloatFrequencyData(frequencies);
-	        } else {
-	            this.getByteFrequencyData(frequencies);
-	        }
-
-	        return frequencies;
-	    };
-
-	    node.getAmplitude = function (callback) {
-	        amplitudeCallback = amplitudeCallback || callback;
-	        var f = new Float32Array(node.fftSize);
-	        f.set(node.getFrequencies(true));
-	        amplitudeWorker.postMessage({
-	            sum: 0,
-	            length: f.byteLength,
-	            numSamples: node.fftSize / 2,
-	            b: f.buffer
-	        }, [f.buffer]);
-	    };
-
-	    node.update = function () {
-	        node.getWaveform();
-	        node.getFrequencies();
-	    };
-
-	    Object.defineProperties(node, {
-	        smoothing: {
-	            get: function get() {
-	                return node.smoothingTimeConstant;
-	            },
-	            set: function set(value) {
-	                node.smoothingTimeConstant = value;
-	            }
-	        }
-	    });
-
-	    return node;
-	}
-
-	function number(value, defaultValue) {
-	    if (arguments.length < 2) {
-	        defaultValue = 0;
-	    }
-	    if (typeof value !== 'number' || isNaN(value)) {
-	        return defaultValue;
-	    }
-	    return value;
-	}
-
-	var n = 22050;
-
-	function Distortion(context, amount) {
-
-	    amount = number(amount, 1);
-
-	    var node = context.createWaveShaper();
-	    var curve = new Float32Array(n);
-
-	    // create waveShaper distortion curve from 0 to 1
-	    node.update = function (value) {
-	        amount = value;
-	        if (amount <= 0) {
-	            amount = 0;
-	            this.curve = null;
-	            return;
-	        }
-	        var k = value * 100;
-	        var deg = Math.PI / 180;
-	        var x = void 0;
-
-	        for (var i = 0; i < n; i++) {
-	            x = i * 2 / n - 1;
-	            curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
-	        }
-
-	        this.curve = curve;
-	    };
-
-	    Object.defineProperties(node, {
-	        amount: {
-	            get: function get() {
-	                return amount;
-	            },
-	            set: function set(value) {
-	                this.update(value);
-	            }
-	        }
-	    });
-
-	    if (typeof amount !== 'undefined') {
-	        node.update(amount);
-	    }
-
-	    return node;
-	}
-
-	function Echo(context, config) {
-	    config = config || {};
-
-	    var input = context.createGain();
-	    var delay = context.createDelay();
-	    var gain = context.createGain();
-	    var output = context.createGain();
-
-	    delay.delayTime.value = number(config.delayTime, 0.5);
-	    gain.gain.value = number(config.feedback, 0.5);
-
-	    input.connect(delay);
-	    input.connect(output);
-	    delay.connect(gain);
-	    gain.connect(delay);
-	    gain.connect(output);
-
-	    var node = input;
-	    node.name = 'Echo';
-	    node._output = output;
-
-	    Object.defineProperties(node, {
-	        delay: {
-	            get: function get() {
-	                return delay.delayTime.value;
-	            },
-	            set: function set(value) {
-	                delay.delayTime.value = value;
-	            }
-	        },
-	        feedback: {
-	            get: function get() {
-	                return gain.gain.value;
-	            },
-	            set: function set(value) {
-	                gain.gain.value = value;
-	            }
-	        }
-	    });
-
-	    return node;
-	}
-
-	function FakeContext() {
-
-	    var startTime = Date.now();
-
-	    function fn() {}
-
-	    function param() {
-	        return {
-	            value: 1,
-	            defaultValue: 1,
-	            linearRampToValueAtTime: fn,
-	            setValueAtTime: fn,
-	            exponentialRampToValueAtTime: fn,
-	            setTargetAtTime: fn,
-	            setValueCurveAtTime: fn,
-	            cancelScheduledValues: fn
-	        };
-	    }
-
-	    function fakeNode() {
-	        return {
-	            connect: fn,
-	            disconnect: fn,
-	            // analyser
-	            frequencyBinCount: 0,
-	            smoothingTimeConstant: 0,
-	            fftSize: 0,
-	            minDecibels: 0,
-	            maxDecibels: 0,
-	            getByteTimeDomainData: fn,
-	            getByteFrequencyData: fn,
-	            getFloatTimeDomainData: fn,
-	            getFloatFrequencyData: fn,
-	            // gain
-	            gain: param(),
-	            // panner
-	            panningModel: 0,
-	            setPosition: fn,
-	            setOrientation: fn,
-	            setVelocity: fn,
-	            distanceModel: 0,
-	            refDistance: 0,
-	            maxDistance: 0,
-	            rolloffFactor: 0,
-	            coneInnerAngle: 360,
-	            coneOuterAngle: 360,
-	            coneOuterGain: 0,
-	            // filter:
-	            type: 0,
-	            frequency: param(),
-	            Q: param(),
-	            detune: param(),
-	            // delay
-	            delayTime: param(),
-	            // convolver
-	            buffer: 0,
-	            // compressor
-	            threshold: param(),
-	            knee: param(),
-	            ratio: param(),
-	            attack: param(),
-	            release: param(),
-	            reduction: param(),
-	            // distortion
-	            oversample: 0,
-	            curve: 0,
-	            // buffer
-	            sampleRate: 1,
-	            length: 0,
-	            duration: 0,
-	            numberOfChannels: 0,
-	            getChannelData: function getChannelData() {
-	                return [];
-	            },
-	            copyFromChannel: fn,
-	            copyToChannel: fn,
-	            // listener
-	            dopplerFactor: 0,
-	            speedOfSound: 0,
-	            // osc
-	            start: fn
-	        };
-	    }
-
-	    // ie9
-	    if (!window.Uint8Array) {
-	        window.Uint8Array = window.Float32Array = Array;
-	    }
-
-	    return {
-	        createAnalyser: fakeNode,
-	        createBuffer: fakeNode,
-	        createBiquadFilter: fakeNode,
-	        createChannelMerger: fakeNode,
-	        createChannelSplitter: fakeNode,
-	        createDynamicsCompressor: fakeNode,
-	        createConvolver: fakeNode,
-	        createDelay: fakeNode,
-	        createGain: fakeNode,
-	        createOscillator: fakeNode,
-	        createPanner: fakeNode,
-	        createScriptProcessor: fakeNode,
-	        createWaveShaper: fakeNode,
-	        listener: fakeNode(),
-	        get currentTime() {
-	            return (Date.now() - startTime) / 1000;
-	        }
-	    };
-	}
-
-	// https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode
-	// For lowpass and highpass Q indicates how peaked the frequency is around the cutoff.
-	// The greater the value is, the greater is the peak
-
-	function Filter(context) {
-	    var config = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-	    // Frequency between 40Hz and half of the sampling rate
-	    var minFrequency = 40;
-	    var maxFrequency = context.sampleRate / 2;
-
-	    var node = context.createBiquadFilter();
-	    node.type = config.type;
-
-	    function getFrequency(value) {
-	        // Logarithm (base 2) to compute how many octaves fall in the range.
-	        var numberOfOctaves = Math.log(maxFrequency / minFrequency) / Math.LN2;
-	        // Compute a multiplier from 0 to 1 based on an exponential scale.
-	        var multiplier = Math.pow(2, numberOfOctaves * (value - 1.0));
-	        // Get back to the frequency value between min and max.
-	        return maxFrequency * multiplier;
-	    }
-
-	    node.set = function (frequency, q, gain) {
-	        if (typeof frequency !== 'undefined' && typeof frequency === 'number') {
-	            node.frequency.value = frequency;
-	        }
-	        if (typeof q !== 'undefined' && typeof q === 'number') {
-	            node.Q.value = q;
-	        }
-	        if (typeof gain !== 'undefined' && typeof gain === 'number') {
-	            node.gain.value = gain;
-	        }
-	        return node;
-	    };
-
-	    // set filter frequency based on value from 0 to 1
-	    node.setByPercent = function (percent, q, gain) {
-	        return node.set(getFrequency(percent), q, gain);
-	    };
-
-	    return node.set(config.frequency, config.q, config.gain);
-	}
-
-	function MonoFlanger(context, config) {
-	    var input = context.createGain();
-	    var delay = context.createDelay();
-	    var feedback = context.createGain();
-	    var lfo = context.createOscillator();
-	    var gain = context.createGain();
-	    var output = context.createGain();
-
-	    delay.delayTime.value = number(config.delay, 0.005); // 5-25ms delay (0.005 > 0.025)
-	    feedback.gain.value = number(config.feedback, 0.5); // 0 > 1
-
-	    lfo.type = 'sine';
-	    lfo.frequency.value = number(config.frequency, 0.002); // 0.05 > 5
-	    gain.gain.value = number(config.gain, 0.25); // 0.0005 > 0.005
-
-	    input.connect(output);
-	    input.connect(delay);
-	    delay.connect(output);
-	    delay.connect(feedback);
-	    feedback.connect(input);
-
-	    lfo.connect(gain);
-	    gain.connect(delay.delayTime);
-	    lfo.start(0);
-
-	    var node = input;
-	    node.name = 'Flanger';
-	    node._output = output;
-
-	    Object.defineProperties(node, {
-	        delay: {
-	            get: function get() {
-	                return delay.delayTime.value;
-	            },
-	            set: function set(value) {
-	                delay.delayTime.value = value;
-	            }
-	        },
-	        lfoFrequency: {
-	            get: function get() {
-	                return lfo.frequency.value;
-	            },
-	            set: function set(value) {
-	                lfo.frequency.value = value;
-	            }
-	        },
-	        lfoGain: {
-	            get: function get() {
-	                return gain.gain.value;
-	            },
-	            set: function set(value) {
-	                gain.gain.value = value;
-	            }
-	        },
-	        feedback: {
-	            get: function get() {
-	                return feedback.gain.value;
-	            },
-	            set: function set(value) {
-	                feedback.gain.value = value;
-	            }
-	        }
-	    });
-
-	    return node;
-	}
-
-	function StereoFlanger(context, config) {
-	    var input = context.createGain();
-	    var splitter = context.createChannelSplitter(2);
-	    var merger = context.createChannelMerger(2);
-	    var feedbackL = context.createGain();
-	    var feedbackR = context.createGain();
-	    var lfo = context.createOscillator();
-	    var lfoGainL = context.createGain();
-	    var lfoGainR = context.createGain();
-	    var delayL = context.createDelay();
-	    var delayR = context.createDelay();
-	    var output = context.createGain();
-
-	    feedbackL.gain.value = feedbackR.gain.value = number(config.feedback, 0.5);
-	    delayL.delayTime.value = delayR.delayTime.value = number(config.delay, 0.003);
-
-	    lfo.type = 'sine';
-	    lfo.frequency.value = number(config.frequency, 0.5);
-	    lfoGainL.gain.value = number(config.gain, 0.005);
-	    lfoGainR.gain.value = 0 - lfoGainL.gain.value;
-
-	    input.connect(splitter);
-
-	    splitter.connect(delayL, 0);
-	    splitter.connect(delayR, 1);
-
-	    delayL.connect(feedbackL);
-	    delayR.connect(feedbackR);
-
-	    feedbackL.connect(delayR);
-	    feedbackR.connect(delayL);
-
-	    delayL.connect(merger, 0, 0);
-	    delayR.connect(merger, 0, 1);
-
-	    merger.connect(output);
-	    input.connect(output);
-
-	    lfo.connect(lfoGainL);
-	    lfo.connect(lfoGainR);
-	    lfoGainL.connect(delayL.delayTime);
-	    lfoGainR.connect(delayR.delayTime);
-	    lfo.start(0);
-
-	    var node = input;
-	    node.name = 'StereoFlanger';
-	    node._output = output;
-
-	    Object.defineProperties(node, {
-	        delay: {
-	            get: function get() {
-	                return delayL.delayTime.value;
-	            },
-	            set: function set(value) {
-	                delayL.delayTime.value = delayR.delayTime.value = value;
-	            }
-	        },
-	        lfoFrequency: {
-	            get: function get() {
-	                return lfo.frequency.value;
-	            },
-	            set: function set(value) {
-	                lfo.frequency.value = value;
-	            }
-	        },
-	        lfoGain: {
-	            get: function get() {
-	                return lfoGainL.gain.value;
-	            },
-	            set: function set(value) {
-	                lfoGainL.gain.value = lfoGainR.gain.value = value;
-	            }
-	        },
-	        feedback: {
-	            get: function get() {
-	                return feedbackL.gain.value;
-	            },
-	            set: function set(value) {
-	                feedbackL.gain.value = feedbackR.gain.value = value;
-	            }
-	        }
-	    });
-
-	    return node;
-	}
-
-	function Flanger(context, config) {
-	    config = config || {};
-	    return config.stereo ? new StereoFlanger(context, config) : new MonoFlanger(context, config);
-	}
-
-	function Panner(context) {
-	    var node = context.createPanner();
-
-	    // Default for stereo is 'HRTF' can also be 'equalpower'
-	    node.panningModel = Panner.defaults.panningModel;
-
-	    // Distance model and attributes
-	    // Can be 'linear' 'inverse' 'exponential'
-	    node.distanceModel = Panner.defaults.distanceModel;
-	    node.refDistance = Panner.defaults.refDistance;
-	    node.maxDistance = Panner.defaults.maxDistance;
-	    node.rolloffFactor = Panner.defaults.rolloffFactor;
-	    node.coneInnerAngle = Panner.defaults.coneInnerAngle;
-	    node.coneOuterAngle = Panner.defaults.coneOuterAngle;
-	    node.coneOuterGain = Panner.defaults.coneOuterGain;
-	    // set to defaults (needed in Firefox)
-	    node.setPosition(0, 0, 1);
-	    node.setOrientation(0, 0, 0);
-
-	    // simple vec3 object pool
-	    var vecPool = {
-	        pool: [],
-	        get: function get(x, y, z) {
-	            var v = this.pool.length ? this.pool.pop() : {
-	                x: 0,
-	                y: 0,
-	                z: 0
-	            };
-	            // check if a vector has been passed in
-	            if (typeof x !== 'undefined' && isNaN(x) && 'x' in x && 'y' in x && 'z' in x) {
-	                v.x = number(x.x);
-	                v.y = number(x.y);
-	                v.z = number(x.z);
-	            } else {
-	                v.x = number(x);
-	                v.y = number(y);
-	                v.z = number(z);
-	            }
-	            return v;
-	        },
-	        dispose: function dispose(instance) {
-	            this.pool.push(instance);
-	        }
-	    };
-
-	    var globalUp = vecPool.get(0, 1, 0),
-	        angle45 = Math.PI / 4,
-	        angle90 = Math.PI / 2;
-
-	    // cross product of 2 vectors
-	    function cross(a, b) {
-	        var ax = a.x,
-	            ay = a.y,
-	            az = a.z;
-	        var bx = b.x,
-	            by = b.y,
-	            bz = b.z;
-	        a.x = ay * bz - az * by;
-	        a.y = az * bx - ax * bz;
-	        a.z = ax * by - ay * bx;
-	    }
-
-	    // normalise to unit vector
-	    function normalize(vec3) {
-	        if (vec3.x === 0 && vec3.y === 0 && vec3.z === 0) {
-	            return vec3;
-	        }
-	        var length = Math.sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
-	        var invScalar = 1 / length;
-	        vec3.x *= invScalar;
-	        vec3.y *= invScalar;
-	        vec3.z *= invScalar;
-	        return vec3;
-	    }
-
-	    // set the orientation of the source (where the audio is coming from)
-	    function setOrientation(pannerNode, fw) {
-	        // calculate up vec ( up = (forward cross (0, 1, 0)) cross forward )
-	        var up = vecPool.get(fw.x, fw.y, fw.z);
-	        cross(up, globalUp);
-	        cross(up, fw);
-	        normalize(up);
-	        normalize(fw);
-	        // set the audio context's listener position to match the camera position
-	        pannerNode.setOrientation(fw.x, fw.y, fw.z, up.x, up.y, up.z);
-	        // return the vecs to the pool
-	        vecPool.dispose(fw);
-	        vecPool.dispose(up);
-	    }
-
-	    function setPosition(nodeOrListener, vec) {
-	        nodeOrListener.setPosition(vec.x, vec.y, vec.z);
-	        vecPool.dispose(vec);
-	    }
-
-	    node.set = function (x, y, z) {
-	        var v = vecPool.get(x, y, z);
-
-	        if (arguments.length === 1 && v.x) {
-	            // pan left to right with value from -1 to 1
-	            x = v.x;
-
-	            if (x > 1) {
-	                x = 1;
-	            }
-	            if (x < -1) {
-	                x = -1;
-	            }
-
-	            // creates a nice curve with z
-	            x = x * angle45;
-	            z = x + angle90;
-
-	            if (z > angle90) {
-	                z = Math.PI - z;
-	            }
-
-	            v.x = Math.sin(x);
-	            v.z = Math.sin(z);
-	        }
-	        setPosition(node, v);
-	    };
-
-	    // set the position the audio is coming from)
-	    node.setSourcePosition = function (x, y, z) {
-	        setPosition(node, vecPool.get(x, y, z));
-	    };
-
-	    // set the direction the audio is coming from)
-	    node.setSourceOrientation = function (x, y, z) {
-	        setOrientation(node, vecPool.get(x, y, z));
-	    };
-
-	    // set the position of who or what is hearing the audio (could be camera or some character)
-	    node.setListenerPosition = function (x, y, z) {
-	        setPosition(context.listener, vecPool.get(x, y, z));
-	    };
-
-	    // set the position of who or what is hearing the audio (could be camera or some character)
-	    node.setListenerOrientation = function (x, y, z) {
-	        setOrientation(context.listener, vecPool.get(x, y, z));
-	    };
-
-	    node.getDefaults = function () {
-	        return Panner.defaults;
-	    };
-
-	    node.setDefaults = function (defaults) {
-	        Object.keys(defaults).forEach(function (key) {
-	            Panner.defaults[key] = defaults[key];
-	        });
-	    };
-
-	    return node;
-	}
-
-	Panner.defaults = {
-	    panningModel: 'HRTF',
-	    distanceModel: 'linear',
-	    refDistance: 1,
-	    maxDistance: 1000,
-	    rolloffFactor: 1,
-	    coneInnerAngle: 360,
-	    coneOuterAngle: 0,
-	    coneOuterGain: 0
-	};
-
-	function Phaser(context) {
-	    var config = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-	    var stages = number(config.stages, 8);
-	    var filters = [];
-	    var filter = void 0;
-
-	    var input = context.createGain();
-	    var feedback = context.createGain();
-	    var lfo = context.createOscillator();
-	    var lfoGain = context.createGain();
-	    var output = context.createGain();
-
-	    feedback.gain.value = number(config.feedback, 0.5);
-
-	    lfo.type = 'sine';
-	    lfo.frequency.value = number(config.frequency, 0.5);
-	    lfoGain.gain.value = number(config.gain, 300);
-
-	    for (var i = 0; i < stages; i++) {
-	        filter = context.createBiquadFilter();
-	        filter.type = 'allpass';
-	        filter.frequency.value = 1000 * i;
-	        //filter.Q.value = 10;
-	        if (i > 0) {
-	            filters[i - 1].connect(filter);
-	        }
-	        lfoGain.connect(filter.frequency);
-
-	        filters.push(filter);
-	    }
-
-	    var first = filters[0];
-	    var last = filters[filters.length - 1];
-
-	    input.connect(first);
-	    input.connect(output);
-	    last.connect(output);
-	    last.connect(feedback);
-	    feedback.connect(first);
-	    lfo.connect(lfoGain);
-	    lfo.start(0);
-
-	    var node = input;
-	    node.name = 'Phaser';
-	    node._output = output;
-
-	    Object.defineProperties(node, {
-	        lfoFrequency: {
-	            get: function get() {
-	                return lfo.frequency.value;
-	            },
-	            set: function set(value) {
-	                lfo.frequency.value = value;
-	            }
-	        },
-	        lfoGain: {
-	            get: function get() {
-	                return lfoGain.gain.value;
-	            },
-	            set: function set(value) {
-	                lfoGain.gain.value = value;
-	            }
-	        },
-	        feedback: {
-	            get: function get() {
-	                return feedback.gain.value;
-	            },
-	            set: function set(value) {
-	                feedback.gain.value = value;
-	            }
-	        }
-	    });
-
-	    return node;
-	}
-
-	function Recorder(context, passThrough) {
-	    var bufferLength = 4096,
-	        buffersL = [],
-	        buffersR = [];
-	    var startedAt = 0,
-	        stoppedAt = 0;
-
-	    var input = context.createGain();
-	    var output = context.createGain();
-	    var script = void 0;
-
-	    var node = input;
-	    node.name = 'Recorder';
-	    node._output = output;
-
-	    node.isRecording = false;
-
-	    function mergeBuffers(buffers, length) {
-	        var buffer = new Float32Array(length);
-	        var offset = 0;
-	        for (var i = 0; i < buffers.length; i++) {
-	            buffer.set(buffers[i], offset);
-	            offset += buffers[i].length;
-	        }
-	        return buffer;
-	    }
-
-	    function getBuffer() {
-	        if (!buffersL.length) {
-	            return context.createBuffer(2, bufferLength, context.sampleRate);
-	        }
-	        var recordingLength = buffersL.length * bufferLength;
-	        var buffer = context.createBuffer(2, recordingLength, context.sampleRate);
-	        buffer.getChannelData(0).set(mergeBuffers(buffersL, recordingLength));
-	        buffer.getChannelData(1).set(mergeBuffers(buffersR, recordingLength));
-	        return buffer;
-	    }
-
-	    function destroyScriptProcessor() {
-	        if (script) {
-	            script.onaudioprocess = null;
-	            input.disconnect();
-	            script.disconnect();
-	        }
-	    }
-
-	    function createScriptProcessor() {
-	        destroyScriptProcessor();
-
-	        script = context.createScriptProcessor(bufferLength, 2, 2);
-	        input.connect(script);
-	        script.connect(context.destination);
-	        script.connect(output);
-
-	        script.onaudioprocess = function (event) {
-	            var inputL = event.inputBuffer.getChannelData(0);
-	            var inputR = event.inputBuffer.getChannelData(1);
-
-	            if (passThrough) {
-	                var outputL = event.outputBuffer.getChannelData(0);
-	                var outputR = event.outputBuffer.getChannelData(1);
-	                outputL.set(inputL);
-	                outputR.set(inputR);
-	            }
-
-	            if (node.isRecording) {
-	                buffersL.push(new Float32Array(inputL));
-	                buffersR.push(new Float32Array(inputR));
-	            }
-	        };
-	    }
-
-	    node.start = function () {
-	        createScriptProcessor();
-	        buffersL.length = 0;
-	        buffersR.length = 0;
-	        startedAt = context.currentTime;
-	        stoppedAt = 0;
-	        this.isRecording = true;
-	    };
-
-	    node.stop = function () {
-	        stoppedAt = context.currentTime;
-	        this.isRecording = false;
-	        destroyScriptProcessor();
-	        return getBuffer();
-	    };
-
-	    node.getDuration = function () {
-	        if (!this.isRecording) {
-	            return stoppedAt - startedAt;
-	        }
-	        return context.currentTime - startedAt;
-	    };
-
-	    return node;
-	}
-
-	function Reverb(context) {
-	    var config = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-	    var rate = context.sampleRate;
-
-	    var time = number(config.time, 1);
-	    var decay = number(config.decay, 5);
-	    var reverse = !!config.reverse;
-	    var length = void 0;
-	    var impulseResponse = void 0;
-
-	    var input = context.createGain();
-	    var reverb = context.createConvolver();
-	    var output = context.createGain();
-
-	    input.connect(reverb);
-	    input.connect(output);
-	    reverb.connect(output);
-
-	    var node = input;
-	    node.name = 'Reverb';
-	    node._output = output;
-
-	    node.update = function (opt) {
-	        if (typeof opt.time !== 'undefined') {
-	            time = opt.time;
-	            length = Math.floor(rate * time);
-	            impulseResponse = length ? context.createBuffer(2, length, rate) : null;
-	        }
-	        if (typeof opt.decay !== 'undefined') {
-	            decay = opt.decay;
-	        }
-	        if (typeof opt.reverse !== 'undefined') {
-	            reverse = opt.reverse;
-	        }
-
-	        if (!impulseResponse) {
-	            reverb.buffer = null;
-	            return;
-	        }
-
-	        var left = impulseResponse.getChannelData(0);
-	        var right = impulseResponse.getChannelData(1);
-	        var n = void 0,
-	            e = void 0;
-
-	        for (var i = 0; i < length; i++) {
-	            n = reverse ? length - i : i;
-	            e = Math.pow(1 - n / length, decay);
-	            left[i] = (Math.random() * 2 - 1) * e;
-	            right[i] = (Math.random() * 2 - 1) * e;
-	        }
-
-	        reverb.buffer = impulseResponse;
-	    };
-
-	    node.update({
-	        time: time,
-	        decay: decay,
-	        reverse: reverse
-	    });
-
-	    Object.defineProperties(node, {
-	        time: {
-	            get: function get() {
-	                return time;
-	            },
-	            set: function set(value) {
-	                if (value === time) {
-	                    return;
-	                }
-	                this.update({
-	                    time: value
-	                });
-	            }
-	        },
-	        decay: {
-	            get: function get() {
-	                return decay;
-	            },
-	            set: function set(value) {
-	                if (value === decay) {
-	                    return;
-	                }
-	                this.update({
-	                    decay: value
-	                });
-	            }
-	        },
-	        reverse: {
-	            get: function get() {
-	                return reverse;
-	            },
-	            set: function set(value) {
-	                if (value === reverse) {
-	                    return;
-	                }
-	                this.update({
-	                    reverse: !!value
-	                });
-	            }
-	        }
-	    });
-
-	    return node;
-	}
-
-	function Effect(context) {
-	    context = context || new FakeContext();
-	    var panning = new Panner(context);
-
-	    var api = null,
-	        destination = void 0,
-	        nodeList = [],
-	        sourceNode = void 0;
-
-	    function connect(a, b) {
-	        //console.log('> connect', (a.name || a.constructor.name), 'to', (b.name || b.constructor.name));
-
-	        var output = a._output || a;
-	        //console.log('> disconnect output: ', (a.name || a.constructor.name));
-	        output.disconnect();
-	        //console.log('> connect output: ',(a.name || a.constructor.name), 'to input:', (b.name || b.constructor.name));
-	        output.connect(b);
-	    }
-
-	    function connectToDestination(node) {
-	        var l = nodeList.length;
-	        var lastNode = l ? nodeList[l - 1] : sourceNode;
-
-	        if (lastNode) {
-	            connect(lastNode, node);
-	        }
-
-	        destination = node;
-	    }
-
-	    function updateConnections() {
-	        if (!sourceNode) {
-	            return;
-	        }
-
-	        //console.log('updateConnections:', nodeList.length);
-
-	        var node = void 0,
-	            prev = void 0;
-
-	        for (var i = 0; i < nodeList.length; i++) {
-	            node = nodeList[i];
-	            //console.log(i, node);
-	            prev = i === 0 ? sourceNode : nodeList[i - 1];
-	            connect(prev, node);
-	        }
-
-	        if (destination) {
-	            connectToDestination(destination);
-	        }
-	    }
-
-	    function has(node) {
-	        if (!node) {
-	            return false;
-	        }
-	        return nodeList.indexOf(node) > -1;
-	    }
-
-	    function add(node) {
-	        if (!node) {
-	            return null;
-	        }
-	        if (has(node)) {
-	            return node;
-	        }
-	        nodeList.push(node);
-	        updateConnections();
-	        return node;
-	    }
-
-	    function remove(node) {
-	        if (!node) {
-	            return null;
-	        }
-	        if (!has(node)) {
-	            return node;
-	        }
-	        var l = nodeList.length;
-	        for (var i = 0; i < l; i++) {
-	            if (node === nodeList[i]) {
-	                nodeList.splice(i, 1);
-	                break;
-	            }
-	        }
-	        var output = node._output || node;
-	        output.disconnect();
-	        updateConnections();
-	        return node;
-	    }
-
-	    function toggle(node, force) {
-	        force = !!force;
-	        var hasNode = has(node);
-	        if (arguments.length > 1 && hasNode === force) {
-	            return api;
-	        }
-	        if (hasNode) {
-	            remove(node);
-	        } else {
-	            add(node);
-	        }
-	        return api;
-	    }
-
-	    function removeAll() {
-	        while (nodeList.length) {
-	            nodeList.pop().disconnect();
-	        }
-	        updateConnections();
-	        return api;
-	    }
-
-	    function destroy() {
-	        removeAll();
-	        context = null;
-	        destination = null;
-	        nodeList = [];
-	        if (sourceNode) {
-	            sourceNode.disconnect();
-	        }
-	        sourceNode = null;
-	    }
-
-	    /*
-	     * Effects
-	     */
-
-	    function analyser(config) {
-	        return add(new Analyser(context, config));
-	    }
-
-	    // lowers the volume of the loudest parts of the signal and raises the volume of the softest parts
-	    function compressor(options) {
-	        var node = context.createDynamicsCompressor();
-
-	        node.update = function (config) {
-	            // min decibels to start compressing at from -100 to 0
-	            node.threshold.value = typeof config.threshold !== 'undefined' ? config.threshold : -24;
-	            // decibel value to start curve to compressed value from 0 to 40
-	            node.knee.value = typeof config.knee !== 'undefined' ? config.knee : 30;
-	            // amount of change per decibel from 1 to 20
-	            node.ratio.value = typeof config.ratio !== 'undefined' ? config.ratio : 12;
-	            // gain reduction currently applied by compressor from -20 to 0
-	            // node.reduction.value = typeof config.reduction !== 'undefined' ? config.reduction : -10;)
-	            // seconds to reduce gain by 10db from 0 to 1 - how quickly signal adapted when volume increased
-	            node.attack.value = typeof config.attack !== 'undefined' ? config.attack : 0.0003;
-	            // seconds to increase gain by 10db from 0 to 1 - how quickly signal adapted when volume redcuced
-	            node.release.value = typeof config.release !== 'undefined' ? config.release : 0.25;
-	        };
-
-	        node.update(options || {});
-
-	        return add(node);
-	    }
-
-	    function convolver(impulseResponse) {
-	        // impulseResponse is an audio file buffer
-	        var node = context.createConvolver();
-	        node.buffer = impulseResponse;
-	        return add(node);
-	    }
-
-	    function delay(time) {
-	        var node = context.createDelay();
-	        if (typeof time !== 'undefined') {
-	            node.delayTime.value = time;
-	        }
-	        return add(node);
-	    }
-
-	    function echo(config) {
-	        return add(new Echo(context, config));
-	    }
-
-	    function distortion(amount) {
-	        // Float32Array defining curve (values are interpolated)
-	        //node.curve
-	        // up-sample before applying curve for better resolution result 'none', '2x' or '4x'
-	        //node.oversample = '2x';
-	        return add(new Distortion(context, amount));
-	    }
-
-	    function filter(type, frequency, q, gain) {
-	        return add(new Filter(context, { type: type, frequency: frequency, q: q, gain: gain }));
-	    }
-
-	    function lowpass(frequency, peak) {
-	        return filter('lowpass', { frequency: frequency, q: peak });
-	    }
-
-	    function highpass(frequency, peak) {
-	        return filter('highpass', { frequency: frequency, q: peak });
-	    }
-
-	    function bandpass(frequency, width) {
-	        return filter('bandpass', { frequency: frequency, q: width });
-	    }
-
-	    function lowshelf(frequency, gain) {
-	        return filter('lowshelf', { frequency: frequency, q: 0, gain: gain });
-	    }
-
-	    function highshelf(frequency, gain) {
-	        return filter('highshelf', { frequency: frequency, q: 0, gain: gain });
-	    }
-
-	    function peaking(frequency, width, gain) {
-	        return filter('peaking', { frequency: frequency, q: width, gain: gain });
-	    }
-
-	    function notch(frequency, width, gain) {
-	        return filter('notch', { frequency: frequency, q: width, gain: gain });
-	    }
-
-	    function allpass(frequency, sharpness) {
-	        return filter('allpass', { frequency: frequency, q: sharpness });
-	    }
-
-	    function flanger(config) {
-	        return add(new Flanger(context, config));
-	    }
-
-	    function gainNode(value) {
-	        var node = context.createGain();
-	        if (typeof value !== 'undefined') {
-	            node.gain.value = value;
-	        }
-	        return node;
-	    }
-
-	    function panner() {
-	        return add(new Panner(context));
-	    }
-
-	    function phaser(config) {
-	        return add(new Phaser(context, config));
-	    }
-
-	    function recorder(passThrough) {
-	        return add(new Recorder(context, passThrough));
-	    }
-
-	    function reverb(seconds, decay, reverse) {
-	        return add(new Reverb(context, seconds, decay, reverse));
-	    }
-
-	    function script() {
-	        var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-	        // bufferSize 256 - 16384 (pow 2)
-	        var bufferSize = config.bufferSize || 1024;
-	        var inputChannels = typeof config.inputChannels === 'undefined' ? 0 : config.inputChannels;
-	        var outputChannels = typeof config.outputChannels === 'undefined' ? 1 : config.outputChannels;
-
-	        var node = context.createScriptProcessor(bufferSize, inputChannels, outputChannels);
-
-	        var thisArg = config.thisArg || config.context || node;
-	        var callback = config.callback || function () {};
-
-	        // available props:
-	        /*
-	        event.inputBuffer
-	        event.outputBuffer
-	        event.playbackTime
-	        */
-	        // Example: generate noise
-	        /*
-	        const output = event.outputBuffer.getChannelData(0);
-	        const l = output.length;
-	        for (let i = 0; i < l; i++) {
-	            output[i] = Math.random();
-	        }
-	        */
-	        node.onaudioprocess = callback.bind(thisArg);
-
-	        return add(node);
-	    }
-
-	    function setSource(node) {
-	        sourceNode = node;
-	        updateConnections();
-	        return node;
-	    }
-
-	    function setDestination(node) {
-	        connectToDestination(node);
-	        return node;
-	    }
-
-	    //
-
-	    api = {
-	        context: context,
-	        nodeList: nodeList,
-	        panning: panning,
-
-	        has: has,
-	        add: add,
-	        remove: remove,
-	        toggle: toggle,
-	        removeAll: removeAll,
-	        destroy: destroy,
-	        setSource: setSource,
-	        setDestination: setDestination,
-
-	        analyser: analyser,
-	        compressor: compressor,
-	        convolver: convolver,
-	        delay: delay,
-	        echo: echo,
-	        distortion: distortion,
-	        filter: filter,
-	        lowpass: lowpass,
-	        highpass: highpass,
-	        bandpass: bandpass,
-	        lowshelf: lowshelf,
-	        highshelf: highshelf,
-	        peaking: peaking,
-	        notch: notch,
-	        allpass: allpass,
-	        flanger: flanger,
-	        gain: gainNode,
-	        panner: panner,
-	        phaser: phaser,
-	        recorder: recorder,
-	        reverb: reverb,
-	        script: script
-	    };
-
-	    return Object.freeze(api);
-	}
-
-	function Group(context, destination) {
-	    var sounds = [];
-	    var effect = new Effect(context);
-	    var gain = effect.gain();
-	    var preMuteVolume = 1;
-	    var group = null;
-
-	    if (context) {
-	        effect.setSource(gain);
-	        effect.setDestination(destination || context.destination);
-	    }
-
-	    /*
-	     * Add / remove
-	     */
-
-	    function find(soundOrId, callback) {
-	        var found = void 0;
-
-	        if (!soundOrId && soundOrId !== 0) {
-	            return found;
-	        }
-
-	        sounds.some(function (sound) {
-	            if (sound === soundOrId || sound.id === soundOrId) {
-	                found = sound;
-	                return true;
-	            }
-	            return false;
-	        });
-
-	        if (found && callback) {
-	            return callback(found);
-	        }
-
-	        return found;
-	    }
-
-	    function remove(soundOrId) {
-	        find(soundOrId, function (sound) {
-	            return sounds.splice(sounds.indexOf(sound), 1);
-	        });
-	        return group;
-	    }
-
-	    function add(sound) {
-	        sound.gain.disconnect();
-	        sound.gain.connect(gain);
-
-	        sounds.push(sound);
-
-	        sound.once('destroy', remove);
-
-	        return group;
-	    }
-
-	    /*
-	     * Controls
-	     */
-
-	    function play(delay, offset) {
-	        sounds.forEach(function (sound) {
-	            return sound.play(delay, offset);
-	        });
-	        return group;
-	    }
-
-	    function pause() {
-	        sounds.forEach(function (sound) {
-	            if (sound.playing) {
-	                sound.pause();
-	            }
-	        });
-	        return group;
-	    }
-
-	    function resume() {
-	        sounds.forEach(function (sound) {
-	            if (sound.paused) {
-	                sound.play();
-	            }
-	        });
-	        return group;
-	    }
-
-	    function stop() {
-	        sounds.forEach(function (sound) {
-	            return sound.stop();
-	        });
-	        return group;
-	    }
-
-	    function seek(percent) {
-	        sounds.forEach(function (sound) {
-	            return sound.seek(percent);
-	        });
-	        return group;
-	    }
-
-	    function mute() {
-	        preMuteVolume = group.volume;
-	        group.volume = 0;
-	        return group;
-	    }
-
-	    function unMute() {
-	        group.volume = preMuteVolume || 1;
-	        return group;
-	    }
-
-	    function setVolume(value) {
-	        group.volume = value;
-	        return group;
-	    }
-
-	    function fade(volume, duration) {
-	        if (context) {
-	            var param = gain.gain;
-	            var time = context.currentTime;
-
-	            param.cancelScheduledValues(time);
-	            param.setValueAtTime(param.value, time);
-	            // param.setValueAtTime(volume, time + duration);
-	            param.linearRampToValueAtTime(volume, time + duration);
-	            // param.setTargetAtTime(volume, time, duration);
-	            // param.exponentialRampToValueAtTime(Math.max(volume, 0.0001), time + duration);
-	        } else {
-	            sounds.forEach(function (sound) {
-	                sound.fade(volume, duration);
-	            });
-	        }
-
-	        return group;
-	    }
-
-	    /*
-	     * Destroy
-	     */
-
-	    function destroy() {
-	        while (sounds.length) {
-	            sounds.pop().destroy();
-	        }
-	    }
-
-	    /*
-	     * Api
-	     */
-
-	    group = {
-	        add: add,
-	        find: find,
-	        remove: remove,
-	        play: play,
-	        pause: pause,
-	        resume: resume,
-	        stop: stop,
-	        seek: seek,
-	        setVolume: setVolume,
-	        mute: mute,
-	        unMute: unMute,
-	        fade: fade,
-	        destroy: destroy
-	    };
-
-	    /*
-	     * Getters & Setters
-	     */
-
-	    Object.defineProperties(group, {
-	        effect: {
-	            value: effect
-	        },
-	        gain: {
-	            value: gain
-	        },
-	        sounds: {
-	            value: sounds
-	        },
-	        volume: {
-	            get: function get() {
-	                return gain.gain.value;
-	            },
-	            set: function set(value) {
-	                if (isNaN(value)) {
-	                    return;
-	                }
-
-	                if (context) {
-	                    gain.gain.cancelScheduledValues(context.currentTime);
-	                    gain.gain.value = value;
-	                    gain.gain.setValueAtTime(value, context.currentTime);
-	                } else {
-	                    gain.gain.value = value;
-	                }
-	                sounds.forEach(function (sound) {
-	                    if (!sound.context) {
-	                        sound.groupVolume = value;
-	                    }
-	                });
-	            }
-	        }
-	    });
-
-	    return group;
-	}
-
-	Group.Effect = Effect;
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-	function EventEmitter$1() {
-	  this._events = this._events || {};
-	  this._maxListeners = this._maxListeners || undefined;
-	}
-	var events = EventEmitter$1;
-
-	// Backwards-compat with node 0.10.x
-	EventEmitter$1.EventEmitter = EventEmitter$1;
-
-	EventEmitter$1.prototype._events = undefined;
-	EventEmitter$1.prototype._maxListeners = undefined;
-
-	// By default EventEmitters will print a warning if more than 10 listeners are
-	// added to it. This is a useful default which helps finding memory leaks.
-	EventEmitter$1.defaultMaxListeners = 10;
-
-	// Obviously not all Emitters should be limited to 10. This function allows
-	// that to be increased. Set to zero for unlimited.
-	EventEmitter$1.prototype.setMaxListeners = function(n) {
-	  if (!isNumber(n) || n < 0 || isNaN(n))
-	    throw TypeError('n must be a positive number');
-	  this._maxListeners = n;
-	  return this;
-	};
-
-	EventEmitter$1.prototype.emit = function(type) {
-	  var er, handler, len, args, i, listeners;
-
-	  if (!this._events)
-	    this._events = {};
-
-	  // If there is no 'error' event listener then throw.
-	  if (type === 'error') {
-	    if (!this._events.error ||
-	        (isObject(this._events.error) && !this._events.error.length)) {
-	      er = arguments[1];
-	      if (er instanceof Error) {
-	        throw er; // Unhandled 'error' event
-	      } else {
-	        // At least give some kind of context to the user
-	        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
-	        err.context = er;
-	        throw err;
-	      }
-	    }
-	  }
-
-	  handler = this._events[type];
-
-	  if (isUndefined(handler))
-	    return false;
-
-	  if (isFunction(handler)) {
-	    switch (arguments.length) {
-	      // fast cases
-	      case 1:
-	        handler.call(this);
-	        break;
-	      case 2:
-	        handler.call(this, arguments[1]);
-	        break;
-	      case 3:
-	        handler.call(this, arguments[1], arguments[2]);
-	        break;
-	      // slower
-	      default:
-	        args = Array.prototype.slice.call(arguments, 1);
-	        handler.apply(this, args);
-	    }
-	  } else if (isObject(handler)) {
-	    args = Array.prototype.slice.call(arguments, 1);
-	    listeners = handler.slice();
-	    len = listeners.length;
-	    for (i = 0; i < len; i++)
-	      listeners[i].apply(this, args);
-	  }
-
-	  return true;
-	};
-
-	EventEmitter$1.prototype.addListener = function(type, listener) {
-	  var m;
-
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-
-	  if (!this._events)
-	    this._events = {};
-
-	  // To avoid recursion in the case that type === "newListener"! Before
-	  // adding it to the listeners, first emit "newListener".
-	  if (this._events.newListener)
-	    this.emit('newListener', type,
-	              isFunction(listener.listener) ?
-	              listener.listener : listener);
-
-	  if (!this._events[type])
-	    // Optimize the case of one listener. Don't need the extra array object.
-	    this._events[type] = listener;
-	  else if (isObject(this._events[type]))
-	    // If we've already got an array, just append.
-	    this._events[type].push(listener);
-	  else
-	    // Adding the second element, need to change to array.
-	    this._events[type] = [this._events[type], listener];
-
-	  // Check for listener leak
-	  if (isObject(this._events[type]) && !this._events[type].warned) {
-	    if (!isUndefined(this._maxListeners)) {
-	      m = this._maxListeners;
-	    } else {
-	      m = EventEmitter$1.defaultMaxListeners;
-	    }
-
-	    if (m && m > 0 && this._events[type].length > m) {
-	      this._events[type].warned = true;
-	      console.error('(node) warning: possible EventEmitter memory ' +
-	                    'leak detected. %d listeners added. ' +
-	                    'Use emitter.setMaxListeners() to increase limit.',
-	                    this._events[type].length);
-	      if (typeof console.trace === 'function') {
-	        // not supported in IE 10
-	        console.trace();
-	      }
-	    }
-	  }
-
-	  return this;
-	};
-
-	EventEmitter$1.prototype.on = EventEmitter$1.prototype.addListener;
-
-	EventEmitter$1.prototype.once = function(type, listener) {
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-
-	  var fired = false;
-
-	  function g() {
-	    this.removeListener(type, g);
-
-	    if (!fired) {
-	      fired = true;
-	      listener.apply(this, arguments);
-	    }
-	  }
-
-	  g.listener = listener;
-	  this.on(type, g);
-
-	  return this;
-	};
-
-	// emits a 'removeListener' event iff the listener was removed
-	EventEmitter$1.prototype.removeListener = function(type, listener) {
-	  var list, position, length, i;
-
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-
-	  if (!this._events || !this._events[type])
-	    return this;
-
-	  list = this._events[type];
-	  length = list.length;
-	  position = -1;
-
-	  if (list === listener ||
-	      (isFunction(list.listener) && list.listener === listener)) {
-	    delete this._events[type];
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-
-	  } else if (isObject(list)) {
-	    for (i = length; i-- > 0;) {
-	      if (list[i] === listener ||
-	          (list[i].listener && list[i].listener === listener)) {
-	        position = i;
-	        break;
-	      }
-	    }
-
-	    if (position < 0)
-	      return this;
-
-	    if (list.length === 1) {
-	      list.length = 0;
-	      delete this._events[type];
-	    } else {
-	      list.splice(position, 1);
-	    }
-
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-	  }
-
-	  return this;
-	};
-
-	EventEmitter$1.prototype.removeAllListeners = function(type) {
-	  var key, listeners;
-
-	  if (!this._events)
-	    return this;
-
-	  // not listening for removeListener, no need to emit
-	  if (!this._events.removeListener) {
-	    if (arguments.length === 0)
-	      this._events = {};
-	    else if (this._events[type])
-	      delete this._events[type];
-	    return this;
-	  }
-
-	  // emit removeListener for all listeners on all events
-	  if (arguments.length === 0) {
-	    for (key in this._events) {
-	      if (key === 'removeListener') continue;
-	      this.removeAllListeners(key);
-	    }
-	    this.removeAllListeners('removeListener');
-	    this._events = {};
-	    return this;
-	  }
-
-	  listeners = this._events[type];
-
-	  if (isFunction(listeners)) {
-	    this.removeListener(type, listeners);
-	  } else if (listeners) {
-	    // LIFO order
-	    while (listeners.length)
-	      this.removeListener(type, listeners[listeners.length - 1]);
-	  }
-	  delete this._events[type];
-
-	  return this;
-	};
-
-	EventEmitter$1.prototype.listeners = function(type) {
-	  var ret;
-	  if (!this._events || !this._events[type])
-	    ret = [];
-	  else if (isFunction(this._events[type]))
-	    ret = [this._events[type]];
-	  else
-	    ret = this._events[type].slice();
-	  return ret;
-	};
-
-	EventEmitter$1.prototype.listenerCount = function(type) {
-	  if (this._events) {
-	    var evlistener = this._events[type];
-
-	    if (isFunction(evlistener))
-	      return 1;
-	    else if (evlistener)
-	      return evlistener.length;
-	  }
-	  return 0;
-	};
-
-	EventEmitter$1.listenerCount = function(emitter, type) {
-	  return emitter.listenerCount(type);
-	};
-
-	function isFunction(arg) {
-	  return typeof arg === 'function';
-	}
-
-	function isNumber(arg) {
-	  return typeof arg === 'number';
-	}
-
-	function isObject(arg) {
-	  return typeof arg === 'object' && arg !== null;
-	}
-
-	function isUndefined(arg) {
-	  return arg === void 0;
-	}
-
-	var EventEmitter = events.EventEmitter;
-
-	var Emitter = function (_EventEmitter) {
-	    inherits(Emitter, _EventEmitter);
-
-	    function Emitter() {
-	        classCallCheck(this, Emitter);
-	        return possibleConstructorReturn(this, _EventEmitter.call(this));
-	    }
-
-	    Emitter.prototype.off = function off(type, listener) {
-	        if (listener) {
-	            return this.removeListener(type, listener);
-	        }
-	        if (type) {
-	            return this.removeAllListeners(type);
-	        }
-	        return this.removeAllListeners();
-	    };
-
-	    return Emitter;
-	}(EventEmitter);
-
-	function Loader(url) {
-	    var ERROR_STATE = ['', 'ABORTED', 'NETWORK', 'DECODE', 'SRC_NOT_SUPPORTED'];
-	    var emitter = new Emitter();
-	    var progress = 0,
-	        audioContext = void 0,
-	        isTouchLocked = void 0,
-	        request = void 0,
-	        timeout = void 0,
-	        data = void 0;
-
-	    // clean up
-
-	    function removeListeners() {
-	        emitter.off('error');
-	        emitter.off('progress');
-	        emitter.off('complete');
-	        emitter.off('loaded');
-
-	        if (data && typeof data.removeEventListener === 'function') {
-	            data.removeEventListener('canplaythrough', readyHandler);
-	            data.removeEventListener('error', errorHandler);
-	        }
-
-	        if (request) {
-	            request.removeEventListener('progress', progressHandler);
-	            request.removeEventListener('load', loadHandler);
-	            request.removeEventListener('error', errorHandler);
-	        }
-	    }
-
-	    function dispatchComplete(buffer) {
-	        emitter.emit('progress', 1);
-	        emitter.emit('loaded', buffer);
-	        emitter.emit('complete', buffer);
-
-	        removeListeners();
-	    }
-
-	    function progressHandler(event) {
-	        if (event.lengthComputable) {
-	            progress = event.loaded / event.total;
-	            emitter.emit('progress', progress);
-	        }
-	    }
-
-	    // error
-
-	    function errorHandler(event) {
-	        window.clearTimeout(timeout);
-
-	        var message = event;
-
-	        if (data && data.error) {
-	            message = 'Media Error: ' + ERROR_STATE[data.error.code] + ' ' + url;
-	        }
-
-	        if (request) {
-	            message = 'XHR Error: ' + request.status + ' ' + request.statusText + ' ' + url;
-	        }
-
-	        emitter.emit('error', message);
-
-	        removeListeners();
-	    }
-
-	    function decodeArrayBuffer(arraybuffer) {
-	        audioContext.decodeAudioData(arraybuffer, function (buffer) {
-	            data = buffer;
-	            request = null;
-	            progress = 1;
-	            dispatchComplete(buffer);
-	        }, errorHandler);
-	    }
-
-	    function loadHandler() {
-	        decodeArrayBuffer(request.response);
-	    }
-
-	    function readyHandler() {
-	        window.clearTimeout(timeout);
-	        if (!data) {
-	            return;
-	        }
-	        progress = 1;
-	        dispatchComplete(data);
-	    }
-
-	    function cancel() {
-	        removeListeners();
-
-	        if (request && request.readyState !== 4) {
-	            request.abort();
-	        }
-	        request = null;
-
-	        window.clearTimeout(timeout);
-	    }
-
-	    function destroy() {
-	        cancel();
-	        request = null;
-	        data = null;
-	        audioContext = null;
-	    }
-
-	    // audio buffer
-
-	    function loadArrayBuffer() {
-	        if (url instanceof window.ArrayBuffer) {
-	            decodeArrayBuffer(url);
-	            return;
-	        }
-	        request = new XMLHttpRequest();
-	        request.open('GET', url, true);
-	        request.responseType = 'arraybuffer';
-	        request.addEventListener('progress', progressHandler);
-	        request.addEventListener('load', loadHandler);
-	        request.addEventListener('error', errorHandler);
-	        request.send();
-	    }
-
-	    // audio element
-
-	    function loadAudioElement() {
-	        if (!data || !data.tagName) {
-	            data = document.createElement('audio');
-	        }
-
-	        if (!isTouchLocked) {
-	            // timeout because sometimes canplaythrough doesn't fire
-	            window.clearTimeout(timeout);
-	            timeout = window.setTimeout(readyHandler, 2000);
-	            data.addEventListener('canplaythrough', readyHandler, false);
-	        }
-
-	        data.addEventListener('error', errorHandler, false);
-	        data.preload = 'auto';
-	        data.src = url;
-	        data.load();
-
-	        if (isTouchLocked) {
-	            dispatchComplete(data);
-	        }
-	    }
-
-	    function start() {
-	        if (audioContext) {
-	            loadArrayBuffer();
-	        } else {
-	            loadAudioElement();
-	        }
-	    }
-
-	    // reload
-
-	    function load(newUrl) {
-	        url = newUrl;
-	        start();
-	    }
-
-	    var api = {
-	        on: emitter.on.bind(emitter),
-	        once: emitter.once.bind(emitter),
-	        off: emitter.off.bind(emitter),
-	        load: load,
-	        start: start,
-	        cancel: cancel,
-	        destroy: destroy
-	    };
-
-	    Object.defineProperties(api, {
-	        data: {
-	            get: function get() {
-	                return data;
-	            }
-	        },
-	        progress: {
-	            get: function get() {
-	                return progress;
-	            }
-	        },
-	        audioContext: {
-	            set: function set(value) {
-	                audioContext = value;
-	            }
-	        },
-	        isTouchLocked: {
-	            set: function set(value) {
-	                isTouchLocked = value;
-	            }
-	        }
-	    });
-
-	    return Object.freeze(api);
-	}
-
-	Loader.Group = function () {
-	    var emitter = new Emitter();
-	    var queue = [];
-	    var numLoaded = 0,
-	        numTotal = 0,
-	        currentLoader = void 0;
-
-	    function progressHandler(progress) {
-	        var loaded = numLoaded + progress;
-	        emitter.emit('progress', loaded / numTotal);
-	    }
-
-	    function completeHandler() {
-	        numLoaded++;
-	        removeListeners();
-	        emitter.emit('progress', numLoaded / numTotal);
-	        next();
-	    }
-
-	    function errorHandler(e) {
-	        console.error.call(console, e);
-	        removeListeners();
-	        emitter.emit('error', e);
-	        next();
-	    }
-
-	    function next() {
-	        if (queue.length === 0) {
-	            currentLoader = null;
-	            emitter.emit('complete');
-	            return;
-	        }
-
-	        currentLoader = queue.pop();
-	        currentLoader.on('progress', progressHandler);
-	        currentLoader.once('loaded', completeHandler);
-	        currentLoader.once('error', errorHandler);
-	        currentLoader.start();
-	    }
-
-	    function removeListeners() {
-	        currentLoader.off('progress', progressHandler);
-	        currentLoader.off('loaded', completeHandler);
-	        currentLoader.off('error', errorHandler);
-	    }
-
-	    function add(loader) {
-	        queue.push(loader);
-	        numTotal++;
-	        return loader;
-	    }
-
-	    function start() {
-	        numTotal = queue.length;
-	        next();
-	    }
-
-	    return Object.freeze({
-	        on: emitter.on.bind(emitter),
-	        once: emitter.once.bind(emitter),
-	        off: emitter.off.bind(emitter),
-	        add: add,
-	        start: start
-	    });
-	};
-
-	function BufferSource(buffer, context, onEnded) {
-	    var api = {};
-	    var ended = false,
-	        endedCallback = onEnded,
-	        loop = false,
-	        paused = false,
-	        pausedAt = 0,
-	        playbackRate = 1,
-	        playing = false,
-	        sourceNode = null,
-	        startedAt = 0;
-
-	    function createSourceNode() {
-	        if (!sourceNode && context) {
-	            sourceNode = context.createBufferSource();
-	            sourceNode.buffer = buffer;
-	        }
-	        return sourceNode;
-	    }
-
-	    /*
-	     * Controls
-	     */
-
-	    function stop() {
-	        if (sourceNode) {
-	            sourceNode.onended = null;
-	            try {
-	                sourceNode.disconnect();
-	                sourceNode.stop(0);
-	            } catch (e) {}
-	            sourceNode = null;
-	        }
-
-	        paused = false;
-	        pausedAt = 0;
-	        playing = false;
-	        startedAt = 0;
-	    }
-
-	    function pause() {
-	        var elapsed = context.currentTime - startedAt;
-	        stop();
-	        pausedAt = elapsed;
-	        playing = false;
-	        paused = true;
-	    }
-
-	    function endedHandler() {
-	        stop();
-	        ended = true;
-	        if (typeof endedCallback === 'function') {
-	            endedCallback(api);
-	        }
-	    }
-
-	    function play(delay) {
-	        var offset = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
-
-	        if (playing) {
-	            return;
-	        }
-
-	        delay = delay ? context.currentTime + delay : 0;
-	        if (offset) {
-	            pausedAt = 0;
-	        }
-	        if (pausedAt) {
-	            offset = pausedAt;
-	        }
-	        while (offset > api.duration) {
-	            offset = offset % api.duration;
-	        }
-
-	        createSourceNode();
-	        sourceNode.onended = endedHandler;
-	        sourceNode.start(delay, offset);
-
-	        sourceNode.loop = loop;
-	        sourceNode.playbackRate.value = playbackRate;
-
-	        startedAt = context.currentTime - offset;
-	        ended = false;
-	        paused = false;
-	        pausedAt = 0;
-	        playing = true;
-	    }
-
-	    /*
-	     * Destroy
-	     */
-
-	    function destroy() {
-	        stop();
-	        buffer = null;
-	        context = null;
-	        endedCallback = null;
-	        sourceNode = null;
-	    }
-
-	    /*
-	     * Getters & Setters
-	     */
-
-	    Object.defineProperties(api, {
-	        play: {
-	            value: play
-	        },
-	        pause: {
-	            value: pause
-	        },
-	        stop: {
-	            value: stop
-	        },
-	        destroy: {
-	            value: destroy
-	        },
-	        currentTime: {
-	            get: function get() {
-	                if (pausedAt) {
-	                    return pausedAt;
-	                }
-	                if (startedAt) {
-	                    var time = context.currentTime - startedAt;
-	                    if (time > api.duration) {
-	                        time = time % api.duration;
-	                    }
-	                    return time;
-	                }
-	                return 0;
-	            }
-	        },
-	        duration: {
-	            get: function get() {
-	                return buffer ? buffer.duration : 0;
-	            }
-	        },
-	        ended: {
-	            get: function get() {
-	                return ended;
-	            }
-	        },
-	        loop: {
-	            get: function get() {
-	                return loop;
-	            },
-	            set: function set(value) {
-	                loop = !!value;
-	                if (sourceNode) {
-	                    sourceNode.loop = loop;
-	                }
-	            }
-	        },
-	        paused: {
-	            get: function get() {
-	                return paused;
-	            }
-	        },
-	        playbackRate: {
-	            get: function get() {
-	                return playbackRate;
-	            },
-	            set: function set(value) {
-	                playbackRate = value;
-	                if (sourceNode) {
-	                    sourceNode.playbackRate.value = playbackRate;
-	                }
-	            }
-	        },
-	        playing: {
-	            get: function get() {
-	                return playing;
-	            }
-	        },
-	        progress: {
-	            get: function get() {
-	                return api.duration ? api.currentTime / api.duration : 0;
-	            }
-	        },
-	        sourceNode: {
-	            get: function get() {
-	                return createSourceNode();
-	            }
-	        }
-	    });
-
-	    return Object.freeze(api);
-	}
-
-	function MediaSource(el, context, onEnded) {
-	    var api = {};
-	    var ended = false,
-	        endedCallback = onEnded,
-	        delayTimeout = void 0,
-	        fadeTimeout = void 0,
-	        loop = false,
-	        paused = false,
-	        playbackRate = 1,
-	        playing = false,
-	        sourceNode = null,
-	        groupVolume = 1,
-	        volume = 1;
-
-	    function createSourceNode() {
-	        if (!sourceNode && context) {
-	            sourceNode = context.createMediaElementSource(el);
-	        }
-	        return sourceNode;
-	    }
-
-	    /*
-	     * Load
-	     */
-
-	    function load(url) {
-	        el.src = url;
-	        el.load();
-	        ended = false;
-	        paused = false;
-	        playing = false;
-	    }
-
-	    /*
-	     * Controls
-	     */
-
-	    function readyHandler() {
-	        el.removeEventListener('canplaythrough', readyHandler);
-	        if (playing) {
-	            el.play();
-	        }
-	    }
-
-	    /*
-	     * Ended handler
-	     */
-
-	    function endedHandler() {
-
-	        if (loop) {
-	            el.currentTime = 0;
-	            // fixes bug where server doesn't support seek:
-	            if (el.currentTime > 0) {
-	                el.load();
-	            }
-	            el.play();
-
-	            return;
-	        }
-
-	        ended = true;
-	        paused = false;
-	        playing = false;
-
-	        if (typeof endedCallback === 'function') {
-	            endedCallback(api);
-	        }
-	    }
-
-	    function play(delay, offset) {
-	        clearTimeout(delayTimeout);
-
-	        el.volume = volume * groupVolume;
-	        el.playbackRate = playbackRate;
-
-	        if (offset) {
-	            el.currentTime = offset;
-	        }
-
-	        if (delay) {
-	            delayTimeout = setTimeout(play, delay);
-	        } else {
-	            // el.load();
-	            el.play();
-	        }
-
-	        ended = false;
-	        paused = false;
-	        playing = true;
-
-	        el.removeEventListener('ended', endedHandler);
-	        el.addEventListener('ended', endedHandler, false);
-
-	        console.debug('el.readyState', el.readyState);
-	        if (el.readyState < 1) {
-	            el.removeEventListener('canplaythrough', readyHandler);
-	            el.addEventListener('canplaythrough', readyHandler, false);
-	            el.load();
-	            el.play();
-	        }
-	    }
-
-	    function pause() {
-	        clearTimeout(delayTimeout);
-
-	        if (!el) {
-	            return;
-	        }
-
-	        el.pause();
-	        playing = false;
-	        paused = true;
-	    }
-
-	    function stop() {
-	        clearTimeout(delayTimeout);
-
-	        if (!el) {
-	            return;
-	        }
-
-	        el.pause();
-
-	        try {
-	            el.currentTime = 0;
-	            // fixes bug where server doesn't support seek:
-	            if (el.currentTime > 0) {
-	                el.load();
-	            }
-	        } catch (e) {}
-
-	        playing = false;
-	        paused = false;
-	    }
-
-	    /*
-	     * Fade for no webaudio
-	     */
-
-	    function fade(toVolume, duration) {
-	        if (context) {
-	            return api;
-	        }
-
-	        function ramp(value, step) {
-	            fadeTimeout = window.setTimeout(function () {
-	                api.volume = api.volume + (value - api.volume) * 0.2;
-	                if (Math.abs(api.volume - value) > 0.05) {
-	                    ramp(value, step);
-	                    return;
-	                }
-	                api.volume = value;
-	            }, step * 1000);
-	        }
-
-	        window.clearTimeout(fadeTimeout);
-	        ramp(toVolume, duration / 10);
-
-	        return api;
-	    }
-
-	    /*
-	     * Destroy
-	     */
-
-	    function destroy() {
-	        el.removeEventListener('ended', endedHandler);
-	        el.removeEventListener('canplaythrough', readyHandler);
-	        stop();
-	        el = null;
-	        context = null;
-	        endedCallback = null;
-	        sourceNode = null;
-	    }
-
-	    /*
-	     * Getters & Setters
-	     */
-
-	    Object.defineProperties(api, {
-	        play: {
-	            value: play
-	        },
-	        pause: {
-	            value: pause
-	        },
-	        stop: {
-	            value: stop
-	        },
-	        load: {
-	            value: load
-	        },
-	        fade: {
-	            value: fade
-	        },
-	        destroy: {
-	            value: destroy
-	        },
-	        currentTime: {
-	            get: function get() {
-	                return el ? el.currentTime : 0;
-	            }
-	        },
-	        duration: {
-	            get: function get() {
-	                return el ? el.duration : 0;
-	            }
-	        },
-	        ended: {
-	            get: function get() {
-	                return ended;
-	            }
-	        },
-	        loop: {
-	            get: function get() {
-	                return loop;
-	            },
-	            set: function set(value) {
-	                loop = !!value;
-	            }
-	        },
-	        paused: {
-	            get: function get() {
-	                return paused;
-	            }
-	        },
-	        playbackRate: {
-	            get: function get() {
-	                return playbackRate;
-	            },
-	            set: function set(value) {
-	                playbackRate = value;
-	                if (el) {
-	                    el.playbackRate = playbackRate;
-	                }
-	            }
-	        },
-	        playing: {
-	            get: function get() {
-	                return playing;
-	            }
-	        },
-	        progress: {
-	            get: function get() {
-	                return el && el.duration ? el.currentTime / el.duration : 0;
-	            }
-	        },
-	        sourceNode: {
-	            get: function get() {
-	                return createSourceNode();
-	            }
-	        },
-	        volume: {
-	            get: function get() {
-	                return volume;
-	            },
-	            set: function set(value) {
-	                window.clearTimeout(fadeTimeout);
-	                volume = value;
-	                if (el) {
-	                    el.volume = volume * groupVolume;
-	                }
-	            }
-	        },
-	        groupVolume: {
-	            get: function get() {
-	                return groupVolume;
-	            },
-	            set: function set(value) {
-	                groupVolume = value;
-	                if (el) {
-	                    el.volume = volume * groupVolume;
-	                }
-	            }
-	        }
-	    });
-
-	    return Object.freeze(api);
-	}
-
-	function MicrophoneSource(stream, context) {
-	    var ended = false,
-	        paused = false,
-	        pausedAt = 0,
-	        playing = false,
-	        sourceNode = null,
-	        // MicrophoneSourceNode
-	    startedAt = 0;
-
-	    function createSourceNode() {
-	        if (!sourceNode && context) {
-	            sourceNode = context.createMediaStreamSource(stream);
-	            // HACK: stops moz garbage collection killing the stream
-	            // see https://support.mozilla.org/en-US/questions/984179
-	            if (navigator.mozGetUserMedia) {
-	                window.mozHack = sourceNode;
-	            }
-	        }
-	        return sourceNode;
-	    }
-
-	    /*
-	     * Controls
-	     */
-
-	    function play(delay) {
-	        delay = delay ? context.currentTime + delay : 0;
-
-	        createSourceNode();
-	        sourceNode.start(delay);
-
-	        startedAt = context.currentTime - pausedAt;
-	        ended = false;
-	        playing = true;
-	        paused = false;
-	        pausedAt = 0;
-	    }
-
-	    function stop() {
-	        if (sourceNode) {
-	            try {
-	                sourceNode.stop(0);
-	            } catch (e) {}
-	            sourceNode = null;
-	        }
-	        ended = true;
-	        paused = false;
-	        pausedAt = 0;
-	        playing = false;
-	        startedAt = 0;
-	    }
-
-	    function pause() {
-	        var elapsed = context.currentTime - startedAt;
-	        stop();
-	        pausedAt = elapsed;
-	        playing = false;
-	        paused = true;
-	    }
-
-	    /*
-	     * Destroy
-	     */
-
-	    function destroy() {
-	        stop();
-	        context = null;
-	        sourceNode = null;
-	        stream = null;
-	        window.mozHack = null;
-	    }
-
-	    /*
-	     * Api
-	     */
-
-	    var api = {
-	        play: play,
-	        pause: pause,
-	        stop: stop,
-	        destroy: destroy,
-
-	        duration: 0,
-	        progress: 0
-	    };
-
-	    /*
-	     * Getters & Setters
-	     */
-
-	    Object.defineProperties(api, {
-	        currentTime: {
-	            get: function get() {
-	                if (pausedAt) {
-	                    return pausedAt;
-	                }
-	                if (startedAt) {
-	                    return context.currentTime - startedAt;
-	                }
-	                return 0;
-	            }
-	        },
-	        ended: {
-	            get: function get() {
-	                return ended;
-	            }
-	        },
-	        paused: {
-	            get: function get() {
-	                return paused;
-	            }
-	        },
-	        playing: {
-	            get: function get() {
-	                return playing;
-	            }
-	        },
-	        sourceNode: {
-	            get: function get() {
-	                return createSourceNode();
-	            }
-	        }
-	    });
-
-	    return Object.freeze(api);
-	}
-
-	function OscillatorSource(type, context) {
-	    var ended = false,
-	        paused = false,
-	        pausedAt = 0,
-	        playing = false,
-	        sourceNode = null,
-	        // OscillatorSourceNode
-	    startedAt = 0,
-	        frequency = 200,
-	        api = null;
-
-	    function createSourceNode() {
-	        if (!sourceNode && context) {
-	            sourceNode = context.createOscillator();
-	            sourceNode.type = type;
-	            sourceNode.frequency.value = frequency;
-	        }
-	        return sourceNode;
-	    }
-
-	    /*
-	     * Controls
-	     */
-
-	    function play(delay) {
-	        delay = delay || 0;
-	        if (delay) {
-	            delay = context.currentTime + delay;
-	        }
-
-	        createSourceNode();
-	        sourceNode.start(delay);
-
-	        if (pausedAt) {
-	            startedAt = context.currentTime - pausedAt;
-	        } else {
-	            startedAt = context.currentTime;
-	        }
-
-	        ended = false;
-	        playing = true;
-	        paused = false;
-	        pausedAt = 0;
-	    }
-
-	    function stop() {
-	        if (sourceNode) {
-	            try {
-	                sourceNode.stop(0);
-	            } catch (e) {}
-	            sourceNode = null;
-	        }
-	        ended = true;
-	        paused = false;
-	        pausedAt = 0;
-	        playing = false;
-	        startedAt = 0;
-	    }
-
-	    function pause() {
-	        var elapsed = context.currentTime - startedAt;
-	        stop();
-	        pausedAt = elapsed;
-	        playing = false;
-	        paused = true;
-	    }
-
-	    /*
-	     * Destroy
-	     */
-
-	    function destroy() {
-	        stop();
-	        context = null;
-	        sourceNode = null;
-	    }
-
-	    /*
-	     * Api
-	     */
-
-	    api = {
-	        play: play,
-	        pause: pause,
-	        stop: stop,
-	        destroy: destroy
-	    };
-
-	    /*
-	     * Getters & Setters
-	     */
-
-	    Object.defineProperties(api, {
-	        currentTime: {
-	            get: function get() {
-	                if (pausedAt) {
-	                    return pausedAt;
-	                }
-	                if (startedAt) {
-	                    return context.currentTime - startedAt;
-	                }
-	                return 0;
-	            }
-	        },
-	        duration: {
-	            value: 0
-	        },
-	        ended: {
-	            get: function get() {
-	                return ended;
-	            }
-	        },
-	        frequency: {
-	            get: function get() {
-	                return frequency;
-	            },
-	            set: function set(value) {
-	                frequency = value;
-	                if (sourceNode) {
-	                    sourceNode.frequency.value = value;
-	                }
-	            }
-	        },
-	        paused: {
-	            get: function get() {
-	                return paused;
-	            }
-	        },
-	        playing: {
-	            get: function get() {
-	                return playing;
-	            }
-	        },
-	        progress: {
-	            value: 0
-	        },
-	        sourceNode: {
-	            get: function get() {
-	                return createSourceNode();
-	            }
-	        }
-	    });
-
-	    return Object.freeze(api);
-	}
-
-	function ScriptSource(data, context) {
-	    var bufferSize = data.bufferSize || 1024;
-	    var channels = data.channels || 1;
-	    var ended = false,
-	        onProcess = data.callback.bind(data.thisArg || this),
-	        paused = false,
-	        pausedAt = 0,
-	        playing = false,
-	        sourceNode = null,
-	        // ScriptSourceNode
-	    startedAt = 0,
-	        api = null;
-
-	    function createSourceNode() {
-	        if (!sourceNode && context) {
-	            sourceNode = context.createScriptProcessor(bufferSize, 0, channels);
-	        }
-	        return sourceNode;
-	    }
-
-	    /*
-	     * Controls
-	     */
-
-	    function play() {
-	        createSourceNode();
-	        sourceNode.onaudioprocess = onProcess;
-
-	        startedAt = context.currentTime - pausedAt;
-	        ended = false;
-	        paused = false;
-	        pausedAt = 0;
-	        playing = true;
-	    }
-
-	    function onPaused(event) {
-	        var buffer = event.outputBuffer;
-	        for (var i = 0; i < buffer.numberOfChannels; i++) {
-	            var channel = buffer.getChannelData(i);
-	            for (var j = 0; j < channel.length; j++) {
-	                channel[j] = 0;
-	            }
-	        }
-	    }
-
-	    function stop() {
-	        if (sourceNode) {
-	            sourceNode.onaudioprocess = onPaused;
-	        }
-	        ended = true;
-	        paused = false;
-	        pausedAt = 0;
-	        playing = false;
-	        startedAt = 0;
-	    }
-
-	    function pause() {
-	        var elapsed = context.currentTime - startedAt;
-	        stop();
-	        pausedAt = elapsed;
-	        playing = false;
-	        paused = true;
-	    }
-
-	    /*
-	     * Destroy
-	     */
-
-	    function destroy() {
-	        stop();
-	        context = null;
-	        onProcess = null;
-	        sourceNode = null;
-	    }
-
-	    /*
-	     * Api
-	     */
-
-	    api = {
-	        play: play,
-	        pause: pause,
-	        stop: stop,
-	        destroy: destroy,
-
-	        duration: 0,
-	        progress: 0
-	    };
-
-	    /*
-	     * Getters & Setters
-	     */
-
-	    Object.defineProperties(api, {
-	        currentTime: {
-	            get: function get() {
-	                if (pausedAt) {
-	                    return pausedAt;
-	                }
-	                if (startedAt) {
-	                    return context.currentTime - startedAt;
-	                }
-	                return 0;
-	            }
-	        },
-	        ended: {
-	            get: function get() {
-	                return ended;
-	            }
-	        },
-	        paused: {
-	            get: function get() {
-	                return paused;
-	            }
-	        },
-	        playing: {
-	            get: function get() {
-	                return playing;
-	            }
-	        },
-	        sourceNode: {
-	            get: function get() {
-	                return createSourceNode();
-	            }
-	        }
-	    });
-
-	    return Object.freeze(api);
-	}
-
-	function waveform() {
-	    var buffer = void 0,
-	        wave = void 0;
-
-	    return function (audioBuffer, length) {
-	        if (!window.Float32Array || !window.AudioBuffer) {
-	            return [];
-	        }
-
-	        var sameBuffer = buffer === audioBuffer;
-	        var sameLength = wave && wave.length === length;
-	        if (sameBuffer && sameLength) {
-	            return wave;
-	        }
-
-	        //console.time('waveData');
-	        if (!wave || wave.length !== length) {
-	            wave = new Float32Array(length);
-	        }
-
-	        if (!audioBuffer) {
-	            return wave;
-	        }
-
-	        // cache for repeated calls
-	        buffer = audioBuffer;
-
-	        var chunk = Math.floor(buffer.length / length),
-	            resolution = 5,
-	            // 10
-	        incr = Math.max(Math.floor(chunk / resolution), 1);
-	        var greatest = 0;
-
-	        for (var i = 0; i < buffer.numberOfChannels; i++) {
-	            // check each channel
-	            var channel = buffer.getChannelData(i);
-	            for (var j = 0; j < length; j++) {
-	                // get highest value within the chunk
-	                for (var k = j * chunk, l = k + chunk; k < l; k += incr) {
-	                    // select highest value from channels
-	                    var a = channel[k];
-	                    if (a < 0) {
-	                        a = -a;
-	                    }
-	                    if (a > wave[j]) {
-	                        wave[j] = a;
-	                    }
-	                    // update highest overall for scaling
-	                    if (a > greatest) {
-	                        greatest = a;
-	                    }
-	                }
-	            }
-	        }
-	        // scale up
-	        var scale = 1 / greatest;
-	        for (var _i = 0; _i < wave.length; _i++) {
-	            wave[_i] *= scale;
-	        }
-	        //console.timeEnd('waveData');
-
-	        return wave;
-	    };
-	}
-
-	function Sound(context, destination) {
-	    var id = void 0,
-	        data = void 0,
-	        effect = new Effect(context),
-	        gain = effect.gain(),
-	        wave = waveform(),
-	        isTouchLocked = false,
-	        loader = void 0,
-	        loop = false,
-	        playbackRate = 1,
-	        playWhenReady = void 0,
-	        source = void 0;
-
-	    var sound = null;
-
-	    if (context) {
-	        effect.setDestination(gain);
-	        gain.connect(destination || context.destination);
-	    }
-
-	    /*
-	     * Create source
-	     */
-
-	    function createSource(value) {
-	        data = value;
-
-	        if (file.isAudioBuffer(data)) {
-	            source = new BufferSource(data, context, function () {
-	                return sound.emit('ended', sound);
-	            });
-	        } else if (file.isMediaElement(data)) {
-	            source = new MediaSource(data, context, function () {
-	                return sound.emit('ended', sound);
-	            });
-	        } else if (file.isMediaStream(data)) {
-	            source = new MicrophoneSource(data, context);
-	        } else if (file.isOscillatorType(data && data.type || data)) {
-	            source = new OscillatorSource(data.type || data, context);
-	        } else if (file.isScriptConfig(data)) {
-	            source = new ScriptSource(data, context);
-	        } else {
-	            throw new Error('Cannot detect data type: ' + data);
-	        }
-
-	        effect.setSource(source.sourceNode);
-
-	        sound.emit('ready', sound);
-
-	        if (playWhenReady) {
-	            playWhenReady();
-	        }
-	    }
-
-	    /*
-	     * Load
-	     */
-
-	    function load(config) {
-	        var src = file.getSupportedFile(config.src || config.url || config.data || config);
-
-	        if (source && data && data.tagName) {
-	            source.load(src);
-	        } else {
-	            loader = loader || new Loader(src);
-	            loader.audioContext = !!config.asMediaElement ? null : context;
-	            loader.isTouchLocked = isTouchLocked;
-	            loader.once('loaded', function (fileData) {
-	                createSource(fileData);
-	                sound.emit('loaded', sound);
-	            });
-	        }
-	        return sound;
-	    }
-
-	    /*
-	     * Controls
-	     */
-
-	    function play(delay, offset) {
-	        if (!source || isTouchLocked) {
-	            playWhenReady = function playWhenReady() {
-	                if (source) {
-	                    play(delay, offset);
-	                }
-	            };
-	            return sound;
-	        }
-	        playWhenReady = null;
-	        effect.setSource(source.sourceNode);
-
-	        // update volume needed for no webaudio
-	        if (!context) {
-	            sound.volume = gain.gain.value;
-	        }
-
-	        source.play(delay, offset);
-
-	        if (source.hasOwnProperty('loop')) {
-	            source.loop = loop;
-	        }
-
-	        sound.emit('play', sound);
-
-	        return sound;
-	    }
-
-	    function pause() {
-	        source && source.pause();
-	        sound.emit('pause', sound);
-	        return sound;
-	    }
-
-	    function stop(delay) {
-	        source && source.stop(delay || 0);
-	        sound.emit('stop', sound);
-	        return sound;
-	    }
-
-	    function seek(percent) {
-	        if (source) {
-	            source.stop();
-	            play(0, source.duration * percent);
-	        }
-	        return sound;
-	    }
-
-	    function fade(volume, duration) {
-	        if (!source) {
-	            return sound;
-	        }
-
-	        var param = gain.gain;
-
-	        if (context) {
-	            var time = context.currentTime;
-	            param.cancelScheduledValues(time);
-	            param.setValueAtTime(param.value, time);
-	            param.linearRampToValueAtTime(volume, time + duration);
-	        } else if (typeof source.fade === 'function') {
-	            source.fade(volume, duration);
-	            param.value = volume;
-	        }
-
-	        return sound;
-	    }
-
-	    /*
-	     * Destroy
-	     */
-
-	    function destroy() {
-	        source && source.destroy();
-	        effect && effect.destroy();
-	        gain && gain.disconnect();
-	        loader && loader.destroy();
-	        sound.off('loaded');
-	        sound.off('ended');
-	        gain = null;
-	        context = null;
-	        data = null;
-	        playWhenReady = null;
-	        source = null;
-	        effect = null;
-	        loader = null;
-	        wave = null;
-	        sound.emit('destroy', sound);
-	        sound.off('destroy');
-	    }
-
-	    sound = Object.create(Emitter.prototype, {
-	        _events: {
-	            value: {}
-	        },
-	        constructor: {
-	            value: Sound
-	        },
-	        play: {
-	            value: play
-	        },
-	        pause: {
-	            value: pause
-	        },
-	        load: {
-	            value: load
-	        },
-	        seek: {
-	            value: seek
-	        },
-	        stop: {
-	            value: stop
-	        },
-	        fade: {
-	            value: fade
-	        },
-	        destroy: {
-	            value: destroy
-	        },
-	        context: {
-	            value: context
-	        },
-	        currentTime: {
-	            get: function get() {
-	                return source ? source.currentTime : 0;
-	            },
-	            set: function set(value) {
-	                // const silent = sound.playing;
-	                source && source.stop();
-	                // play(0, value, silent);
-	                play(0, value);
-	            }
-	        },
-	        data: {
-	            get: function get() {
-	                return data;
-	            },
-	            set: function set(value) {
-	                if (!value) {
-	                    return;
-	                }
-	                createSource(value);
-	            }
-	        },
-	        duration: {
-	            get: function get() {
-	                return source ? source.duration : 0;
-	            }
-	        },
-	        effect: {
-	            value: effect
-	        },
-	        ended: {
-	            get: function get() {
-	                return !!source && source.ended;
-	            }
-	        },
-	        frequency: {
-	            get: function get() {
-	                return source ? source.frequency : 0;
-	            },
-	            set: function set(value) {
-	                if (source && source.hasOwnProperty('frequency')) {
-	                    source.frequency = value;
-	                }
-	            }
-	        },
-	        gain: {
-	            value: gain
-	        },
-	        id: {
-	            get: function get() {
-	                return id;
-	            },
-	            set: function set(value) {
-	                id = value;
-	            }
-	        },
-	        isTouchLocked: {
-	            set: function set(value) {
-	                isTouchLocked = value;
-	                if (loader) {
-	                    loader.isTouchLocked = value;
-	                }
-	                if (!value && playWhenReady) {
-	                    playWhenReady();
-	                }
-	            }
-	        },
-	        loader: {
-	            get: function get() {
-	                return loader;
-	            }
-	        },
-	        loop: {
-	            get: function get() {
-	                return loop;
-	            },
-	            set: function set(value) {
-	                loop = !!value;
-
-	                if (source && source.hasOwnProperty('loop') && source.loop !== loop) {
-	                    source.loop = loop;
-	                }
-	            }
-	        },
-	        paused: {
-	            get: function get() {
-	                return !!source && source.paused;
-	            }
-	        },
-	        playing: {
-	            get: function get() {
-	                return !!source && source.playing;
-	            }
-	        },
-	        playbackRate: {
-	            get: function get() {
-	                return playbackRate;
-	            },
-	            set: function set(value) {
-	                playbackRate = value;
-	                if (source) {
-	                    source.playbackRate = playbackRate;
-	                }
-	            }
-	        },
-	        progress: {
-	            get: function get() {
-	                return source ? source.progress : 0;
-	            }
-	        },
-	        sourceNode: {
-	            get: function get() {
-	                return source ? source.sourceNode : null;
-	            }
-	        },
-	        volume: {
-	            get: function get() {
-	                if (context) {
-	                    return gain.gain.value;
-	                }
-	                if (source && source.hasOwnProperty('volume')) {
-	                    return source.volume;
-	                }
-	                return 1;
-	            },
-	            set: function set(value) {
-	                if (isNaN(value)) {
-	                    return;
-	                }
-
-	                var param = gain.gain;
-
-	                if (context) {
-	                    var time = context.currentTime;
-	                    param.cancelScheduledValues(time);
-	                    param.value = value;
-	                    param.setValueAtTime(value, time);
-	                } else {
-	                    param.value = value;
-
-	                    if (source && source.hasOwnProperty('volume')) {
-	                        source.volume = value;
-	                    }
-	                }
-	            }
-	        },
-	        // for media element source
-	        groupVolume: {
-	            get: function get() {
-	                return source.groupVolume;
-	            },
-	            set: function set(value) {
-	                if (source && source.hasOwnProperty('groupVolume')) {
-	                    source.groupVolume = value;
-	                }
-	            }
-	        },
-	        waveform: {
-	            value: function value(length) {
-	                if (!data) {
-	                    sound.once('ready', function () {
-	                        return wave(data, length);
-	                    });
-	                }
-	                return wave(data, length);
-	            }
-	        },
-	        userData: {
-	            value: {}
-	        }
-	    });
-
-	    return Object.freeze(sound);
-	}
-
-	// expose for unit tests
-	Sound.__source = {
-	    BufferSource: BufferSource,
-	    MediaSource: MediaSource,
-	    MicrophoneSource: MicrophoneSource,
-	    OscillatorSource: OscillatorSource,
-	    ScriptSource: ScriptSource
-	};
-
-	function SoundGroup(context, destination) {
-	    var group = new Group(context, destination);
-	    var sounds = group.sounds;
-	    var playbackRate = 1,
-	        loop = false,
-	        src = void 0;
-
-	    function getSource() {
-	        if (!sounds.length) {
-	            return;
-	        }
-
-	        src = sounds.slice(0).sort(function (a, b) {
-	            return b.duration - a.duration;
-	        })[0];
-	    }
-
-	    var add = group.add;
-	    group.add = function (sound) {
-	        add(sound);
-	        getSource();
-	        return group;
-	    };
-
-	    var remove = group.rmeove;
-	    group.remove = function (soundOrId) {
-	        remove(soundOrId);
-	        getSource();
-	        return group;
-	    };
-
-	    Object.defineProperties(group, {
-	        currentTime: {
-	            get: function get() {
-	                return src ? src.currentTime : 0;
-	            },
-	            set: function set(value) {
-	                this.stop();
-	                this.play(0, value);
-	            }
-	        },
-	        duration: {
-	            get: function get() {
-	                return src ? src.duration : 0;
-	            }
-	        },
-	        // ended: {
-	        //     get: function() {
-	        //         return src ? src.ended : false;
-	        //     }
-	        // },
-	        loop: {
-	            get: function get() {
-	                return loop;
-	            },
-	            set: function set(value) {
-	                loop = !!value;
-	                sounds.forEach(function (sound) {
-	                    sound.loop = loop;
-	                });
-	            }
-	        },
-	        paused: {
-	            get: function get() {
-	                // return src ? src.paused : false;
-	                return !!src && src.paused;
-	            }
-	        },
-	        progress: {
-	            get: function get() {
-	                return src ? src.progress : 0;
-	            }
-	        },
-	        playbackRate: {
-	            get: function get() {
-	                return playbackRate;
-	            },
-	            set: function set(value) {
-	                playbackRate = value;
-	                sounds.forEach(function (sound) {
-	                    sound.playbackRate = playbackRate;
-	                });
-	            }
-	        },
-	        playing: {
-	            get: function get() {
-	                // return src ? src.playing : false;
-	                return !!src && src.playing;
-	            }
-	        }
-	    });
-
-	    return group;
-	}
-
-	function Microphone(connected, denied, error) {
-	    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-	    error = error || function () {};
-
-	    var isSupported = !!navigator.getUserMedia;
-	    var api = {};
-	    var stream = null;
-
-	    function connect() {
-	        if (!isSupported) {
-	            return api;
-	        }
-
-	        navigator.getUserMedia({
-	            audio: true
-	        }, function (micStream) {
-	            stream = micStream;
-	            connected(stream);
-	        }, function (e) {
-	            if (denied && e.name === 'PermissionDeniedError' || e === 'PERMISSION_DENIED') {
-	                // console.log('Permission denied. Reset by clicking the camera icon with the red cross.');
-	                denied();
-	            } else {
-	                error(e.message || e);
-	            }
-	        });
-	        return api;
-	    }
-
-	    function disconnect() {
-	        if (stream) {
-	            stream.stop();
-	            stream = null;
-	        }
-	        return api;
-	    }
-
-	    Object.defineProperties(api, {
-	        connect: {
-	            value: connect
-	        },
-	        disconnect: {
-	            value: disconnect
-	        },
-	        isSupported: {
-	            value: isSupported
-	        },
-	        stream: {
-	            get: function get() {
-	                return stream;
-	            }
-	        }
-	    });
-
-	    return Object.freeze(api);
-	}
-
-	var halfPI = Math.PI / 2;
-	var twoPI = Math.PI * 2;
-
-	function waveformer(config) {
-
-	    var style = config.style || 'fill',
-	        // 'fill' or 'line'
-	    shape = config.shape || 'linear',
-	        // 'circular' or 'linear'
-	    color = config.color || 0,
-	        bgColor = config.bgColor,
-	        lineWidth = config.lineWidth || 1,
-	        percent = config.percent || 1,
-	        originX = config.x || 0,
-	        originY = config.y || 0,
-	        transform = config.transform;
-
-	    var canvas = config.canvas,
-	        width = config.width || canvas && canvas.width,
-	        height = config.height || canvas && canvas.height;
-
-	    var ctx = null,
-	        currentColor = void 0,
-	        i = void 0,
-	        x = void 0,
-	        y = void 0,
-	        radius = void 0,
-	        innerRadius = void 0,
-	        centerX = void 0,
-	        centerY = void 0;
-
-	    if (!canvas && !config.context) {
-	        canvas = document.createElement('canvas');
-	        width = width || canvas.width;
-	        height = height || canvas.height;
-	        canvas.width = height;
-	        canvas.height = height;
-	    }
-
-	    if (shape === 'circular') {
-	        radius = config.radius || Math.min(height / 2, width / 2);
-	        innerRadius = config.innerRadius || radius / 2;
-	        centerX = originX + width / 2;
-	        centerY = originY + height / 2;
-	    }
-
-	    ctx = config.context || canvas.getContext('2d');
-
-	    function clear() {
-	        if (bgColor) {
-	            ctx.fillStyle = bgColor;
-	            ctx.fillRect(originX, originY, width, height);
-	        } else {
-	            ctx.clearRect(originX, originY, width, height);
-	        }
-
-	        ctx.lineWidth = lineWidth;
-
-	        currentColor = null;
-
-	        if (typeof color !== 'function') {
-	            ctx.strokeStyle = color;
-	            ctx.beginPath();
-	        }
-	    }
-
-	    function updateColor(position, length, value) {
-	        if (typeof color === 'function') {
-	            var newColor = color(position, length, value);
-	            if (newColor !== currentColor) {
-	                currentColor = newColor;
-	                ctx.stroke();
-	                ctx.strokeStyle = currentColor;
-	                ctx.beginPath();
-	            }
-	        }
-	    }
-
-	    function getValue(value, position, length) {
-	        if (typeof transform === 'function') {
-	            return transform(value, position, length);
-	        }
-	        return value;
-	    }
-
-	    function getWaveform(value, length) {
-	        if (value && typeof value.waveform === 'function') {
-	            return value.waveform(length);
-	        }
-	        if (value) {
-	            return value;
-	        }
-	        if (config.waveform) {
-	            return config.waveform;
-	        }
-	        if (config.sound) {
-	            return config.sound.waveform(length);
-	        }
-	        return null;
-	    }
-
-	    function update(wave) {
-
-	        clear();
-
-	        if (shape === 'circular') {
-	            var waveform = getWaveform(wave, 360);
-	            var length = Math.floor(waveform.length * percent);
-
-	            var step = twoPI / length;
-	            var angle = void 0,
-	                magnitude = void 0,
-	                sine = void 0,
-	                cosine = void 0;
-
-	            for (i = 0; i < length; i++) {
-	                var value = getValue(waveform[i], i, length);
-	                updateColor(i, length, value);
-
-	                angle = i * step - halfPI;
-	                cosine = Math.cos(angle);
-	                sine = Math.sin(angle);
-
-	                if (style === 'fill') {
-	                    x = centerX + innerRadius * cosine;
-	                    y = centerY + innerRadius * sine;
-	                    ctx.moveTo(x, y);
-	                }
-
-	                magnitude = innerRadius + (radius - innerRadius) * value;
-	                x = centerX + magnitude * cosine;
-	                y = centerY + magnitude * sine;
-
-	                if (style === 'line' && i === 0) {
-	                    ctx.moveTo(x, y);
-	                }
-
-	                ctx.lineTo(x, y);
-	            }
-
-	            if (style === 'line') {
-	                ctx.closePath();
-	            }
-	        } else {
-
-	            var _waveform = getWaveform(wave, width);
-	            var _length = Math.min(_waveform.length, width - lineWidth / 2);
-	            _length = Math.floor(_length * percent);
-
-	            for (i = 0; i < _length; i++) {
-	                var _value = getValue(_waveform[i], i, _length);
-	                updateColor(i, _length, _value);
-
-	                if (style === 'line' && i > 0) {
-	                    ctx.lineTo(x, y);
-	                }
-
-	                x = originX + i;
-	                y = originY + height - Math.round(height * _value);
-	                y = Math.floor(Math.min(y, originY + height - lineWidth / 2));
-
-	                if (style === 'fill') {
-	                    ctx.moveTo(x, y);
-	                    ctx.lineTo(x, originY + height);
-	                } else {
-	                    ctx.lineTo(x, y);
-	                }
-	            }
-	        }
-	        ctx.stroke();
-	    }
-
-	    update.canvas = canvas;
-
-	    if (config.waveform || config.sound) {
-	        update();
-	    }
-
-	    return update;
-	}
-
-	/*
-	 * audio ctx
-	 */
-	var ctx = void 0;
-	var offlineCtx = void 0;
-
-	function getContext() {
-	    if (ctx) {
-	        return ctx;
-	    }
-
-	    var Ctx = window.AudioContext || window.webkitAudioContext;
-
-	    ctx = Ctx ? new Ctx() : null;
-
-	    // Handles bug in Safari 9 OSX where AudioContext instance starts in 'suspended' state
-
-	    var isSuspended = ctx && ctx.state === 'suspended';
-
-	    if (isSuspended && typeof ctx.resume === 'function') {
-	        window.setTimeout(function () {
-	            ctx.resume();
-	        }, 1000);
-	    }
-
-	    return ctx;
-	}
-
-	/*
-	In contrast with a standard AudioContext, an OfflineAudioContext doesn't render
-	the audio to the device hardware;
-	instead, it generates it, as fast as it can, and outputs the result to an AudioBuffer.
-	*/
-	function getOfflineContext(numOfChannels, length, sampleRate) {
-	    if (offlineCtx) {
-	        return offlineCtx;
-	    }
-	    numOfChannels = numOfChannels || 2;
-	    sampleRate = sampleRate || 44100;
-	    length = sampleRate || numOfChannels;
-
-	    var OfflineCtx = window.OfflineAudioContext || window.webkitOfflineAudioContext;
-
-	    offlineCtx = OfflineCtx ? new OfflineCtx(numOfChannels, length, sampleRate) : null;
-
-	    return offlineCtx;
-	}
-
-	/*
-	 * clone audio buffer
-	 */
-
-	function cloneBuffer(buffer) {
-	    if (!ctx) {
-	        return buffer;
-	    }
-
-	    var numChannels = buffer.numberOfChannels,
-	        cloned = ctx.createBuffer(numChannels, buffer.length, buffer.sampleRate);
-	    for (var i = 0; i < numChannels; i++) {
-	        cloned.getChannelData(i).set(buffer.getChannelData(i));
-	    }
-	    return cloned;
-	}
-
-	/*
-	 * reverse audio buffer
-	 */
-
-	function reverseBuffer(buffer) {
-	    var numChannels = buffer.numberOfChannels;
-	    for (var i = 0; i < numChannels; i++) {
-	        Array.prototype.reverse.call(buffer.getChannelData(i));
-	    }
-	    return buffer;
-	}
-
-	/*
-	 * ramp audio param
-	 */
-
-	function ramp(param, fromValue, toValue, duration, linear) {
-	    if (!ctx) {
-	        return;
-	    }
-
-	    param.setValueAtTime(fromValue, ctx.currentTime);
-
-	    if (linear) {
-	        param.linearRampToValueAtTime(toValue, ctx.currentTime + duration);
-	    } else {
-	        param.exponentialRampToValueAtTime(toValue, ctx.currentTime + duration);
-	    }
-	}
-
-	/*
-	 * get frequency from min to max by passing 0 to 1
-	 */
-
-	function getFrequency(value) {
-	    if (!ctx) {
-	        return 0;
-	    }
-	    // get frequency by passing number from 0 to 1
-	    // Clamp the frequency between the minimum value (40 Hz) and half of the
-	    // sampling rate.
-	    var minValue = 40;
-	    var maxValue = ctx.sampleRate / 2;
-	    // Logarithm (base 2) to compute how many octaves fall in the range.
-	    var numberOfOctaves = Math.log(maxValue / minValue) / Math.LN2;
-	    // Compute a multiplier from 0 to 1 based on an exponential scale.
-	    var multiplier = Math.pow(2, numberOfOctaves * (value - 1.0));
-	    // Get back to the frequency value between min and max.
-	    return maxValue * multiplier;
-	}
-
-	/*
-	 * microphone util
-	 */
-
-	function microphone(connected, denied, error) {
-	    return new Microphone(connected, denied, error);
-	}
-
-	/*
-	 * Format seconds as timecode string
-	 */
-
-	function timeCode(seconds) {
-	    var delim = arguments.length <= 1 || arguments[1] === undefined ? ':' : arguments[1];
-
-	    // const h = Math.floor(seconds / 3600);
-	    // const m = Math.floor((seconds % 3600) / 60);
-	    var m = Math.floor(seconds / 60);
-	    var s = Math.floor(seconds % 3600 % 60);
-	    // const hr = (h < 10 ? '0' + h + delim : h + delim);
-	    var mn = (m < 10 ? '0' + m : m) + delim;
-	    var sc = s < 10 ? '0' + s : s;
-	    // return hr + mn + sc;
-	    return mn + sc;
-	}
-
-	var utils = Object.freeze({
-	    getContext: getContext,
-	    getOfflineContext: getOfflineContext,
-	    cloneBuffer: cloneBuffer,
-	    reverseBuffer: reverseBuffer,
-	    ramp: ramp,
-	    getFrequency: getFrequency,
-	    microphone: microphone,
-	    timeCode: timeCode,
-	    waveformer: waveformer
-	});
-
-	function Sono() {
-	    var VERSION = '0.1.8';
-	    var context = utils.getContext();
-	    var destination = context ? context.destination : null;
-	    var group = new Group(context, destination);
-
-	    var api = null;
-	    var isTouchLocked = false;
-
-	    /*
-	     * Get Sound by id
-	     */
-
-	    function getSound(id) {
-	        return group.find(id);
-	    }
-
-	    /*
-	     * Create group
-	     */
-
-	    function createGroup(sounds) {
-	        var soundGroup = new SoundGroup(context, group.gain);
-	        if (sounds) {
-	            sounds.forEach(function (sound) {
-	                return soundGroup.add(sound);
-	            });
-	        }
-	        return soundGroup;
-	    }
-
-	    /*
-	     * Loading
-	     */
-
-	    function add(config) {
-	        var soundContext = config && config.webAudio === false ? null : context;
-	        var sound = new Sound(soundContext, group.gain);
-	        sound.isTouchLocked = isTouchLocked;
-	        if (config) {
-	            sound.id = config.id || config.name || '';
-	            sound.loop = !!config.loop;
-	            sound.volume = config.volume;
-	        }
-	        group.add(sound);
-	        return sound;
-	    }
-
-	    function queue(config, loaderGroup) {
-	        var sound = add(config).load(config);
-
-	        if (loaderGroup) {
-	            loaderGroup.add(sound.loader);
-	        }
-	        return sound;
-	    }
-
-	    function load(config) {
-	        var src = config.src || config.url || config.data || config;
-	        var sound = void 0,
-	            loader = void 0;
-
-	        if (file.containsURL(src)) {
-	            sound = queue(config);
-	            loader = sound.loader;
-	        } else if (Array.isArray(src) && file.containsURL(src[0].src || src[0].url)) {
-	            sound = [];
-	            loader = new Loader.Group();
-	            src.forEach(function (url) {
-	                return sound.push(queue(url, loader));
-	            });
-	        } else {
-	            var errorMessage = 'sono.load: No audio file URLs found in config.';
-	            if (config.onError) {
-	                config.onError('[ERROR] ' + errorMessage);
-	            } else {
-	                throw new Error(errorMessage);
-	            }
-	            return null;
-	        }
-	        if (config.onProgress) {
-	            loader.on('progress', function (progress) {
-	                return config.onProgress(progress);
-	            });
-	        }
-	        if (config.onComplete) {
-	            loader.once('complete', function () {
-	                loader.off('progress');
-	                config.onComplete(sound);
-	            });
-	        }
-	        loader.once('error', function (err) {
-	            loader.off('error');
-	            if (config.onError) {
-	                config.onError(err);
-	            } else {
-	                console.error.call(console, '[ERROR] sono.load: ' + err);
-	            }
-	        });
-	        loader.start();
-
-	        return sound;
-	    }
-
-	    /*
-	     * Create Sound
-	     *
-	     * Accepted values for param config:
-	     * Object config e.g. { id:'foo', url:['foo.ogg', 'foo.mp3'] }
-	     * Array (of files e.g. ['foo.ogg', 'foo.mp3'])
-	     * ArrayBuffer
-	     * HTMLMediaElement
-	     * Filename string (e.g. 'foo.ogg')
-	     * Oscillator type string (i.e. 'sine', 'square', 'sawtooth', 'triangle')
-	     * ScriptProcessor config object (e.g. { bufferSize: 1024, channels: 1, callback: fn })
-	     */
-
-	    function createSound(config) {
-	        // try to load if config contains URLs
-	        if (file.containsURL(config)) {
-	            return load(config);
-	        }
-
-	        var sound = add(config);
-	        sound.data = config.data || config;
-
-	        return sound;
-	    }
-
-	    /*
-	     * Destroy
-	     */
-
-	    function destroySound(soundOrId) {
-	        group.find(soundOrId, function (sound) {
-	            return sound.destroy();
-	        });
-	        return api;
-	    }
-
-	    function destroyAll() {
-	        group.destroy();
-	        return api;
-	    }
-
-	    /*
-	     * Controls
-	     */
-
-	    function mute() {
-	        group.mute();
-	        return api;
-	    }
-
-	    function unMute() {
-	        group.unMute();
-	        return api;
-	    }
-
-	    function fade(volume, duration) {
-	        group.fade(volume, duration);
-	        return api;
-	    }
-
-	    function pauseAll() {
-	        group.pause();
-	        return api;
-	    }
-
-	    function resumeAll() {
-	        group.resume();
-	        return api;
-	    }
-
-	    function stopAll() {
-	        group.stop();
-	        return api;
-	    }
-
-	    function play(id, delay, offset) {
-	        group.find(id, function (sound) {
-	            return sound.play(delay, offset);
-	        });
-	        return api;
-	    }
-
-	    function pause(id) {
-	        group.find(id, function (sound) {
-	            return sound.pause();
-	        });
-	        return api;
-	    }
-
-	    function stop(id) {
-	        group.find(id, function (sound) {
-	            return sound.stop();
-	        });
-	        return api;
-	    }
-
-	    /*
-	     * Mobile touch lock
-	     */
-
-	    isTouchLocked = browser.handleTouchLock(context, function () {
-	        isTouchLocked = false;
-	        group.sounds.forEach(function (sound) {
-	            return sound.isTouchLocked = false;
-	        });
-	    });
-
-	    /*
-	     * Page visibility events
-	     */
-
-	    (function () {
-	        var pageHiddenPaused = [];
-
-	        // pause currently playing sounds and store refs
-	        function onHidden() {
-	            group.sounds.forEach(function (sound) {
-	                if (sound.playing) {
-	                    sound.pause();
-	                    pageHiddenPaused.push(sound);
-	                }
-	            });
-	        }
-
-	        // play sounds that got paused when page was hidden
-	        function onShown() {
-	            while (pageHiddenPaused.length) {
-	                pageHiddenPaused.pop().play();
-	            }
-	        }
-
-	        browser.handlePageVisibility(onHidden, onShown);
-	    })();
-
-	    /*
-	     * Log version & device support info
-	     */
-
-	    function log() {
-	        var title = 'sono ' + VERSION,
-	            info = 'Supported:' + api.isSupported + ' WebAudioAPI:' + api.hasWebAudio + ' TouchLocked:' + isTouchLocked + ' State:' + (context && context.state) + ' Extensions:' + file.extensions;
-
-	        if (navigator.userAgent.indexOf('Chrome') > -1) {
-	            var args = ['%c ♫ ' + title + ' ♫ %c ' + info + ' ', 'color: #FFFFFF; background: #379F7A', 'color: #1F1C0D; background: #E0FBAC'];
-	            console.log.apply(console, args);
-	        } else if (window.console && window.console.log.call) {
-	            console.log.call(console, title + ' ' + info);
-	        }
-	    }
-
-	    api = {
-	        createSound: createSound,
-	        destroySound: destroySound,
-	        destroyAll: destroyAll,
-	        getSound: getSound,
-	        createGroup: createGroup,
-	        file: file,
-	        load: load,
-	        mute: mute,
-	        unMute: unMute,
-	        fade: fade,
-	        pauseAll: pauseAll,
-	        resumeAll: resumeAll,
-	        stopAll: stopAll,
-	        play: play,
-	        pause: pause,
-	        stop: stop,
-	        log: log,
-
-	        canPlay: file.canPlay,
-	        context: context,
-	        getOfflineContext: utils.getOfflineContext,
-	        effect: group.effect,
-	        extensions: file.extensions,
-	        hasWebAudio: !!context,
-	        isSupported: file.extensions.length > 0,
-	        gain: group.gain,
-	        utils: utils,
-	        VERSION: VERSION,
-
-	        Sound: Sound,
-	        Group: Group
-	    };
-
-	    /*
-	     * Getters & Setters
-	     */
-
-	    Object.defineProperties(api, {
-	        isTouchLocked: {
-	            get: function get() {
-	                return isTouchLocked;
-	            }
-	        },
-	        sounds: {
-	            get: function get() {
-	                return group.sounds.slice(0);
-	            }
-	        },
-	        volume: {
-	            get: function get() {
-	                return group.volume;
-	            },
-	            set: function set(value) {
-	                group.volume = value;
-	            }
-	        }
-	    });
-
-	    return Object.freeze(api);
-	}
-
-	var sono = new Sono();
-
-	return sono;
-
-	})));
-	//# sourceMappingURL=sono.js.map
-
 
 /***/ },
-/* 250 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(251)
-	module.exports.color = __webpack_require__(252)
+	module.exports = { "default": __webpack_require__(275), __esModule: true };
 
 /***/ },
-/* 251 */
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(276);
+	module.exports = __webpack_require__(145).Object.setPrototypeOf;
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.3.19 Object.setPrototypeOf(O, proto)
+	var $export = __webpack_require__(143);
+	$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(277).set});
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// Works with __proto__ only. Old v8 can't work with null proto objects.
+	/* eslint-disable no-proto */
+	var isObject = __webpack_require__(151)
+	  , anObject = __webpack_require__(150);
+	var check = function(O, proto){
+	  anObject(O);
+	  if(!isObject(proto) && proto !== null)throw TypeError(proto + ": can't set as prototype!");
+	};
+	module.exports = {
+	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+	    function(test, buggy, set){
+	      try {
+	        set = __webpack_require__(146)(Function.call, __webpack_require__(266).f(Object.prototype, '__proto__').set, 2);
+	        set(test, []);
+	        buggy = !(test instanceof Array);
+	      } catch(e){ buggy = true; }
+	      return function setPrototypeOf(O, proto){
+	        check(O, proto);
+	        if(buggy)O.__proto__ = proto;
+	        else set(O, proto);
+	        return O;
+	      };
+	    }({}, false) : undefined),
+	  check: check
+	};
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(279), __esModule: true };
+
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(280);
+	var $Object = __webpack_require__(145).Object;
+	module.exports = function create(P, D){
+	  return $Object.create(P, D);
+	};
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $export = __webpack_require__(143)
+	// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+	$export($export.S, 'Object', {create: __webpack_require__(162)});
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(200);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _mcgl = __webpack_require__(2);
+
+	var _mcgl2 = _interopRequireDefault(_mcgl);
+
+	var _Spline = __webpack_require__(239);
+
+	var _Spline2 = _interopRequireDefault(_Spline);
+
+	var _line = __webpack_require__(237);
+
+	var _line2 = _interopRequireDefault(_line);
+
+	var _line3 = __webpack_require__(238);
+
+	var _line4 = _interopRequireDefault(_line3);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// ViewAnimal.js
+
+
+	var tempArray = [];
+
+	var ViewAnimal = function () {
+		function ViewAnimal(pos) {
+			(0, _classCallCheck3.default)(this, ViewAnimal);
+
+			this.shader = new _mcgl.GLShader(_line2.default, _line4.default);
+			this.pos = pos;
+			this.time = Math.random() * 0xFF;
+
+			this.totalPts = [];
+		}
+
+		(0, _createClass3.default)(ViewAnimal, [{
+			key: '_init',
+			value: function _init() {
+				this.rotation = 0;
+			}
+		}, {
+			key: 'reset',
+			value: function reset(pos) {
+				var rx = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+				var ry = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+				this.sub = window.isMobile ? 2 : 6; // how nice should be the curve
+				this.pos = pos;
+
+				this.shape.rotateY(ry); // wil lset the animal matrix
+
+				this.points = [];
+				this.spline = new _Spline2.default([]); // spline to have some nice curves
+				this.tick = 0;
+				this.finalP = this.getPoints(this.shape.getPoints());
+
+				this.line = new _mcgl2.default.geom.Line(this.shader.shaderProgram, this.finalP); // create a line to get the points
+				this.line.points = this.line.vert;
+			}
+		}, {
+			key: 'rotateX',
+			value: function rotateX(rx) {
+				this.shape.rotateX(rx);
+			}
+		}, {
+			key: 'rotateY',
+			value: function rotateY(ry) {
+				this.shape.rotateY(ry);
+			}
+		}, {
+			key: 'getPoints',
+			value: function getPoints(pts) {
+				// call from ViewLine to draw the animal :)
+				this.spline.points = pts;
+				tempArray.length = 0;
+				var index = void 0;
+
+				var array = [];
+				for (var i = 0; i < pts.length * this.sub; i++) {
+					index = i / (pts.length * this.sub);
+					array.push(this.spline.getPoint(index));
+				}
+
+				this.totalPts = array;
+
+				return array;
+			}
+		}]);
+		return ViewAnimal;
+	}();
+
+	exports.default = ViewAnimal;
+	module.exports = exports['default'];
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Animal2 = __webpack_require__(283);
+
+	var _Animal3 = _interopRequireDefault(_Animal2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Dear = function (_Animal) {
+	  (0, _inherits3.default)(Dear, _Animal);
+
+	  function Dear(pos) {
+	    (0, _classCallCheck3.default)(this, Dear);
+
+	    var v = [[499, 446, 0], [491, 410, 0], [499, 381, 0], [513, 354, 0], [517, 331, 0], [515, 286, 0], [545, 219, 0], [563, 219, 0], [577, 223, 0], [595, 216, 0], [611, 215, 0], [623, 231, 0], [625, 255, 0], [587, 316, 0], [569, 333, 0], [562, 369, 0], [560, 435, 0], [554, 444, 0], [545, 441, 0], [548, 383, 0], [551, 376, 0], [552, 337, 0], [572, 271, 0], [603, 256, 0], [630, 263, 0], [644, 252, 0], [633, 232, 0], [609, 225, 0], [631, 247, 0], [652, 311, 0], [666, 332, 0], [673, 356, 0], [699, 416, 0], [701, 425, 0], [692, 430, 0], [688, 426, 0], [661, 363, 0], [623, 312, 0], [603, 305, 0], [605, 331, 0], [614, 350, 0], [613, 373, 0], [599, 403, 0], [589, 436, 0], [581, 440, 0], [575, 436, 0], [597, 383, 0], [597, 364, 0], [589, 351, 0], [564, 319, 0], [563, 308, 0], [572, 306, 0], [541, 324, 0], [512, 303, 0], [507, 260, 0], [518, 208, 0], [519, 182, 0], [515, 171, 0], [494, 162, 0], [486, 153, 0], [491, 153, 0], [503, 161, 0], [512, 158, 0], [504, 149, 0], [474, 130, 0], [448, 92, 0], [447, 62, 0], [452, 77, 0], [458, 76, 0], [474, 52, 0], [471, 63, 0], [483, 53, 0], [484, 56, 0], [469, 72, 0], [462, 87, 0], [472, 119, 0], [511, 143, 0], [501, 126, 0], [491, 109, 0], [495, 108, 0], [509, 128, 0], [528, 141, 0], [529, 149, 0], [522, 161, 0], [521, 171, 0], [532, 179, 0], [544, 180, 0], [550, 198, 0], [539, 201, 0], [536, 189, 0], [545, 184, 0], [553, 184, 0], [556, 169, 0], [555, 155, 0], [568, 144, 0], [584, 138, 0], [574, 157, 0], [550, 160, 0], [546, 145, 0], [554, 131, 0], [563, 107, 0], [570, 90, 0], [573, 91, 0], [567, 114, 0], [556, 136, 0], [558, 140, 0], [565, 138, 0], [576, 123, 0], [581, 119, 0], [579, 124, 0], [580, 129, 0], [599, 98, 0], [600, 85, 0], [581, 55, 0], [589, 58, 0], [598, 68, 0], [600, 57, 0], [601, 58, 0], [605, 69, 0], [606, 61, 0], [606, 61, 0], [610, 92, 0], [589, 125, 0], [589, 129, 0]];
+
+	    return (0, _possibleConstructorReturn3.default)(this, (Dear.__proto__ || (0, _getPrototypeOf2.default)(Dear)).call(this, v, pos || [0, -3, 0], [[530, 168, 0], [549, 168, 0]], [0, 0, -.4]));
+	  }
+
+	  return Dear;
+	}(_Animal3.default);
+
+	exports.default = Dear;
+	module.exports = exports['default'];
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(200);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _glMatrix = __webpack_require__(226);
+
+	var _glMatrix2 = _interopRequireDefault(_glMatrix);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Animal = function () {
+	  function Animal(vertices, pos, eyes, offsetEyes) {
+	    (0, _classCallCheck3.default)(this, Animal);
+
+
+	    this.vertices = vertices || [];
+
+	    this.position = pos || [0, 0, 0];
+
+	    // the matrices
+	    this.m = _glMatrix2.default.mat4.create();
+	    this.mRY = _glMatrix2.default.mat4.create();
+	    this.mT = _glMatrix2.default.mat4.create();
+	    this.mTAnchor = _glMatrix2.default.mat4.create();
+
+	    this.remapVertices();
+	  }
+
+	  (0, _createClass3.default)(Animal, [{
+	    key: 'remapVertices',
+	    value: function remapVertices() {
+
+	      var minX = 10000;
+	      var maxX = 0;
+
+	      var minY = 10000;
+	      var maxY = 0;
+
+	      // get the dimensions of the drawing
+	      for (var i = 0; i < this.vertices.length; i++) {
+	        var v = this.vertices[i];
+	        if (v[0] < minX) minX = v[0];
+	        if (v[0] > maxX) maxX = v[0];
+
+	        if (v[1] < minY) minY = v[1];
+	        if (v[1] > maxY) maxY = v[1];
+	      }
+
+	      this.wX = maxX - minX; // width x
+	      this.wY = maxY - minY; // width width y
+	      var w = Math.max(this.wX, this.wY);
+
+	      this.tick = 0;
+
+	      var xMin = null;
+	      var xMax = null;
+	      var yMin = null;
+	      var yMax = null;
+	      var zMin = null;
+	      var zMax = null;
+
+	      for (var i = 0; i < this.vertices.length; i++) {
+
+	        this.tick++;
+
+	        this.vertices[i][0] /= w / 2;
+	        this.vertices[i][1] /= -(w / 2); // minus because drawing from 2d although y is inversed
+	        this.vertices[i][2] = Math.cos(this.tick / 10) * .4; // cos the depth to make it look good
+
+
+	        if (this.vertices[i][0] < xMin || xMin === null) xMin = this.vertices[i][0];
+	        if (this.vertices[i][0] > xMax || xMax === null) xMax = this.vertices[i][0];
+
+	        if (this.vertices[i][1] < yMin || yMin === null) yMin = this.vertices[i][1];
+	        if (this.vertices[i][1] > yMax || yMax === null) yMax = this.vertices[i][1];
+
+	        if (this.vertices[i][2] < zMin || zMin === null) zMin = this.vertices[i][2];
+	        if (this.vertices[i][2] > zMax || zMax === null) zMax = this.vertices[i][2];
+	      }
+
+	      this.centerX = (xMax + xMin) / 2;
+	      this.centerY = (yMax + yMin) / 2;
+	      this.centerZ = (zMax + zMin) / 2;
+
+	      var translation = [this.position[0], this.position[1], this.position[2]];
+
+	      // the pivot point of the animal
+	      this.translationAnchor = [-this.centerX, -this.centerY, -this.centerZ];
+
+	      _glMatrix2.default.mat4.identity(this.mT, this.mT);
+	      _glMatrix2.default.mat4.identity(this.mTAnchor, this.mTAnchor);
+
+	      _glMatrix2.default.mat4.translate(this.mTAnchor, this.mTAnchor, this.translationAnchor);
+	      _glMatrix2.default.mat4.translate(this.mT, this.mT, translation);
+	    }
+	  }, {
+	    key: 'rotateX',
+	    value: function rotateX() {}
+	  }, {
+	    key: 'rotateY',
+	    value: function rotateY(ry) {
+	      _glMatrix2.default.mat4.identity(this.mRY);
+	      _glMatrix2.default.mat4.fromYRotation(this.mRY, ry);
+	    }
+
+	    // to get the points correctly translated, rotated (useful in the main experiment, not so much this one)
+	    // as the animal position is always the same
+
+	  }, {
+	    key: 'getPoints',
+	    value: function getPoints() {
+	      var v = this.vertices.slice();
+	      _glMatrix2.default.mat4.identity(this.m);
+
+	      _glMatrix2.default.mat4.multiply(this.m, this.m, this.mT);
+	      _glMatrix2.default.mat4.multiply(this.m, this.m, this.mRY);
+	      _glMatrix2.default.mat4.multiply(this.m, this.m, this.mTAnchor);
+
+	      var verts = [];
+	      for (var i = 0; i < v.length; i++) {
+	        _glMatrix2.default.vec3.transformMat4(v[i], v[i], this.m);
+	      }
+
+	      return v;
+	    }
+	  }]);
+	  return Animal;
+	}();
+
+	exports.default = Animal;
+	module.exports = exports['default'];
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(200);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(269);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ViewAnimal2 = __webpack_require__(281);
+
+	var _ViewAnimal3 = _interopRequireDefault(_ViewAnimal2);
+
+	var _Boar = __webpack_require__(285);
+
+	var _Boar2 = _interopRequireDefault(_Boar);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// ViewBoar.js
+
+	var ViewBoar = function (_ViewAnimal) {
+		(0, _inherits3.default)(ViewBoar, _ViewAnimal);
+
+		function ViewBoar(pos) {
+			(0, _classCallCheck3.default)(this, ViewBoar);
+			return (0, _possibleConstructorReturn3.default)(this, (ViewBoar.__proto__ || (0, _getPrototypeOf2.default)(ViewBoar)).call(this, pos));
+		}
+
+		(0, _createClass3.default)(ViewBoar, [{
+			key: 'reset',
+			value: function reset(pos, rx, ry) {
+				this.shape = new _Boar2.default(pos);
+				(0, _get3.default)(ViewBoar.prototype.__proto__ || (0, _getPrototypeOf2.default)(ViewBoar.prototype), 'reset', this).call(this, pos, rx, ry);
+			}
+			// _init(){
+			//
+			// }
+
+		}]);
+		return ViewBoar;
+	}(_ViewAnimal3.default);
+
+	exports.default = ViewBoar;
+	module.exports = exports['default'];
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Animal2 = __webpack_require__(283);
+
+	var _Animal3 = _interopRequireDefault(_Animal2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Boar = function (_Animal) {
+	  (0, _inherits3.default)(Boar, _Animal);
+
+	  function Boar(pos) {
+	    (0, _classCallCheck3.default)(this, Boar);
+
+	    var v = [[366, 531, 0], [359, 483, 0], [365, 460, 0], [394, 439, 0], [408, 415, 0], [392, 400, 0], [373, 402, 0], [369, 424, 0], [382, 417, 0], [383, 379, 0], [374, 347, 0], [383, 324, 0], [390, 308, 0], [386, 299, 0], [370, 314, 0], [357, 346, 0], [341, 396, 0], [340, 398, 0], [326, 394, 0], [326, 387, 0], [336, 363, 0], [343, 306, 0], [344, 257, 0], [368, 192, 0], [409, 141, 0], [462, 113, 0], [517, 109, 0], [571, 123, 0], [604, 146, 0], [615, 167, 0], [617, 188, 0], [615, 203, 0], [606, 213, 0], [608, 228, 0], [619, 260, 0], [623, 289, 0], [622, 317, 0], [613, 327, 0], [599, 321, 0], [582, 295, 0], [575, 271, 0], [568, 233, 0], [557, 216, 0], [547, 209, 0], [544, 216, 0], [554, 225, 0], [559, 219, 0], [557, 195, 0], [546, 162, 0], [531, 135, 0], [511, 119, 0], [500, 119, 0], [495, 130, 0], [497, 151, 0], [503, 172, 0], [512, 191, 0], [519, 192, 0], [531, 179, 0], [555, 158, 0], [581, 149, 0], [608, 145, 0], [623, 144, 0], [631, 154, 0], [631, 171, 0], [623, 190, 0], [619, 177, 0], [607, 144, 0], [585, 124, 0], [548, 109, 0], [516, 102, 0], [486, 102, 0], [464, 112, 0], [443, 129, 0], [420, 145, 0], [390, 156, 0], [365, 176, 0], [354, 198, 0], [346, 232, 0], [350, 267, 0], [366, 292, 0], [388, 310, 0], [417, 326, 0], [454, 324, 0], [506, 318, 0], [534, 324, 0], [546, 348, 0], [546, 370, 0], [546, 400, 0], [551, 418, 0], [558, 429, 0], [553, 432, 0], [522, 423, 0], [512, 405, 0], [508, 354, 0], [500, 324, 0], [489, 298, 0], [480, 280, 0], [460, 267, 0], [447, 270, 0], [443, 290, 0], [449, 314, 0], [456, 337, 0], [459, 361, 0], [458, 389, 0], [457, 413, 0], [457, 423, 0], [465, 427, 0], [482, 425, 0], [482, 415, 0], [479, 393, 0], [489, 372, 0], [489, 348, 0], [488, 318, 0], [500, 316, 0], [506, 331, 0], [519, 346, 0], [533, 345, 0], [553, 334, 0], [557, 319, 0], [554, 307, 0], [568, 318, 0], [566, 310, 0], [564, 288, 0], [567, 282, 0], [575, 295, 0], [575, 322, 0], [569, 341, 0], [555, 347, 0], [533, 338, 0], [513, 320, 0], [504, 297, 0], [504, 265, 0], [517, 245, 0], [548, 233, 0], [576, 235, 0], [600, 245, 0], [624, 272, 0], [634, 296, 0], [636, 328, 0], [627, 353, 0], [613, 362, 0], [591, 362, 0], [572, 352, 0], [563, 335, 0], [575, 320, 0], [596, 318, 0], [618, 318, 0], [638, 328, 0], [641, 340, 0], [629, 356, 0], [605, 362, 0], [588, 356, 0], [593, 340, 0], [614, 334, 0], [632, 336, 0], [637, 345, 0], [608, 360, 0], [598, 354, 0], [602, 351, 0], [612, 350, 0], [615, 352, 0], [610, 360, 0], [583, 376, 0], [570, 390, 0], [591, 405, 0], [626, 404, 0], [686, 397, 0], [715, 384, 0], [705, 371, 0], [679, 372, 0], [648, 383, 0], [634, 401, 0], [635, 425, 0], [668, 443, 0], [714, 441, 0], [748, 427, 0], [788, 391, 0], [795, 353, 0], [799, 305, 0], [837, 267, 0]];
+
+	    return (0, _possibleConstructorReturn3.default)(this, (Boar.__proto__ || (0, _getPrototypeOf2.default)(Boar)).call(this, v, pos || [0, 0, 0], [[551, 216, 0], [611, 215, 0]], [0, 0, -.4]));
+	  }
+
+	  return Boar;
+	}(_Animal3.default);
+
+	exports.default = Boar;
+	module.exports = exports['default'];
+
+/***/ },
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(200);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(269);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ViewAnimal2 = __webpack_require__(281);
+
+	var _ViewAnimal3 = _interopRequireDefault(_ViewAnimal2);
+
+	var _Fox = __webpack_require__(287);
+
+	var _Fox2 = _interopRequireDefault(_Fox);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// ViewDear.js
+
+	var ViewDear = function (_ViewAnimal) {
+		(0, _inherits3.default)(ViewDear, _ViewAnimal);
+
+		function ViewDear(pos) {
+			(0, _classCallCheck3.default)(this, ViewDear);
+			return (0, _possibleConstructorReturn3.default)(this, (ViewDear.__proto__ || (0, _getPrototypeOf2.default)(ViewDear)).call(this, pos));
+		}
+
+		(0, _createClass3.default)(ViewDear, [{
+			key: 'reset',
+			value: function reset(pos, rx, ry) {
+				this.shape = new _Fox2.default(pos);
+				(0, _get3.default)(ViewDear.prototype.__proto__ || (0, _getPrototypeOf2.default)(ViewDear.prototype), 'reset', this).call(this, pos, rx, ry);
+			}
+		}]);
+		return ViewDear;
+	}(_ViewAnimal3.default);
+
+	exports.default = ViewDear;
+	module.exports = exports['default'];
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Animal2 = __webpack_require__(283);
+
+	var _Animal3 = _interopRequireDefault(_Animal2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Fox = function (_Animal) {
+	  (0, _inherits3.default)(Fox, _Animal);
+
+	  function Fox(pos) {
+	    (0, _classCallCheck3.default)(this, Fox);
+
+	    var v = [[722, 563, 0], [687, 550, 0], [678, 529, 0], [691, 489, 0], [712, 449, 0], [714, 427, 0], [699, 402, 0], [682, 384, 0], [680, 371, 0], [693, 357, 0], [715, 347, 0], [718, 341, 0], [672, 342, 0], [644, 348, 0], [641, 353, 0], [667, 356, 0], [693, 341, 0], [699, 327, 0], [680, 294, 0], [655, 276, 0], [645, 272, 0], [635, 280, 0], [632, 297, 0], [632, 314, 0], [625, 317, 0], [616, 309, 0], [620, 277, 0], [615, 267, 0], [595, 256, 0], [586, 240, 0], [591, 225, 0], [607, 219, 0], [627, 229, 0], [635, 243, 0], [636, 299, 0], [650, 355, 0], [675, 401, 0], [691, 368, 0], [696, 314, 0], [688, 246, 0], [669, 203, 0], [639, 158, 0], [607, 130, 0], [580, 122, 0], [563, 130, 0], [551, 154, 0], [548, 184, 0], [549, 202, 0], [600, 234, 0], [615, 247, 0], [620, 256, 0], [632, 261, 0], [651, 262, 0], [657, 270, 0], [652, 297, 0], [654, 315, 0], [666, 320, 0], [674, 313, 0], [666, 294, 0], [667, 282, 0], [676, 262, 0], [675, 252, 0], [663, 244, 0], [658, 233, 0], [664, 193, 0], [641, 154, 0], [602, 126, 0], [533, 104, 0], [497, 113, 0], [491, 120, 0], [490, 128, 0], [503, 133, 0], [524, 145, 0], [549, 168, 0], [556, 180, 0], [548, 190, 0], [535, 203, 0], [529, 212, 0], [532, 225, 0], [542, 227, 0], [549, 218, 0], [549, 208, 0], [584, 179, 0], [585, 154, 0], [572, 129, 0], [546, 108, 0], [513, 107, 0], [485, 121, 0], [464, 147, 0], [451, 180, 0], [430, 169, 0], [428, 163, 0], [440, 162, 0], [453, 161, 0], [467, 148, 0], [485, 134, 0], [499, 136, 0], [522, 151, 0], [541, 176, 0], [542, 190, 0], [538, 195, 0], [512, 209, 0], [506, 219, 0], [515, 227, 0], [529, 225, 0], [526, 215, 0], [515, 211, 0], [503, 216, 0], [495, 230, 0], [489, 244, 0], [484, 250, 0], [480, 253, 0], [466, 257, 0], [464, 251, 0], [467, 237, 0], [466, 218, 0], [459, 212, 0], [453, 205, 0], [453, 187, 0], [461, 177, 0], [482, 173, 0], [499, 176, 0], [501, 178, 0], [492, 184, 0], [475, 179, 0], [471, 169, 0], [482, 160, 0], [498, 160, 0], [502, 171, 0], [509, 184, 0], [523, 187, 0], [533, 190, 0], [519, 201, 0], [497, 224, 0], [481, 254, 0], [480, 286, 0], [490, 305, 0], [500, 314, 0], [512, 315, 0], [519, 309, 0], [511, 305, 0], [502, 305, 0], [492, 308, 0], [480, 322, 0], [471, 348, 0], [479, 370, 0]];
+
+	    return (0, _possibleConstructorReturn3.default)(this, (Fox.__proto__ || (0, _getPrototypeOf2.default)(Fox)).call(this, v, pos || [0, -3, 0], [[474, 203, 0]]));
+	  }
+
+	  return Fox;
+	}(_Animal3.default);
+
+	exports.default = Fox;
+	module.exports = exports['default'];
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(200);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(269);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ViewAnimal2 = __webpack_require__(281);
+
+	var _ViewAnimal3 = _interopRequireDefault(_ViewAnimal2);
+
+	var _Bat = __webpack_require__(289);
+
+	var _Bat2 = _interopRequireDefault(_Bat);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// ViewBat.js
+
+	var ViewBat = function (_ViewAnimal) {
+		(0, _inherits3.default)(ViewBat, _ViewAnimal);
+
+		function ViewBat(pos) {
+			(0, _classCallCheck3.default)(this, ViewBat);
+			return (0, _possibleConstructorReturn3.default)(this, (ViewBat.__proto__ || (0, _getPrototypeOf2.default)(ViewBat)).call(this, pos));
+		}
+
+		(0, _createClass3.default)(ViewBat, [{
+			key: 'reset',
+			value: function reset(pos, rx, ry) {
+				this.shape = new _Bat2.default(pos);
+				(0, _get3.default)(ViewBat.prototype.__proto__ || (0, _getPrototypeOf2.default)(ViewBat.prototype), 'reset', this).call(this, pos, rx, ry);
+			}
+			// _init(){
+			//
+			// }
+
+		}]);
+		return ViewBat;
+	}(_ViewAnimal3.default);
+
+	exports.default = ViewBat;
+	module.exports = exports['default'];
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Animal2 = __webpack_require__(283);
+
+	var _Animal3 = _interopRequireDefault(_Animal2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Bat = function (_Animal) {
+	  (0, _inherits3.default)(Bat, _Animal);
+
+	  function Bat(pos) {
+	    (0, _classCallCheck3.default)(this, Bat);
+
+	    var v = [[581, 654, 0], [559, 631, 0], [541, 582, 0], [537, 514, 0], [545, 466, 0], [560, 417, 0], [559, 398, 0], [544, 392, 0], [524, 402, 0], [516, 414, 0], [532, 412, 0], [558, 386, 0], [568, 350, 0], [559, 318, 0], [545, 304, 0], [533, 299, 0], [529, 279, 0], [515, 259, 0], [497, 244, 0], [488, 220, 0], [470, 207, 0], [448, 197, 0], [435, 175, 0], [414, 163, 0], [404, 160, 0], [412, 147, 0], [454, 136, 0], [497, 146, 0], [529, 168, 0], [553, 202, 0], [571, 234, 0], [581, 263, 0], [588, 286, 0], [606, 300, 0], [613, 300, 0], [616, 291, 0], [615, 285, 0], [607, 283, 0], [599, 285, 0], [601, 294, 0], [609, 296, 0], [615, 289, 0], [612, 286, 0], [608, 290, 0], [613, 290, 0], [617, 288, 0], [622, 285, 0], [608, 279, 0], [592, 280, 0], [579, 287, 0], [572, 303, 0], [575, 318, 0], [589, 324, 0], [606, 321, 0], [615, 310, 0], [617, 296, 0], [616, 282, 0], [610, 278, 0], [607, 257, 0], [596, 234, 0], [586, 246, 0], [587, 265, 0], [589, 282, 0], [580, 323, 0], [573, 352, 0], [598, 336, 0], [606, 335, 0], [621, 324, 0], [637, 326, 0], [648, 318, 0], [661, 325, 0], [672, 328, 0], [682, 322, 0], [698, 318, 0], [709, 310, 0], [718, 314, 0], [735, 314, 0], [743, 315, 0], [746, 285, 0], [730, 254, 0], [699, 241, 0], [670, 248, 0], [645, 265, 0], [629, 280, 0], [621, 285, 0], [607, 277, 0], [614, 263, 0], [627, 246, 0], [631, 245, 0], [632, 260, 0], [626, 274, 0], [618, 283, 0], [612, 279, 0], [616, 262, 0], [623, 213, 0], [648, 179, 0], [686, 155, 0], [718, 129, 0], [735, 95, 0], [735, 75, 0], [723, 51, 0], [690, 22, 0], [631, -2, 0], [604, -9, 0]];
+
+	    pos = pos || [0, 0, 0];
+	    // pos[1] -= 2;
+
+	    var eyes = [[614, 282, 0], [602, 279, 0]];
+	    var offsetEyes = [0, 0, -.4];
+	    return (0, _possibleConstructorReturn3.default)(this, (Bat.__proto__ || (0, _getPrototypeOf2.default)(Bat)).call(this, v, pos, eyes, offsetEyes));
+	  }
+
+	  return Bat;
+	}(_Animal3.default);
+
+	exports.default = Bat;
+	module.exports = exports['default'];
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(200);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(269);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ViewAnimal2 = __webpack_require__(281);
+
+	var _ViewAnimal3 = _interopRequireDefault(_ViewAnimal2);
+
+	var _Bear = __webpack_require__(291);
+
+	var _Bear2 = _interopRequireDefault(_Bear);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// ViewBear.js
+
+	var ViewBear = function (_ViewAnimal) {
+		(0, _inherits3.default)(ViewBear, _ViewAnimal);
+
+		function ViewBear(pos) {
+			(0, _classCallCheck3.default)(this, ViewBear);
+			return (0, _possibleConstructorReturn3.default)(this, (ViewBear.__proto__ || (0, _getPrototypeOf2.default)(ViewBear)).call(this, pos));
+		}
+
+		(0, _createClass3.default)(ViewBear, [{
+			key: 'reset',
+			value: function reset(pos, rx, ry) {
+				this.shape = new _Bear2.default(pos);
+				(0, _get3.default)(ViewBear.prototype.__proto__ || (0, _getPrototypeOf2.default)(ViewBear.prototype), 'reset', this).call(this, pos, rx, ry);
+			}
+		}]);
+		return ViewBear;
+	}(_ViewAnimal3.default);
+
+	exports.default = ViewBear;
+	module.exports = exports['default'];
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Animal2 = __webpack_require__(283);
+
+	var _Animal3 = _interopRequireDefault(_Animal2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Bear = function (_Animal) {
+	  (0, _inherits3.default)(Bear, _Animal);
+
+	  function Bear(pos) {
+	    (0, _classCallCheck3.default)(this, Bear);
+
+	    var v = [[389, 507, 0], [405, 456, 0], [425, 424, 0], [452, 417, 0], [469, 425, 0], [476, 445, 0], [484, 484, 0], [492, 497, 0], [512, 501, 0], [538, 496, 0], [546, 490, 0], [546, 478, 0], [542, 443, 0], [541, 405, 0], [550, 345, 0], [551, 279, 0], [545, 215, 0], [532, 160, 0], [511, 125, 0], [486, 109, 0], [447, 95, 0], [425, 95, 0], [414, 108, 0], [409, 133, 0], [413, 218, 0], [426, 287, 0], [434, 295, 0], [443, 294, 0], [439, 290, 0], [426, 290, 0], [422, 294, 0], [424, 308, 0], [426, 339, 0], [426, 357, 0], [419, 368, 0], [402, 368, 0], [394, 363, 0], [401, 354, 0], [411, 353, 0], [422, 353, 0], [426, 358, 0], [424, 373, 0], [414, 387, 0], [410, 388, 0], [398, 384, 0], [389, 371, 0], [383, 354, 0], [344, 319, 0], [327, 288, 0], [323, 262, 0], [329, 234, 0], [332, 212, 0], [329, 192, 0], [334, 183, 0], [349, 185, 0], [370, 199, 0], [376, 209, 0], [376, 218, 0], [362, 225, 0], [340, 224, 0], [334, 220, 0], [349, 212, 0], [393, 205, 0], [429, 207, 0], [461, 211, 0], [472, 216, 0], [467, 222, 0], [452, 224, 0], [435, 218, 0], [428, 211, 0], [452, 181, 0], [468, 174, 0], [478, 180, 0], [484, 195, 0], [486, 244, 0], [481, 280, 0], [474, 301, 0], [460, 316, 0], [451, 332, 0], [443, 356, 0], [438, 376, 0], [425, 390, 0], [400, 392, 0], [382, 382, 0], [376, 374, 0], [358, 457, 0], [360, 474, 0], [357, 481, 0], [299, 487, 0], [289, 482, 0], [288, 473, 0], [297, 452, 0], [299, 429, 0], [285, 353, 0], [288, 306, 0], [314, 190, 0], [322, 170, 0], [353, 121, 0], [386, 89, 0], [413, 84, 0], [439, 86, 0], [451, 88, 0], [475, 80, 0], [517, 82, 0], [565, 101, 0], [601, 133, 0], [634, 171, 0], [665, 227, 0], [681, 279, 0], [692, 314, 0], [713, 372, 0], [730, 407, 0], [735, 428, 0], [734, 453, 0], [728, 470, 0], [719, 479, 0], [669, 477, 0], [659, 472, 0], [663, 421, 0], [652, 395, 0], [614, 364, 0], [584, 358, 0], [577, 358, 0], [567, 366, 0], [546, 377, 0], [498, 379, 0], [469, 371, 0], [446, 348, 0], [443, 327, 0], [449, 290, 0], [472, 238, 0], [512, 179, 0], [558, 140, 0], [604, 126, 0], [632, 128, 0], [670, 144, 0], [701, 166, 0]];
+
+	    return (0, _possibleConstructorReturn3.default)(this, (Bear.__proto__ || (0, _getPrototypeOf2.default)(Bear)).call(this, v, pos || [0, 0, 0], [[384, 295, 0], [437, 295, 0]], [0, 0, -.4]));
+	  }
+
+	  return Bear;
+	}(_Animal3.default);
+
+	exports.default = Bear;
+	module.exports = exports['default'];
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(200);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(269);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ViewAnimal2 = __webpack_require__(281);
+
+	var _ViewAnimal3 = _interopRequireDefault(_ViewAnimal2);
+
+	var _Wolf = __webpack_require__(293);
+
+	var _Wolf2 = _interopRequireDefault(_Wolf);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// ViewDear.js
+
+	var ViewDear = function (_ViewAnimal) {
+		(0, _inherits3.default)(ViewDear, _ViewAnimal);
+
+		function ViewDear(pos) {
+			(0, _classCallCheck3.default)(this, ViewDear);
+			return (0, _possibleConstructorReturn3.default)(this, (ViewDear.__proto__ || (0, _getPrototypeOf2.default)(ViewDear)).call(this, pos));
+		}
+
+		(0, _createClass3.default)(ViewDear, [{
+			key: 'reset',
+			value: function reset(pos, rx, ry) {
+				this.shape = new _Wolf2.default(pos);
+				(0, _get3.default)(ViewDear.prototype.__proto__ || (0, _getPrototypeOf2.default)(ViewDear.prototype), 'reset', this).call(this, pos, rx, ry);
+			}
+		}]);
+		return ViewDear;
+	}(_ViewAnimal3.default);
+
+	exports.default = ViewDear;
+	module.exports = exports['default'];
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Animal2 = __webpack_require__(283);
+
+	var _Animal3 = _interopRequireDefault(_Animal2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Wolf = function (_Animal) {
+	  (0, _inherits3.default)(Wolf, _Animal);
+
+	  function Wolf(pos) {
+	    (0, _classCallCheck3.default)(this, Wolf);
+
+	    var v = [[426, 491, 0], [416, 473, 0], [430, 448, 0], [478, 417, 0], [488, 406, 0], [492, 379, 0], [498, 345, 0], [507, 312, 0], [503, 290, 0], [479, 295, 0], [477, 311, 0], [478, 348, 0], [480, 384, 0], [475, 401, 0], [460, 414, 0], [473, 417, 0], [491, 406, 0], [502, 373, 0], [511, 348, 0], [515, 334, 0], [505, 324, 0], [484, 305, 0], [470, 273, 0], [460, 193, 0], [471, 157, 0], [485, 132, 0], [493, 116, 0], [494, 97, 0], [499, 91, 0], [500, 98, 0], [501, 110, 0], [505, 108, 0], [507, 95, 0], [512, 82, 0], [526, 76, 0], [530, 80, 0], [524, 83, 0], [523, 78, 0], [529, 78, 0], [526, 114, 0], [530, 127, 0], [532, 138, 0], [524, 159, 0], [525, 175, 0], [532, 185, 0], [532, 192, 0], [520, 188, 0], [508, 173, 0], [512, 140, 0], [520, 125, 0], [533, 129, 0], [541, 145, 0], [541, 159, 0], [555, 175, 0], [556, 182, 0], [540, 184, 0], [530, 178, 0], [531, 171, 0], [539, 180, 0], [550, 198, 0], [588, 234, 0], [632, 300, 0], [645, 359, 0], [655, 448, 0], [658, 460, 0], [639, 459, 0], [640, 448, 0], [630, 403, 0], [608, 360, 0], [578, 334, 0], [540, 329, 0], [505, 320, 0], [487, 297, 0], [489, 274, 0], [502, 268, 0], [517, 273, 0], [551, 315, 0], [563, 354, 0], [575, 384, 0], [603, 414, 0], [601, 442, 0], [592, 458, 0], [578, 465, 0], [577, 469, 0], [598, 473, 0], [620, 438, 0], [625, 418, 0], [615, 401, 0], [607, 358, 0], [609, 324, 0], [621, 298, 0], [632, 301, 0], [649, 358, 0], [662, 404, 0], [659, 415, 0], [649, 422, 0], [632, 418, 0], [623, 407, 0], [628, 403, 0], [645, 416, 0], [674, 445, 0], [709, 467, 0]];
+
+	    return (0, _possibleConstructorReturn3.default)(this, (Wolf.__proto__ || (0, _getPrototypeOf2.default)(Wolf)).call(this, v, pos || [0, -3, 0], [[515, 124, 0]]));
+	  }
+
+	  return Wolf;
+	}(_Animal3.default);
+
+	exports.default = Wolf;
+	module.exports = exports['default'];
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(200);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(269);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ViewAnimal2 = __webpack_require__(281);
+
+	var _ViewAnimal3 = _interopRequireDefault(_ViewAnimal2);
+
+	var _Rabbit = __webpack_require__(295);
+
+	var _Rabbit2 = _interopRequireDefault(_Rabbit);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// ViewRabbit.js
+
+	var ViewRabbit = function (_ViewAnimal) {
+		(0, _inherits3.default)(ViewRabbit, _ViewAnimal);
+
+		function ViewRabbit(pos) {
+			(0, _classCallCheck3.default)(this, ViewRabbit);
+			return (0, _possibleConstructorReturn3.default)(this, (ViewRabbit.__proto__ || (0, _getPrototypeOf2.default)(ViewRabbit)).call(this, pos));
+		}
+
+		(0, _createClass3.default)(ViewRabbit, [{
+			key: 'reset',
+			value: function reset(pos, rx, ry) {
+				this.shape = new _Rabbit2.default(pos);
+				(0, _get3.default)(ViewRabbit.prototype.__proto__ || (0, _getPrototypeOf2.default)(ViewRabbit.prototype), 'reset', this).call(this, pos, rx, ry);
+			}
+		}]);
+		return ViewRabbit;
+	}(_ViewAnimal3.default);
+
+	exports.default = ViewRabbit;
+	module.exports = exports['default'];
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Animal2 = __webpack_require__(283);
+
+	var _Animal3 = _interopRequireDefault(_Animal2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Rabbit = function (_Animal) {
+	  (0, _inherits3.default)(Rabbit, _Animal);
+
+	  function Rabbit(pos) {
+	    (0, _classCallCheck3.default)(this, Rabbit);
+
+	    var v = [[629, 499, 0], [657, 464, 0], [654, 443, 0], [637, 429, 0], [622, 431, 0], [621, 454, 0], [644, 469, 0], [651, 459, 0], [629, 417, 0], [623, 395, 0], [618, 355, 0], [608, 343, 0], [593, 341, 0], [573, 355, 0], [560, 355, 0], [555, 342, 0], [566, 319, 0], [569, 309, 0], [562, 306, 0], [547, 296, 0], [526, 279, 0], [511, 281, 0], [495, 307, 0], [490, 311, 0], [498, 326, 0], [503, 346, 0], [502, 358, 0], [506, 362, 0], [514, 360, 0], [518, 351, 0], [510, 347, 0], [502, 355, 0], [509, 369, 0], [528, 372, 0], [543, 357, 0], [542, 349, 0], [526, 346, 0], [515, 351, 0], [520, 376, 0], [548, 415, 0], [566, 418, 0], [589, 414, 0], [600, 403, 0], [587, 401, 0], [572, 406, 0], [570, 424, 0], [628, 470, 0], [644, 479, 0], [665, 482, 0], [677, 475, 0], [674, 458, 0], [659, 452, 0], [638, 454, 0], [626, 453, 0], [592, 418, 0], [591, 401, 0], [600, 388, 0], [611, 393, 0], [623, 445, 0], [643, 468, 0], [649, 459, 0], [627, 398, 0], [612, 367, 0], [613, 342, 0], [618, 307, 0], [615, 238, 0], [620, 218, 0], [629, 225, 0], [625, 248, 0], [613, 299, 0], [616, 323, 0], [629, 337, 0], [648, 341, 0], [643, 379, 0], [649, 430, 0], [661, 444, 0], [664, 437, 0], [666, 363, 0], [667, 339, 0], [661, 335, 0], [649, 334, 0], [648, 327, 0], [650, 303, 0], [640, 251, 0], [625, 217, 0], [613, 201, 0], [590, 194, 0], [575, 183, 0], [581, 169, 0], [594, 176, 0], [592, 185, 0], [555, 204, 0], [541, 222, 0], [537, 252, 0], [545, 281, 0], [551, 295, 0], [545, 308, 0], [530, 312, 0], [526, 302, 0], [533, 295, 0], [538, 302, 0], [529, 319, 0], [503, 291, 0], [478, 268, 0], [467, 251, 0], [452, 162, 0], [460, 146, 0], [468, 150, 0], [482, 188, 0], [489, 233, 0], [501, 257, 0], [517, 273, 0], [519, 281, 0], [511, 279, 0], [492, 220, 0], [480, 145, 0], [484, 128, 0], [502, 137, 0], [520, 167, 0], [529, 212, 0], [529, 245, 0], [532, 269, 0], [537, 285, 0], [533, 287, 0], [516, 269, 0], [499, 219, 0], [487, 172, 0], [486, 143, 0], [495, 130, 0], [524, 109, 0], [549, 85, 0]];
+
+	    return (0, _possibleConstructorReturn3.default)(this, (Rabbit.__proto__ || (0, _getPrototypeOf2.default)(Rabbit)).call(this, v, pos || [0, -3, 0], [[532, 305, 0]], [0, 0, -.4]));
+	  }
+
+	  return Rabbit;
+	}(_Animal3.default);
+
+	exports.default = Rabbit;
+	module.exports = exports['default'];
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(200);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(269);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ViewAnimal2 = __webpack_require__(281);
+
+	var _ViewAnimal3 = _interopRequireDefault(_ViewAnimal2);
+
+	var _Weasel = __webpack_require__(297);
+
+	var _Weasel2 = _interopRequireDefault(_Weasel);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// ViewDear.js
+
+	var ViewDear = function (_ViewAnimal) {
+		(0, _inherits3.default)(ViewDear, _ViewAnimal);
+
+		function ViewDear(pos) {
+			(0, _classCallCheck3.default)(this, ViewDear);
+			return (0, _possibleConstructorReturn3.default)(this, (ViewDear.__proto__ || (0, _getPrototypeOf2.default)(ViewDear)).call(this, pos));
+		}
+
+		(0, _createClass3.default)(ViewDear, [{
+			key: 'reset',
+			value: function reset(pos, rx, ry) {
+				this.shape = new _Weasel2.default(pos);
+				(0, _get3.default)(ViewDear.prototype.__proto__ || (0, _getPrototypeOf2.default)(ViewDear.prototype), 'reset', this).call(this, pos, rx, ry);
+			}
+		}]);
+		return ViewDear;
+	}(_ViewAnimal3.default);
+
+	exports.default = ViewDear;
+	module.exports = exports['default'];
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(245);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(199);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(249);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(273);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Animal2 = __webpack_require__(283);
+
+	var _Animal3 = _interopRequireDefault(_Animal2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Weasel = function (_Animal) {
+	  (0, _inherits3.default)(Weasel, _Animal);
+
+	  function Weasel(pos) {
+	    (0, _classCallCheck3.default)(this, Weasel);
+
+	    var v = [[555, 594, 0], [623, 560, 0], [651, 526, 0], [658, 496, 0], [648, 484, 0], [620, 477, 0], [574, 478, 0], [537, 475, 0], [495, 459, 0], [461, 427, 0], [443, 383, 0], [439, 326, 0], [443, 277, 0], [469, 220, 0], [510, 194, 0], [551, 184, 0], [576, 180, 0], [588, 158, 0], [587, 153, 0], [582, 152, 0], [584, 156, 0], [605, 172, 0], [619, 172, 0], [637, 161, 0], [649, 138, 0], [653, 112, 0], [647, 88, 0], [639, 80, 0], [636, 83, 0], [637, 107, 0], [644, 122, 0], [650, 119, 0], [649, 98, 0], [643, 84, 0], [638, 80, 0], [630, 86, 0], [619, 93, 0], [605, 92, 0], [600, 85, 0], [595, 80, 0], [584, 85, 0], [574, 105, 0], [573, 129, 0], [581, 128, 0], [589, 117, 0], [593, 99, 0], [590, 85, 0], [581, 89, 0], [574, 120, 0], [584, 150, 0], [598, 162, 0], [615, 166, 0], [634, 156, 0], [649, 136, 0], [644, 128, 0], [634, 123, 0], [627, 128, 0], [627, 137, 0], [632, 139, 0], [636, 130, 0], [630, 126, 0], [623, 143, 0], [620, 151, 0], [612, 151, 0], [608, 145, 0], [623, 145, 0], [627, 149, 0], [627, 155, 0], [614, 160, 0], [604, 157, 0], [615, 154, 0], [637, 154, 0], [633, 165, 0], [620, 225, 0], [617, 261, 0], [623, 273, 0], [635, 284, 0], [649, 312, 0], [634, 313, 0], [622, 307, 0], [613, 294, 0], [593, 287, 0], [571, 279, 0], [568, 259, 0], [568, 249, 0], [563, 251, 0], [568, 259, 0], [597, 271, 0], [624, 252, 0], [628, 234, 0], [615, 212, 0], [599, 189, 0], [587, 187, 0], [573, 211, 0], [575, 229, 0], [587, 255, 0], [592, 273, 0], [600, 275, 0], [676, 253, 0], [685, 245, 0], [683, 238, 0], [653, 233, 0], [619, 247, 0], [590, 265, 0], [566, 267, 0], [550, 269, 0], [520, 289, 0], [517, 304, 0], [521, 305, 0], [509, 293, 0], [494, 287, 0], [481, 295, 0], [469, 328, 0], [470, 353, 0], [496, 376, 0], [516, 365, 0], [531, 347, 0], [535, 317, 0], [523, 294, 0], [508, 283, 0], [492, 282, 0], [478, 293, 0], [470, 321, 0], [477, 354, 0], [485, 371, 0], [502, 383, 0], [527, 387, 0], [550, 394, 0], [563, 401, 0], [576, 402, 0], [576, 392, 0], [566, 382, 0], [544, 378, 0], [526, 369, 0], [507, 360, 0], [490, 360, 0], [483, 369, 0], [486, 389, 0], [510, 416, 0], [533, 429, 0], [560, 429, 0], [587, 422, 0], [632, 402, 0], [664, 383, 0], [688, 378, 0], [700, 389, 0], [699, 409, 0], [676, 440, 0], [638, 465, 0], [609, 476, 0], [578, 475, 0], [571, 463, 0], [600, 426, 0], [641, 397, 0], [683, 372, 0], [714, 352, 0]];
+
+	    return (0, _possibleConstructorReturn3.default)(this, (Weasel.__proto__ || (0, _getPrototypeOf2.default)(Weasel)).call(this, v, pos || [0, -3, 0], [[631, 133, 0], [602, 133, 0]], [0, 0, .4]));
+	  }
+
+	  return Weasel;
+	}(_Animal3.default);
+
+	exports.default = Weasel;
+	module.exports = exports['default'];
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(299)
+	module.exports.color = __webpack_require__(300)
+
+/***/ },
+/* 299 */
 /***/ function(module, exports) {
 
 	/**
@@ -35840,7 +33229,7 @@
 	dat.utils.common);
 
 /***/ },
-/* 252 */
+/* 300 */
 /***/ function(module, exports) {
 
 	/**
