@@ -32,12 +32,12 @@ class Terrain {
 
     for (y = half; y < self.max; y += size) {
         for (x = half; x < self.max; x += size) {
-            this.square(x, y, half, (Math.random() + .05) * scale * 2 - scale, self);
+            this.square(x, y, half, (Math.random() + .1) * scale * 2 - scale, self);
         }
     }
     for (y = 0; y <= self.max; y += half) {
         for (x = (y + half) % size; x <= self.max; x += size) {
-            this.diamond(x, y, half, (Math.random() + .05) * scale * 2 - scale, self);
+            this.diamond(x, y, half, (Math.random() + .1) * scale * 2 - scale, self);
         }
     }
     this.divide(size / 2, self, roughness);

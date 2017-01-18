@@ -57,10 +57,22 @@ class Scene {
 
             // console.log(x, y);
 
-            var currentX = x * this.viewPlane.w / (this.terrain.size) - this.viewPlane.w / 2;
-            var currentY = y * this.viewPlane.depth / (this.terrain.size) - this.viewPlane.w / 2;
-            let d = Math.sqrt( currentX * currentX, currentY * currentY) / 6 ;
+            var currentX = x * this.viewPlane.w / (this.terrain.size)// - this.viewPlane.w / 2;
+            var currentY = y * this.viewPlane.depth / (this.terrain.size)// - this.viewPlane.w / 2;
 
+            let p1 = {
+              x : currentX,
+              y : currentY
+            }
+
+            let p2 = {
+              x : 6,
+              y : 6
+            }
+
+            let d = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) ) / 6;
+
+            d = 1 - Math.cos(d);
             // console.log(currentX);
             // console.log(d);
 
@@ -72,10 +84,9 @@ class Scene {
             // console.log(1 - (Math.cos(currentX / 6 * Math.PI * 2) * Math.cos(currentY / 6 * Math.PI * 2)));
             // height_val = 1 - Math.cos(currentX / 6) * Math.cos(currentY / 6) * 255 * 10;
             // height_val = (1 - Math.cos(d / 6 * Math.PI)) * 255 * 100;
-            let coef = 1- Math.abs(Math.cos(currentX / 6 * Math.PI) + Math.cos(currentY / 6 * Math.PI)) / 2 ;
-            console.log(coef);
+            // let coef = 1- Math.abs(Math.cos(currentX / 6 * Math.PI) + Math.cos(currentY / 6 * Math.PI)) / 2 ;
 
-            height_val *= coef
+            height_val *= d;
 
 
             // height_val = (1 - Math.cos(currentY / 6 * Math.PI)) * (1 - Math.cos(currentX / 6 * Math.PI)) * 255 ;
@@ -106,15 +117,15 @@ class Scene {
 
     this.tick++;
     this.orbitalControl.position[0] = 0;
-    this.orbitalControl.position[1] = 0;
+    this.orbitalControl.position[1] = .2;
     this.orbitalControl.position[2] = 0;
 
     this.orbitalControl.update();
     this.camera.position = this.orbitalControl._position;
 
     this.camera.perspective(60 * Math.PI / 180, GL.aspectRatio, 0.1, 60);
-    var target = [0, .5, 0];
-    var up = [0, 1, 0];
+    var target = [0, 0, 0];
+    var up = [0, .5, 0];
 
     this.camera.lookAt(target, up);
     this.viewPlane.render();
