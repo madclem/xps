@@ -52,52 +52,18 @@ class Scene {
             if ( height_val > max_height ) max_height = height_val;
             if ( height_val < 0 ) height_val = 0;
             if (y === 0 || y === this.terrain.size || x === 0 || x === this.terrain.size ) height_val = 0.0;
-
             if (y === 0 || y === this.terrain.size - 1 || x === 0 || x === this.terrain.size - 1) height_val = 0.0;
-
-            // console.log(x, y);
 
             var currentX = x * this.viewPlane.w / (this.terrain.size)// - this.viewPlane.w / 2;
             var currentY = y * this.viewPlane.depth / (this.terrain.size)// - this.viewPlane.w / 2;
 
-            let p1 = {
-              x : currentX,
-              y : currentY
-            }
-
-            let p2 = {
-              x : 6,
-              y : 6
-            }
-
-            let d = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) ) / 6;
-
+            let d = Math.sqrt(Math.pow(this.viewPlane.w / 2 - currentX, 2) + Math.pow(this.viewPlane.depth / 2 - currentY, 2) ) / 6;
             d = 1 - Math.cos(d);
-            // console.log(currentX);
-            // console.log(d);
-
-            // console.log(currentX);
-            // console.log(currentY);
-            // console.log(Math.cos(d));
-            // console.log((1 - (d / 2) / radius));
-            // console.log(d);
-            // console.log(1 - (Math.cos(currentX / 6 * Math.PI * 2) * Math.cos(currentY / 6 * Math.PI * 2)));
-            // height_val = 1 - Math.cos(currentX / 6) * Math.cos(currentY / 6) * 255 * 10;
-            // height_val = (1 - Math.cos(d / 6 * Math.PI)) * 255 * 100;
-            // let coef = 1- Math.abs(Math.cos(currentX / 6 * Math.PI) + Math.cos(currentY / 6 * Math.PI)) / 2 ;
-
             height_val *= d;
-
-
-            // height_val = (1 - Math.cos(currentY / 6 * Math.PI)) * (1 - Math.cos(currentX / 6 * Math.PI)) * 255 ;
-            // height_val = Math.sin(currentX / 6 * Math.PI) * Math.cos(currentY / 6 * Math.PI) * 255 ;
-            // height_val *= d;
-            this.viewPlane.plane._vertices[y * this.terrain.size + x][1] = height_val / 255;// * Math.sin(x * Math.PI) * Math.sin(y * Math.PI) * 800;
-            // this.viewPlane.plane._vertices[y * this.terrain.size + x][1] = height_val / 255;
+            this.viewPlane.plane._vertices[y * this.terrain.size + x][1] = height_val / 255;
         }
     }
-
-    // this.viewPlane.render(true);
+        
     this.viewPlane.plane.bufferVertex(this.viewPlane.plane._vertices, false);
 
   }
