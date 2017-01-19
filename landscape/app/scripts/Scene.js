@@ -1,3 +1,4 @@
+import glmatrix from 'gl-matrix';
 import mcgl, {GL} from 'mcgl';
 import ViewBackground from './views/ViewBackground';
 import ViewPlane from './views/ViewPlane';
@@ -32,12 +33,14 @@ class Scene {
     this.orbitalControl.radius = 2;
 
 
-    this.camera = new mcgl.camera.Camera();
+    // this.camera = new mcgl.camera.Camera();
+    this.cameraControl = new mcgl.CameraControl();
+    this.camera = new mcgl.camera.CameraPOV();
 
     this.viewBackground = new ViewBackground();
 
-    this.terrain = new Terrain(6);
-    this.terrain.generate(10);
+    this.terrain = new Terrain(5);
+    this.terrain.generate(20);
     this.viewPlane = new ViewPlane(this.terrain.size - 1);
 
     var min_height = Infinity;
@@ -60,11 +63,43 @@ class Scene {
             let d = Math.sqrt(Math.pow(this.viewPlane.w / 2 - currentX, 2) + Math.pow(this.viewPlane.depth / 2 - currentY, 2) ) / 6;
             d = 1 - Math.cos(d);
             height_val *= d;
+            this.viewPlane.plane._vertices[y * this.terrain.size + x][0] += (Math.random() * .2 - .2/2);
+            this.viewPlane.plane._vertices[y * this.terrain.size + x][2] += Math.random() * .2 - .2/2;
             this.viewPlane.plane._vertices[y * this.terrain.size + x][1] = height_val / 255;
         }
     }
-        
-    this.viewPlane.plane.bufferVertex(this.viewPlane.plane._vertices, false);
+
+    this.viewPlane.separateFaces();
+
+    let normals = [];
+    for (var i = 0; i < this.viewPlane.plane._vertices.length; i+=3) {
+      let v1 = this.viewPlane.plane._vertices[i];
+      let v2 = this.viewPlane.plane._vertices[i + 1];
+      let v3 = this.viewPlane.plane._vertices[i + 2];
+
+      let v = [];
+      let w = [];
+      glmatrix.vec3.sub(w, v1, v2);
+      glmatrix.vec3.sub(v, v2, v3);
+
+
+      let normal = [];
+      glmatrix.vec3.cross(normal, v, w);
+
+      let a = []
+
+      a[0]=normal[0]/( Math.abs(normal[0]) + Math.abs(normal[1]) +Math.abs(normal[2]));
+      a[1]=normal[1]/( Math.abs(normal[0]) + Math.abs(normal[1]) +Math.abs(normal[2]));
+      a[2]=normal[2]/( Math.abs(normal[0]) + Math.abs(normal[1]) +Math.abs(normal[2]));
+
+      normals.push(a, a, a);
+
+      if(i < 1000){
+        // console.log(normal);
+      }
+    }
+
+    this.viewPlane.plane.bufferData(normals, "a_normal", 3, false);
 
   }
 
@@ -79,6 +114,7 @@ class Scene {
   }
 
   render(){
+    this.cameraControl.update();
     GL.setMatrices(this.camera);
 
     this.tick++;
@@ -87,13 +123,24 @@ class Scene {
     this.orbitalControl.position[2] = 0;
 
     this.orbitalControl.update();
-    this.camera.position = this.orbitalControl._position;
+    // this.camera.position = this.orbitalControl._position;
 
     this.camera.perspective(60 * Math.PI / 180, GL.aspectRatio, 0.1, 60);
+    this.camera.setPosition(0, -.5, 0);
+    this.rx = this.cameraControl.rx;
+    this.rz = this.cameraControl.ry;
+
+    // console.log(this.rx);
+
+    this.camera.rotateX(this.rx);
+    this.camera.rotateY(this.rz);
+    // this.camera.rotateZ(this.rz);
+
+
     var target = [0, 0, 0];
     var up = [0, .5, 0];
 
-    this.camera.lookAt(target, up);
+    // this.camera.lookAt(target, up);
     this.viewPlane.render();
   }
 
